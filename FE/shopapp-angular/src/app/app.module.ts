@@ -6,6 +6,7 @@ import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { DetailProductComponent } from './detail-product/detail-product.component';
+import { AppComponent } from './app.component';
 // import { AppComponent } from './app.component';
 
 @NgModule({
@@ -15,13 +16,17 @@ import { DetailProductComponent } from './detail-product/detail-product.componen
     HomeComponent,
     HeaderComponent,
     FooterComponent,
-    DetailProductComponent
+    DetailProductComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule
   ],
   providers: [],
-   bootstrap: [/*AppComponent*/HomeComponent]
+   bootstrap: [
+    AppComponent
+    // HomeComponent
+  ]
 })
 export class AppModule { }
