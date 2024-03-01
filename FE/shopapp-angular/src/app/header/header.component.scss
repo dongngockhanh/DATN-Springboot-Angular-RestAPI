@@ -1,6 +1,16 @@
 header {
-    background-color: rgba(0, 0, 0, 0);
+    // background-color: rgba(0, 0, 0, 0);
     color: rgb(173, 178, 203);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    /* Đảm bảo header luôn nằm trên các phần tử khác */
+}
+
+.fake-header {
+    height: 76px;
 }
 
 .navbar {
@@ -24,4 +34,44 @@ header {
 .navbar .container .navbar-nav .nav-link.active {
     background-color: rgb(127, 68, 255) !important;
     color: white !important;
+}
+
+// css for dark mode
+.toggle {
+    display: none;
+}
+
+.toggle-label {
+    position: relative;
+    display: inline-block;
+    width: 3rem;
+    height: 3rem;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.sun,
+.moon {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: auto;
+    transition: top 0.3s;
+    user-select: none;
+}
+
+.sun {
+    top: 0;
+}
+
+.moon {
+    top: -150%;
+}
+
+.toggle:checked+.toggle-label .sun {
+    top: 150%;
+}
+
+.toggle:checked+.toggle-label .moon {
+    top: 0;
 }

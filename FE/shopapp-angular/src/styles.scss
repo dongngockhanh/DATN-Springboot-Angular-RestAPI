@@ -1,1 +1,40 @@
 /* You can add global styles to this file, and also import other style files */
+// css for dark mode
+body:not(.dark-mode-preloading) {
+    transition: all 0.3s linear;
+  }
+//   body.dark-mode {
+//     background-color: #2d3436;
+//     // background: linear-gradient(rgb(14,17,36),rgb(36,26,73));
+//     // background: red;
+//     color: #dfe6e9;
+//   }
+  
+//   body.light-mode {
+//     background-color: #dfe6e9;
+//     color: #2d3436;
+//   }
+  body.light-mode  {
+    background: #dfe6e9;
+  }
+  body{
+    min-height: 100vh;
+    position: relative; // Đảm bảo rằng body::before sẽ lấy body làm phần tử cha tham chiếu cho vị trí tuyệt đối
+  }
+  
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(rgb(14,17,36),rgb(36,26,73));
+    opacity: 0;
+    transition: opacity 1s;
+    z-index: -1;
+  }
+  
+  body.dark-mode::before {
+    opacity: 1;
+  }

@@ -41,7 +41,7 @@
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/@fortawesome/fontawesome-free/css/all.min.css"
             ],
-            "scripts": []
+            "scripts": [/*"./node_modules/angular-dark-mode/angular-dark-mode.js"*/]
           },
           "configurations": {
             "production": {
@@ -103,7 +103,7 @@
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/@fortawesome/fontawesome-free/css/all.min.css"
             ],
-            "scripts": []
+            "scripts": ["./node_modules/angular-dark-mode/angular-dark-mode.js"]
           }
         }
       }

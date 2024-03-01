@@ -4,4 +4,10 @@ import { AppModule } from './app/app.module';
 
 
 platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+.then(ref => {
+  if ((window as any)['ngRef']) {
+    (window as any)['ngRef'].destroy();
+  }
+  (window as any)['ngRef'] = ref;
+})
+.catch(err => console.error(err));
