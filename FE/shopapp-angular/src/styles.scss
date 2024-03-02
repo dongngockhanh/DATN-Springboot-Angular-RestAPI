@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 // css for dark mode
 body:not(.dark-mode-preloading) {
-    transition: all 0.3s linear;
+    // transition: all 0.3s linear;
   }
 //   body.dark-mode {
 //     background-color: #2d3436;
@@ -16,6 +16,15 @@ body:not(.dark-mode-preloading) {
 //   }
   body.light-mode  {
     background: #dfe6e9;
+    color: #2d3436;
+  }
+  body.dark-mode {
+    // background: #2d3436;
+    color: #dfe6e9;
+  }
+  header{
+    background: rgb(14,17,36);
+    color: #dfe6e9;
   }
   body{
     min-height: 100vh;
@@ -31,8 +40,11 @@ body:not(.dark-mode-preloading) {
     left: 0;
     background: linear-gradient(rgb(14,17,36),rgb(36,26,73));
     opacity: 0;
-    transition: opacity 1s;
+    // transition: opacity 1s;
     z-index: -1;
+  }
+  body.transition::before {
+    transition: opacity 1s;
   }
   
   body.dark-mode::before {

@@ -1,6 +1,6 @@
 .intro-section{
     text-align: center;
-    color: white;
+    // color: white;
     padding: 20px;
 }
 .search-box{
@@ -11,20 +11,27 @@
 }
 .product-category{
     width: 200px;
+    color: #2d3436;
+    border-color: inherit;
 }
 .search-input{
     width: 300px;
     background-color: rgb(19,23,42);
     margin-right: 10px;
-    border-color: rgba(255, 255, 255, 0.5);
+    // border-color: rgba(255, 255, 255, 0.5);
+    border-color: inherit;
     color: white;
 }
 .form-control{
-     background-color: transparent;
-     color: white; 
+    //  background-color: transparent;
+    //  color: white; 
 }
 option{
-    background-color: rgb(88,88,96);
+    background-color: rgb(19,23,42);
+    color: white;
+}
+option.option-dis{
+    color: #2d3436;
 }
 .form-control::placeholder{/*chrome,firefox,opera,saferi 10.1+*/
     color: rgba(255, 255, 255, 0.5);
