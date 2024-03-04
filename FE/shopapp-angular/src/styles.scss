@@ -1,19 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
 // css for dark mode
-body:not(.dark-mode-preloading) {
-    // transition: all 0.3s linear;
-  }
-//   body.dark-mode {
-//     background-color: #2d3436;
-//     // background: linear-gradient(rgb(14,17,36),rgb(36,26,73));
-//     // background: red;
-//     color: #dfe6e9;
-//   }
-  
-//   body.light-mode {
-//     background-color: #dfe6e9;
-//     color: #2d3436;
-//   }
   body.light-mode  {
     background: #dfe6e9;
     color: #2d3436;
