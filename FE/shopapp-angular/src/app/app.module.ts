@@ -8,6 +8,7 @@ import { FooterComponent } from './footer/footer.component';
 import { DetailProductComponent } from './detail-product/detail-product.component';
 import { AppComponent } from './app.component';
 import { OrderComponent } from './order/order.component';
+import { CartComponent } from './cart/cart.component';
 // import { AppComponent } from './app.component';
 
 @NgModule({
@@ -19,7 +20,8 @@ import { OrderComponent } from './order/order.component';
     FooterComponent,
     DetailProductComponent,
     AppComponent,
-    OrderComponent
+    OrderComponent,
+    CartComponent
   ],
   imports: [
     BrowserModule,

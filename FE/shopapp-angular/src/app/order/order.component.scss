@@ -1,7 +1,9 @@
 .intro-section{
     text-align: center;
     // color: white;
-    padding: 20px;
+    padding:20px 0px 20px 0px;
+    justify-content:center; 
+    align-items:center; 
 }
 .custom-form{
     border: 1px solid rgb(188, 188, 192);
@@ -42,6 +44,11 @@
 .giatien{
     font-weight: 500;
 }
+.form-tongtien {
+  position: fixed;
+  bottom: 0;
+  width: 100%; /* Ensure it spans the full width of the page */
+}
 .tinhtien{
     display: flex;
     justify-content: space-between;
@@ -52,7 +59,7 @@
 .form-tongtien .btn{
     width: 100%;
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 2000px) {
     .form-tongtien {
       position: sticky;
     //   position: fixed;
@@ -63,7 +70,8 @@
       overflow-x: auto;
       background-color: white;
       border-radius: 5px;
-      box-shadow: #1C173C 0px 0px 10px;
+      box-shadow: #544c86 0px 0px 10px;
       padding: 10px;
+      color: #1C173C;
     }
   }
