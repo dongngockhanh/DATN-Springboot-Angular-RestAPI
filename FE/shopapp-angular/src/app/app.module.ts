@@ -9,6 +9,7 @@ import { DetailProductComponent } from './detail-product/detail-product.componen
 import { AppComponent } from './app.component';
 import { OrderComponent } from './order/order.component';
 import { CartComponent } from './cart/cart.component';
+import { FormsModule } from '@angular/forms';
 // import { AppComponent } from './app.component';
 
 @NgModule({
@@ -25,7 +26,8 @@ import { CartComponent } from './cart/cart.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
   providers: [],
    bootstrap: [

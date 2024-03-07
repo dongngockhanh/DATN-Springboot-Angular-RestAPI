@@ -137,18 +137,12 @@
     width: 100%;
 }
 //css for form tinh tien
-.tinhtien{
-    display: flex;
-    justify-content: space-between;
-}
-.tinhtien h6{
-    line-height: 1.5;
+.tinhtien p{
+    margin: 0;
+    color: #f00;
 }
 .form-tongtien .btn{
-    width: 100%;
-}
-.giatien p{
-    color: #f00;
+    height: 50%;
 }
 @media screen and (max-width: 2000px){
     .form-tongtien {
@@ -162,7 +156,7 @@
       background-color: white;
       border-radius: 5px;
       box-shadow: #544c86 0px 0px 10px;
-      padding: 10px;
+      padding: 5px;
       color: #1C173C;
     }
   }
