@@ -1,0 +1,47 @@
+.intro-section{
+  text-align: center;
+  // color: white;
+  padding: 20px;
+}
+.container form {
+  height: auto;
+  margin: 0 auto;
+  padding: 20px;
+  background: #f4f7f8;
+  color: #2D3436;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+.form-container form .form-control {
+    margin-bottom: 20px;
+  }
+  .form-container form .btn {
+    margin-top: 20px;
+    width: 100%;
+  }
+  
+  .form-container form .social-icons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  .form-container form span{
+
+  }
+  
+  .form-container form .d-flex {
+    margin-top: 20px;
+  }
+  .forgot-password{
+    width: 100%;
+    text-align: right;
+  }
+
+
+  

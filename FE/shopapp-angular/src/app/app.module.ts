@@ -10,6 +10,10 @@ import { AppComponent } from './app.component';
 import { OrderComponent } from './order/order.component';
 import { CartComponent } from './cart/cart.component';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { LoginPageComponent } from './login-page/login-page.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RecaptchaModule} from 'ng-recaptcha';
 // import { AppComponent } from './app.component';
 
 @NgModule({
@@ -22,15 +26,19 @@ import { FormsModule } from '@angular/forms';
     DetailProductComponent,
     AppComponent,
     OrderComponent,
-    CartComponent
+    CartComponent,
+    LoginPageComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    RecaptchaModule
   ],
   providers: [],
-   bootstrap: [
+  bootstrap: [
     AppComponent
     // HomeComponent
   ]
