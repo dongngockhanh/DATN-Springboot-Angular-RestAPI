@@ -29,13 +29,22 @@
     justify-content: space-between;
     width: 50%;
     font-weight: 500;
-    cursor: pointer;
   }
-  .form-container form span{
-
+  .form-container form .custom-span{
+    width: 100%; 
+    align-items: center; 
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  .form-container form .custom-span span{
+    flex-grow: 1; 
+    border-bottom: 1px solid rgb(216, 215, 215);
   }
   
-  .form-container form .d-flex {
+  .form-container form .d-flex .custom-checkout{
+    margin-top: 20px;
+  }
+  .form-container form .custom-checkout {
     margin-top: 20px;
   }
   .forgot-password{

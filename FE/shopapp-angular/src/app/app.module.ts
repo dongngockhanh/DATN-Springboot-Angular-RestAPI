@@ -15,6 +15,8 @@ import { LoginPageComponent } from './login-page/login-page.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RecaptchaModule} from 'ng-recaptcha';
 // import { AppComponent } from './app.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { SocialLoginModule,SocialAuthServiceConfig, GoogleLoginProvider,GoogleSigninButtonModule, FacebookLoginProvider } from '@abacritt/angularx-social-login';
 
 @NgModule({
   declarations: [
@@ -35,9 +37,29 @@ import { RecaptchaModule} from 'ng-recaptcha';
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    RecaptchaModule
+    RecaptchaModule,
+    SocialLoginModule,
+    ReactiveFormsModule,
+    GoogleSigninButtonModule
   ],
-  providers: [],
+  providers: [
+    {
+    provide: 'SocialAuthServiceConfig',
+    useValue: {
+      autoLogin: false,
+      providers: [
+        {
+          id: GoogleLoginProvider.PROVIDER_ID,
+          provider: new GoogleLoginProvider('152090975014-7dk8r10ffnnb3d5ttqo3p66u5t2qk314.apps.googleusercontent.com'),
+        },
+        {
+          id: FacebookLoginProvider.PROVIDER_ID,
+          provider: new FacebookLoginProvider('1419501698661103')
+        }
+      ]
+    } as SocialAuthServiceConfig,
+  }
+  ],
   bootstrap: [
     AppComponent
     // HomeComponent
