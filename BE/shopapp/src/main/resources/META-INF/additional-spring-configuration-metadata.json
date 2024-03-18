@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "api.version",
+      "type": "java.lang.String",
+      "description": "Description for api.version."
+    },
+  ] }

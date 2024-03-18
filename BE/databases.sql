@@ -68,6 +68,14 @@ CREATE TABLE products(
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
+-- bảng ảnh sản phẩm
+CREATE TABLE product_images(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    product_id INT COMMENT 'id sản phẩm',
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE COMMENT "cha mẹ die con ngỏm",
+    image_url VARCHAR(255)
+);
+
 -- bảng đặt hàng
 CREATE TABLE orders(
     id INT PRIMARY KEY AUTO_INCREMENT,
