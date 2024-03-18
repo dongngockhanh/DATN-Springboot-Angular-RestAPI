@@ -1,5 +1,6 @@
 package com.project.shopapp.Controllers;
 
+import com.github.javafaker.Faker;
 import com.project.shopapp.DTOs.ProductDTO;
 import com.project.shopapp.DTOs.ProductImageDTO;
 import com.project.shopapp.DTOs.reponses.ProductListResponse;
@@ -21,8 +22,10 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.swing.*;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -166,5 +169,32 @@ public class ProductController {
     public ResponseEntity<String> deleteProducts(@PathVariable Long id)
     {
         return ResponseEntity.status(HttpStatus.OK).body("Product delete successfully");
+    }
+
+    // fake products data
+//    @PostMapping("/generateFakeProducts") public
+    private ResponseEntity<String> generateFakeProduct(){
+        Faker faker = new Faker();
+        for(int i=0;i<1000;i++)
+        {
+            String productName = faker.commerce().productName();
+            if(productService.existProductByName(productName))
+            {
+                continue;
+            }
+            ProductDTO productDTO = ProductDTO.builder()
+                    .name(productName)
+                    .price(BigDecimal.valueOf(faker.number().numberBetween(10,90000000)))
+                    .image("")
+                    .description(faker.lorem().sentence())
+                    .categoryId((long)faker.number().numberBetween(1,5))
+                    .build();
+            try {
+                productService.createProduct(productDTO);
+            } catch (Exception e) {
+                return ResponseEntity.badRequest().body(e.getMessage());
+            }
+        }
+        return ResponseEntity.ok("fake products tạo thành công");
     }
 }
