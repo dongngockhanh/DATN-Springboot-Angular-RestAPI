@@ -15,6 +15,7 @@
 	<name>shopapp</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
+		<start-class>com.project.shopapp.ShopappApplication</start-class>
 		<java.version>8</java.version>
 <!--		<java.version>17</java.version>-->
 	</properties>
@@ -56,6 +57,12 @@
 			<groupId>com.github.javafaker</groupId>
 			<artifactId>javafaker</artifactId>
 			<version>1.0.2</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.modelmapper/modelmapper -->
+		<dependency>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>3.1.1</version>
 		</dependency>
 <!--		<dependency>-->
 <!--			<groupId>jakarta.persistence</groupId>-->

@@ -23,12 +23,12 @@ public class OrderDetailDTO {
     @Min(value = 1,message = "số lượng phải lớn hơn hoặc bằng 1")
     private int quantity;
 
-    @Min(value = 0,message = "price phải lớn hơn hoặc bằng 0")
-    private BigDecimal price;
+//    @Min(value = 0,message = "price phải lớn hơn hoặc bằng 0")
+//    private BigDecimal price;
 
-    @Min(value = 0,message = "total money phải lón hơn hoặc bằng 0")
-    @JsonProperty("total_money")
-    private BigDecimal totalMoney;
+//    @Min(value = 0,message = "total money phải lón hơn hoặc bằng 0")
+//    @JsonProperty("total_money")
+//    private BigDecimal totalMoney;
 
     private String color;
 }

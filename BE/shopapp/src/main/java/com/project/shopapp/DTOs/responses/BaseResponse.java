@@ -1,8 +1,8 @@
-package com.project.shopapp.DTOs.reponses;
+package com.project.shopapp.DTOs.responses;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
-import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
@@ -13,9 +13,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @MappedSuperclass
 public class BaseResponse {
-    @Column(name="created_at")
+    @JsonProperty("created_at")
     private LocalDateTime createdAt;
 
-    @Column(name="updated_at")
+    @JsonProperty("updated_at")
     private LocalDateTime updatedAt;
 }

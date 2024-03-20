@@ -1,4 +1,4 @@
-package com.project.shopapp.DTOs.reponses;
+package com.project.shopapp.DTOs.responses;
 
 import lombok.*;
 

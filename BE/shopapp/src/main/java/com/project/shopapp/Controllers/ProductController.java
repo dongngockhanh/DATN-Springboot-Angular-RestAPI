@@ -3,8 +3,8 @@ package com.project.shopapp.Controllers;
 import com.github.javafaker.Faker;
 import com.project.shopapp.DTOs.ProductDTO;
 import com.project.shopapp.DTOs.ProductImageDTO;
-import com.project.shopapp.DTOs.reponses.ProductListResponse;
-import com.project.shopapp.DTOs.reponses.ProductResponse;
+import com.project.shopapp.DTOs.responses.ProductListResponse;
+import com.project.shopapp.DTOs.responses.ProductResponse;
 import com.project.shopapp.Services.ProductService;
 import com.project.shopapp.exceptions.DataNotFoundException;
 import com.project.shopapp.models.Product;
@@ -22,7 +22,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.swing.*;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -60,9 +59,14 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<String> getProductById(@PathVariable("id") String productId)
+    public ResponseEntity<?> getProductById(@PathVariable("id") Long productId)
     {
-        return ResponseEntity.ok("Product with ID: "+productId);
+        try {
+            Product existingProduct = productService.getProductById(productId);
+            return ResponseEntity.ok(ProductResponse.fromProduct(existingProduct));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PostMapping("")
@@ -161,14 +165,24 @@ public class ProductController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateProducts(@PathVariable long id)
+    public ResponseEntity<?> updateProduct(@PathVariable long id,@RequestBody ProductDTO productDTO)
     {
-        return ResponseEntity.ok("update product with id = "+id);
+        try {
+            Product updateProduct = productService.updateProduct(id,productDTO);
+            return ResponseEntity.ok("cập nhật thành công "+updateProduct);
+        } catch (DataNotFoundException e) {
+            return ResponseEntity.badRequest().body("cập nhật không thành công");
+        }
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteProducts(@PathVariable Long id)
     {
-        return ResponseEntity.status(HttpStatus.OK).body("Product delete successfully");
+        try {
+            productService.deleteProduct(id);
+            return ResponseEntity.ok("xoá thành công sản phẩm với id = "+id);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     // fake products data

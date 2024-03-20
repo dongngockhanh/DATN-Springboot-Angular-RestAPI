@@ -2,7 +2,7 @@ package com.project.shopapp.Services.Implement;
 
 import com.project.shopapp.DTOs.ProductDTO;
 import com.project.shopapp.DTOs.ProductImageDTO;
-import com.project.shopapp.DTOs.reponses.ProductResponse;
+import com.project.shopapp.DTOs.responses.ProductResponse;
 import com.project.shopapp.Repositories.CategoryRepository;
 import com.project.shopapp.Repositories.ProductImageRepository;
 import com.project.shopapp.Repositories.ProductRepository;
@@ -17,8 +17,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.time.DateTimeException;
-import java.util.List;
 import java.util.Optional;
 
 @Service

@@ -2,15 +2,12 @@ package com.project.shopapp.Services;
 
 import com.project.shopapp.DTOs.ProductDTO;
 import com.project.shopapp.DTOs.ProductImageDTO;
-import com.project.shopapp.DTOs.reponses.ProductResponse;
+import com.project.shopapp.DTOs.responses.ProductResponse;
 import com.project.shopapp.exceptions.DataNotFoundException;
 import com.project.shopapp.models.Product;
 import com.project.shopapp.models.ProductImage;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 
 public interface ProductService {

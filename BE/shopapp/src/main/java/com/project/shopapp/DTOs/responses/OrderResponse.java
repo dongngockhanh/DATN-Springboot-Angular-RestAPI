@@ -1,45 +1,41 @@
-package com.project.shopapp.DTOs;
+package com.project.shopapp.DTOs.responses;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
-import javax.validation.constraints.AssertTrue;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Date;
 
-@Data
+//@Data
 @Builder
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderDTO {
+public class OrderResponse extends BaseResponse{
+    private long id;
+
     @JsonProperty("fullname")
     private String fullName;
 
     @JsonProperty("phone_number")
-    @NotBlank(message = "số điện thoại không được để trống")
-    @Size(min =7,message = "độ dài số điện thoại quá ngắn")
     private String phoneNumber;
 
     private String email;
-
-    @NotBlank(message = "địa chỉ không được để trống")
     private String address;
-
     private String note;
 
     @JsonProperty("user_id")
-    @Min(value =1,message = "userID phải >0")
-    private Long userId;
+    private int userId;
 
     @JsonProperty("total_money")
-    @Min(value = 0,message = "tổng tiền phải lớn hơn hoặc bằng 0")
     private BigDecimal totalMoney;
+
+    @JsonProperty("order_date")
+    private Date orderDate;
+
+    private String status;
 
     @JsonProperty("shipping_method")
     private String shippingMethod;
@@ -50,6 +46,10 @@ public class OrderDTO {
     @JsonProperty("shipping_date")
     private LocalDate shippingDate;
 
+    @JsonProperty("tracking_number")
+    private String trackingNumber;
+
     @JsonProperty("shipping_address")
     private String shippingAddress;
+
 }

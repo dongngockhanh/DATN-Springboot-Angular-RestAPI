@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.validation.constraints.Email;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import javax.persistence.*;
@@ -16,7 +17,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Table(name ="orders")
 @Builder
-public class Order {
+public class Order{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -43,7 +44,7 @@ public class Order {
     private BigDecimal totalMoney;
 
     @Column(name = "order_date")
-    private LocalDateTime orderDate;
+    private Date orderDate;
 
     private String status;
 
@@ -54,7 +55,7 @@ public class Order {
     private String paymentMethod;
 
     @Column(name = "shipping_date")
-    private Date shippingDate;
+    private LocalDate shippingDate;
 
     @Column(name = "tracking_number",length = 100)
     private String trackingNumber;
@@ -64,4 +65,5 @@ public class Order {
 
     @Column(name = "active")
     private boolean active;
+
 }
