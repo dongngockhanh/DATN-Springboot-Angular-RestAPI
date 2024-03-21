@@ -42,27 +42,27 @@ public class WebSecurityConfig {
                             .antMatchers(GET,
                                     String.format("%s/categories**",apiBasePath)).hasAnyRole(Role.USER,Role.ADMIN)
                             .antMatchers(POST,
-                                    String.format("%s/categories/**",apiBasePath)).hasAnyRole(Role.ADMIN)
+                                    String.format("%s/categories/**",apiBasePath)).hasRole(Role.ADMIN)
                             .antMatchers(PUT,
-                                    String.format("%s/categories/**",apiBasePath)).hasAnyRole(Role.ADMIN)
+                                    String.format("%s/categories/**",apiBasePath)).hasRole(Role.ADMIN)
                             .antMatchers(DELETE,
-                                    String.format("%s/categories/**",apiBasePath)).hasAnyRole(Role.ADMIN)
+                                    String.format("%s/categories/**",apiBasePath)).hasRole(Role.ADMIN)
 
                             // products
                             .antMatchers(GET,
                                     String.format("%s/products**",apiBasePath)).hasAnyRole(Role.USER,Role.ADMIN)
                             .antMatchers(POST,
-                                    String.format("%s/products**",apiBasePath)).hasAnyRole(Role.ADMIN)
+                                    String.format("%s/products**",apiBasePath)).hasRole(Role.ADMIN)
                             .antMatchers(PUT,
-                                    String.format("%s/products/**",apiBasePath)).hasAnyRole(Role.ADMIN)
+                                    String.format("%s/products/**",apiBasePath)).hasRole(Role.ADMIN)
                             .antMatchers(DELETE,
-                                    String.format("%s/products/**",apiBasePath)).hasAnyRole(Role.ADMIN)
+                                    String.format("%s/products/**",apiBasePath)).hasRole(Role.ADMIN)
 
                             //orders
                             .antMatchers(GET,
                                     String.format("%s/orders/**",apiBasePath)).hasAnyRole(Role.USER,Role.ADMIN)
                             .antMatchers(POST,
-                                    String.format("%s/orders/**",apiBasePath)).hasAnyRole(Role.USER)
+                                    String.format("%s/orders/**",apiBasePath)).hasRole(Role.USER)
                             .antMatchers(PUT,
                                     String.format("%s/orders/**",apiBasePath)).hasRole(Role.ADMIN)
                             .antMatchers(DELETE,
@@ -73,11 +73,11 @@ public class WebSecurityConfig {
                             .antMatchers(GET,
                             String.format("%s/order_details/**",apiBasePath)).hasAnyRole(Role.USER,Role.ADMIN)
                             .antMatchers(POST,
-                                    String.format("%s/order_details**",apiBasePath)).hasAnyRole(Role.ADMIN)
+                                    String.format("%s/order_details**",apiBasePath)).hasRole(Role.USER)
                             .antMatchers(PUT,
-                                    String.format("%s/order_details/**",apiBasePath)).hasAnyRole(Role.ADMIN)
+                                    String.format("%s/order_details/**",apiBasePath)).hasRole(Role.ADMIN)
                             .antMatchers(DELETE,
-                                    String.format("%s/order_details/**",apiBasePath)).hasAnyRole(Role.ADMIN)
+                                    String.format("%s/order_details/**",apiBasePath)).hasRole(Role.ADMIN)
 
                             .anyRequest().authenticated();
                 });
