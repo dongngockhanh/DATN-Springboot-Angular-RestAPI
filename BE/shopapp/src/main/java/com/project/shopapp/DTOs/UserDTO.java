@@ -4,8 +4,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.*;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Data
@@ -20,6 +22,7 @@ public class UserDTO {
 
     @JsonProperty("phone_number")
     @NotBlank(message = "số điện thoại là bắt buộc")
+    @Size(min = 9,max = 11,message = "số điện thoại không hợp lệ")
     private String phoneNumber;
 
     private String email;

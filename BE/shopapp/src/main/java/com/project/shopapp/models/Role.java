@@ -22,4 +22,7 @@ public class Role {
 
     @Column(name = "description", length = 255)
     private String description;
+
+    public static String ADMIN = "ADMIN";
+    public static String USER = "USER";
 }

@@ -6,6 +6,7 @@ import com.project.shopapp.Repositories.UserRepository;
 import com.project.shopapp.Services.UserService;
 import com.project.shopapp.components.JwtTokenUtil;
 import com.project.shopapp.exceptions.DataNotFoundException;
+import com.project.shopapp.exceptions.PermissionDenyException;
 import com.project.shopapp.models.Role;
 import com.project.shopapp.models.User;
 import lombok.RequiredArgsConstructor;
@@ -27,10 +28,15 @@ public class UserServiceImp implements UserService {
     private final JwtTokenUtil jwtTokenUtil;
     private final AuthenticationManager authenticationManager;
     @Override
-    public User createUser(UserDTO userDTO) throws DataNotFoundException {
+    public User createUser(UserDTO userDTO) throws Exception {
        String phoneNumber = userDTO.getPhoneNumber();
        if(userRepository.existsByPhoneNumber(phoneNumber))
            throw new DataIntegrityViolationException("số điện thoại đã được đăng ký");
+       Role role = roleRepository.findById(userDTO.getRoleId())
+               .orElseThrow(()->new DataNotFoundException("không tìm thấy role"));
+       if(role.getName().toUpperCase().equals(Role.ADMIN)){
+            throw new PermissionDenyException("Bạn không thể đăng ký admin account");
+       }
        User newUser = User.builder()
                .fullName(userDTO.getFullName())
                .phoneNumber(userDTO.getPhoneNumber())
@@ -41,8 +47,6 @@ public class UserServiceImp implements UserService {
                .facebookId(userDTO.getFacebookId())
                .googleId(userDTO.getGoogleId())
                .build();
-       Role role = roleRepository.findById(userDTO.getRoleId())
-               .orElseThrow(()->new DataNotFoundException("không tìm thấy role"));
        newUser.setRoleId(role);
        // kiểm tra nếu có các social account id thì không yêu cầu password
         if(userDTO.getFacebookId() == 0 && userDTO.getGoogleId() == 0)
@@ -68,12 +72,11 @@ public class UserServiceImp implements UserService {
             if(!passwordEncoder.matches(password,existingUser.getPassword()))
                 throw new BadCredentialsException("sai số điện thoại hoặc password");
         }
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 phoneNumber,password, existingUser.getAuthorities()
         );
         // authentication với java spring security
         authenticationManager.authenticate(authenticationToken);
         return jwtTokenUtil.generateToken(existingUser);
-//        return null;
     }
 }
