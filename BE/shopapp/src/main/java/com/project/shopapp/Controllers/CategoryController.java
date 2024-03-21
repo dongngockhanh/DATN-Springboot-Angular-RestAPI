@@ -2,7 +2,6 @@ package com.project.shopapp.Controllers;
 
 import com.project.shopapp.DTOs.CategoryDTO;
 import com.project.shopapp.Services.CategoryService;
-import com.project.shopapp.Services.Implement.CategoryServiceImp;
 import com.project.shopapp.models.Category;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

@@ -96,7 +96,7 @@ public class OrderController {
         try {
             orderService.deleteOrder(id);
             // xoá mềm => cập nhật truòng active = false
-            return ResponseEntity.ok().body("xoá order 1 order");
+            return ResponseEntity.ok().body(String.format("xoá order với id=%d thành công",id));
         } catch (Exception e) {
            return ResponseEntity.badRequest().body(e.getMessage());
         }

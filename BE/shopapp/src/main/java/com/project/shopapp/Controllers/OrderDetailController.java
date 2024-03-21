@@ -3,16 +3,12 @@ package com.project.shopapp.Controllers;
 import com.project.shopapp.DTOs.OrderDetailDTO;
 import com.project.shopapp.DTOs.responses.OrderDetailResponse;
 import com.project.shopapp.Services.OrderDetailService;
-import com.project.shopapp.models.OrderDetail;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("${api.basePath}/order_details")
