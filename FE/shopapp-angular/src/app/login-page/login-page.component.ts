@@ -4,7 +4,8 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { UserService } from '../service/user.service';
-import { RegisterDTO } from '../dtos/register.dto';
+import { RegisterDTO } from '../dtos/user/register.dto';
+import { LoginDTO } from '../dtos/user/login.dto';
 
 
 @Component({
@@ -22,7 +23,7 @@ export class LoginPageComponent implements OnInit {
     });
   }
 
-  isLoginFormVisible = false; // hiển thị form đăng nhập
+  isLoginFormVisible = true; // hiển thị form đăng nhập
   @ViewChild('validateForm') validateForm!:NgForm;// validate form 
   checkRetypepasswordMatch(){
     if(this.passwordRegister !== this.retypePasswordRegister){
@@ -37,8 +38,8 @@ export class LoginPageComponent implements OnInit {
   passwordRegister: string ;
   retypePasswordRegister: string ;
 
-  phoneLogin: string ='';
-  passwordLogin: string='' ;
+  phoneLogin: string ;
+  passwordLogin: string ;
 
   constructor(private socialAuthService: SocialAuthService,
               private UserService: UserService,
@@ -48,8 +49,8 @@ export class LoginPageComponent implements OnInit {
     this.passwordRegister = '';
     this.retypePasswordRegister = '';
 
-    // this.phoneLogin = '';
-    // this.passwordLogin = '';
+    this.phoneLogin = '';
+    this.passwordLogin = '';
   }
 
 
@@ -87,7 +88,26 @@ export class LoginPageComponent implements OnInit {
 
 // đăng nhập sử dụng tài khoản và mật khẩu
 login(){
-
+  const loginDTO:LoginDTO = {
+    "phone_number":this.phoneLogin,
+    "password":this.passwordLogin
+  };
+  this.UserService.login(loginDTO).subscribe({
+    next:(response:any) => {
+      debugger
+        this.router.navigate(['/']);
+    },
+    complete: ()=> {
+      debugger
+    },
+    error:(error:any)=>{
+      debugger
+      if(error.status === 200)
+        alert(error.error.text);
+      else
+      alert(`đăng nhập không thành công : ${error.error}`);
+    }
+  });
 }
 
 
