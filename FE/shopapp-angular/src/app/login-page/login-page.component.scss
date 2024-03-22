@@ -16,7 +16,7 @@
   justify-content: space-between;
 }
 .form-container form .form-control {
-    margin-bottom: 20px;
+    // margin-bottom: 20px;
   }
   .form-container form .btn {
     margin-top: 20px;
@@ -51,6 +51,18 @@
     width: 100%;
     text-align: right;
   }
+
+  .contains-errors{
+    height: 18px;
+    width: 100%;;
+    margin-bottom: 4px;
+    margin-top: 4px;
+  }
+  .error-message {
+    color: red;
+    font-size: 12px;
+    text-align: right;
+}
 
 
   

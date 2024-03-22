@@ -1,5 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Inject, ViewChild } from '@angular/core';
 import { SocialAuthService, GoogleLoginProvider, SocialUser, FacebookLoginProvider } from '@abacritt/angularx-social-login';
+import { FormsModule, NgForm } from '@angular/forms';
+import { HttpClient,HttpHeaders } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { UserService } from '../service/user.service';
+import { RegisterDTO } from '../dtos/register.dto';
 
 
 @Component({
@@ -8,12 +13,8 @@ import { SocialAuthService, GoogleLoginProvider, SocialUser, FacebookLoginProvid
   styleUrl: './login-page.component.scss',
 })
 export class LoginPageComponent implements OnInit {
-  isLoginFormVisible = true;
-  // Sử dụng khóa trang web này trong mã HTML mà trang web của bạn phân phối cho người dùng.
-  siteKey = '6LfAt5MpAAAAAA4Y8lV1K5-qSxlWLhEb9NLLtEWT';
-  // Sử dụng khóa bí mật này trong mã server của bạn.
-  secretKey = '6LfAt5MpAAAAAPQ_hKnpa8PPqw1ji7haFzFctN0s';
-
+  // siteKey = '6LfAt5MpAAAAAA4Y8lV1K5-qSxlWLhEb9NLLtEWT'; //khóa trang web này trong mã HTML mà trang web của bạn phân phối cho người dùng.
+  // secretKey = '6LfAt5MpAAAAAPQ_hKnpa8PPqw1ji7haFzFctN0s';   // Sử dụng khóa bí mật này trong mã server của bạn.
   //đăng nhập gg xong thì lấy thông tin user
   ngOnInit(): void {
     this.socialAuthService.authState.subscribe((user) => {
@@ -21,21 +22,90 @@ export class LoginPageComponent implements OnInit {
     });
   }
 
-  constructor(
-    private socialAuthService: SocialAuthService) { }
+  isLoginFormVisible = false; // hiển thị form đăng nhập
+  @ViewChild('validateForm') validateForm!:NgForm;// validate form 
+  checkRetypepasswordMatch(){
+    if(this.passwordRegister !== this.retypePasswordRegister){
+      this.validateForm.form.controls['retypePasswordRegister'].setErrors({'passwordNotMatch':true});
+    }else{
+      this.validateForm.form.controls['retypePasswordRegister'].setErrors(null);
+    }
+  }
 
+  fullname: string ;
+  phoneRegister: string ;
+  passwordRegister: string ;
+  retypePasswordRegister: string ;
+
+  phoneLogin: string ='';
+  passwordLogin: string='' ;
+
+  constructor(private socialAuthService: SocialAuthService,
+              private UserService: UserService,
+              private router: Router){
+    this.fullname = '';
+    this.phoneRegister = '';
+    this.passwordRegister = '';
+    this.retypePasswordRegister = '';
+
+    // this.phoneLogin = '';
+    // this.passwordLogin = '';
+  }
+
+
+  // đăng ký sử dụng tài khoản và mật khẩu
+  register(){
+    const registerDTO:RegisterDTO = {
+      "fullname":this.fullname,
+      "phone_number":this.phoneRegister,
+      "email":"",
+      "password":this.passwordRegister,
+      "retype_password":this.retypePasswordRegister,
+      "address":"",
+      "date_of_birth":new Date(),
+      "facebook_id":0,
+      "google_id":0,
+      "role_id":1    
+    };
+    this.UserService.register(registerDTO).subscribe({
+      next:(response:any) => {
+        debugger
+          this.router.navigate(['/login']);
+      },
+      complete: ()=> {
+        debugger
+      },
+      error:(error:any)=>{
+        debugger
+        if(error.status === 200)
+          alert(error.error.text);
+        else
+        alert(`đăng ký không thành công : ${error.error}`);
+      }
+    });
+  }
+
+// đăng nhập sử dụng tài khoản và mật khẩu
+login(){
+
+}
+
+
+
+
+
+
+//đăng nhập sử dụng social account
 
   //đăng nhập gggole sử dụng thư viện angularx-social-login
   // signInWithGoogle(): void{
   //   this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
   // }
 
-
   //đăng nhập fb
-  loginWithFacebook(): void {
+  signInWithFB(): void {
     this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID);
   }
-
   //đang xuất
   signOut(): void {
     this.socialAuthService.signOut();

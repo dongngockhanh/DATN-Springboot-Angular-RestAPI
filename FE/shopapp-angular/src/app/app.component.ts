@@ -1,10 +1,12 @@
 import { Component,Renderer2,Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
+  // standalone: true,
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent{
   title = 'ShopApp-Angular';

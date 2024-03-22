@@ -20,13 +20,12 @@ import { SocialLoginModule,SocialAuthServiceConfig, GoogleLoginProvider,GoogleSi
 
 @NgModule({
   declarations: [
-    // AppComponent
+    AppComponent,
   
     HomeComponent,
     HeaderComponent,
     FooterComponent,
     DetailProductComponent,
-    AppComponent,
     OrderComponent,
     CartComponent,
     LoginPageComponent
@@ -39,8 +38,7 @@ import { SocialLoginModule,SocialAuthServiceConfig, GoogleLoginProvider,GoogleSi
     BrowserAnimationsModule,
     RecaptchaModule,
     SocialLoginModule,
-    ReactiveFormsModule,
-    GoogleSigninButtonModule
+    GoogleSigninButtonModule,
   ],
   providers: [
     {

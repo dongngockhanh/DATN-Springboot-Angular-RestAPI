@@ -36,7 +36,7 @@ public class UserController {
             if(!userDTO.getPassword().equals(userDTO.getRetypePassword()))
                 return ResponseEntity.badRequest().body("mật khẩu nhập lại không khớp");
             userService.createUser(userDTO);
-            return ResponseEntity.ok("Register successfully");
+            return ResponseEntity.status(HttpStatus.OK).body("Đăng ký thành công");
         }
         catch (Exception e)
         {
