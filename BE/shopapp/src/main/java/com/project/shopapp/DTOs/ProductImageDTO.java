@@ -16,10 +16,10 @@ import javax.validation.constraints.Size;
 public class ProductImageDTO {
 
     @JsonProperty("product_id")
-    @Min(value = 1,message = "product id phải lớn hơn 0")
+    @Min(value = 1,message = "Product id must be greater than 0")
     private Long productId;
 
-    @Size(min = 1,max = 200,message = "tên ảnh phải ở khoảng từ 1 đến 200 ký tư")
+    @Size(min = 1,max = 200,message = "Image names must be between 1 and 200 characters")
     @JsonProperty("image_url")
     private String imageUrl;
 }

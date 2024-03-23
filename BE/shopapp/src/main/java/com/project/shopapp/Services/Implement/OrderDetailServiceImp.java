@@ -88,14 +88,14 @@ public class OrderDetailServiceImp implements OrderDetailService {
     // check các thành phần có tồn tại hay không có exception
     private OrderDetail existingOrderDetail(long orderDetailId) {
         return orderDetailRepository.findById(orderDetailId)
-                .orElseThrow(()-> new DataNotFoundException("không tìm thấy order detail với id = "+orderDetailId));
+                .orElseThrow(()-> new DataNotFoundException("Order details not found with id = "+orderDetailId));
     }
     private Order existingOrder(long orderId) {
         return orderRepository.findById(orderId)
-                .orElseThrow(()-> new DataNotFoundException("không tìm thấy order với id = "+orderId));
+                .orElseThrow(()-> new DataNotFoundException("Order not found with id = "+orderId));
     }
     private Product existingProduct(long productId) {
         return productRepository.findById(productId)
-                .orElseThrow(()-> new DataNotFoundException("không tìm thấy product với id = "+productId));
+                .orElseThrow(()-> new DataNotFoundException("Product not found with id = "+productId));
     }
 }

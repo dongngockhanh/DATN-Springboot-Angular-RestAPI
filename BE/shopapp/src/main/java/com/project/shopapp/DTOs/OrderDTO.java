@@ -22,23 +22,23 @@ public class OrderDTO {
     private String fullName;
 
     @JsonProperty("phone_number")
-    @NotBlank(message = "số điện thoại không được để trống")
-    @Size(min =7,message = "độ dài số điện thoại quá ngắn")
+    @NotBlank(message = "Phone number can not be left blank")
+    @Size(min =7,message = "Phone number length is too short")
     private String phoneNumber;
 
     private String email;
 
-    @NotBlank(message = "địa chỉ không được để trống")
+    @NotBlank(message = "Address cannot be empty")
     private String address;
 
     private String note;
 
     @JsonProperty("user_id")
-    @Min(value =1,message = "userID phải >0")
+    @Min(value =1,message = "userID must be >0")
     private Long userId;
 
     @JsonProperty("total_money")
-    @Min(value = 0,message = "tổng tiền phải lớn hơn hoặc bằng 0")
+    @Min(value = 0,message = "The total amount must be greater than or equal to 0")
     private BigDecimal totalMoney;
 
     @JsonProperty("shipping_method")

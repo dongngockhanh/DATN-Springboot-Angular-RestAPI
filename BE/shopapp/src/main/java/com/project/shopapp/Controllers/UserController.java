@@ -4,6 +4,7 @@ import com.project.shopapp.DTOs.UserDTO;
 import com.project.shopapp.DTOs.UserLoginDTO;
 import com.project.shopapp.Services.UserService;
 import com.project.shopapp.exceptions.DataNotFoundException;
+import com.project.shopapp.exceptions.UnauthorizedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,9 +35,9 @@ public class UserController {
                 return ResponseEntity.badRequest().body(errorMessages);
             }
             if(!userDTO.getPassword().equals(userDTO.getRetypePassword()))
-                return ResponseEntity.badRequest().body("mật khẩu nhập lại không khớp");
+                return ResponseEntity.badRequest().body("retype password does not match");
             userService.createUser(userDTO);
-            return ResponseEntity.status(HttpStatus.OK).body("Đăng ký thành công");
+            return ResponseEntity.status(HttpStatus.OK).body("Register successfully");
         }
         catch (Exception e)
         {
@@ -44,12 +45,15 @@ public class UserController {
         }
     }
     @PostMapping("/login")
-    public ResponseEntity<String > login(@Valid @RequestBody UserLoginDTO userLoginDTO){
+    public ResponseEntity<?> login(@Valid @RequestBody UserLoginDTO userLoginDTO){
         // kiểm tra thông tin đăng nhập và sinh ra token
         try {
             String token = userService.login(userLoginDTO.getPhoneNumber(),userLoginDTO.getPassword());
             return ResponseEntity.ok(token);
-        }catch (Exception e){
+        }catch (UnauthorizedException e){
+            throw new UnauthorizedException(e.getMessage());
+        }
+        catch (Exception e){
             throw new RuntimeException(e.getMessage());
         }
     }

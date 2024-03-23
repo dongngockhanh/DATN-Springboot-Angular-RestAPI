@@ -169,9 +169,9 @@ public class ProductController {
     {
         try {
             Product updateProduct = productService.updateProduct(id,productDTO);
-            return ResponseEntity.ok("cập nhật thành công "+updateProduct);
+            return ResponseEntity.ok("update successfully "+updateProduct);
         } catch (DataNotFoundException e) {
-            return ResponseEntity.badRequest().body("cập nhật không thành công");
+            return ResponseEntity.badRequest().body("Update failed");
         }
     }
     @DeleteMapping("/{id}")
@@ -179,7 +179,7 @@ public class ProductController {
     {
         try {
             productService.deleteProduct(id);
-            return ResponseEntity.ok("xoá thành công sản phẩm với id = "+id);
+            return ResponseEntity.ok("Successfully deleted product with id = "+id);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

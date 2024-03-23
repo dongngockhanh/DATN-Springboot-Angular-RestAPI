@@ -21,16 +21,16 @@ public class UserDTO {
     private String fullName;
 
     @JsonProperty("phone_number")
-    @NotBlank(message = "số điện thoại là bắt buộc")
-    @Size(min = 9,max = 11,message = "số điện thoại không hợp lệ")
+    @NotBlank(message = "Phone number is required")
+    @Size(min = 9,max = 11,message = "invalid phone number")
     private String phoneNumber;
 
     private String email;
 
-    @NotBlank(message = "Mật khẩu không được để trống")
+    @NotBlank(message = "Password can not be blank")
     private String password;
 
-    @NotBlank(message = "không được để trống")
+    @NotBlank(message = "cannot be left blank")
     @JsonProperty("retype_password")
     private String retypePassword;
 
@@ -45,7 +45,7 @@ public class UserDTO {
     @JsonProperty("google_id")
     private Long googleId;
 
-    @NotNull(message = "Role ID không được để trống")
+    @NotNull(message = "Role ID cannot be empty")
     @JsonProperty("role_id")
     private Long roleId;
 }

@@ -13,14 +13,14 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class OrderDetailDTO {
     @JsonProperty("order_id")
-    @Min(value=1,message = "order id phải lớn hơn 1")
+    @Min(value=1,message = "order id  must be greater than or equal to 1")
     private Long orderId;
 
-    @Min(value =1,message = "product id phải lớn hơn 1")
+    @Min(value =1,message = "Product id must be greater than or equal to 1")
     @JsonProperty("product_id")
     private Long productId;
 
-    @Min(value = 1,message = "số lượng phải lớn hơn hoặc bằng 1")
+    @Min(value = 1,message = "The quantity must be greater than or equal to 1")
     private int quantity;
 
 //    @Min(value = 0,message = "price phải lớn hơn hoặc bằng 0")

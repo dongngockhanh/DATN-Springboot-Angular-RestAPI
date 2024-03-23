@@ -46,6 +46,6 @@ public class OrderDetailController {
     public ResponseEntity<?> deleteOrderDetail(@Valid @PathVariable long id)
     {
         orderDetailService.deleteOrderDetail(id);
-        return ResponseEntity.ok("xoá thành công chi tiết đơn hàng với id = "+id);
+        return ResponseEntity.ok("delete order detail successfully with id = "+id);
     }
 }

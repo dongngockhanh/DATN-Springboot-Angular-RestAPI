@@ -7,6 +7,7 @@ import com.project.shopapp.Services.UserService;
 import com.project.shopapp.components.JwtTokenUtil;
 import com.project.shopapp.exceptions.DataNotFoundException;
 import com.project.shopapp.exceptions.PermissionDenyException;
+import com.project.shopapp.exceptions.UnauthorizedException;
 import com.project.shopapp.models.Role;
 import com.project.shopapp.models.User;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,9 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
 @Service
@@ -31,11 +34,11 @@ public class UserServiceImp implements UserService {
     public User createUser(UserDTO userDTO) throws Exception {
        String phoneNumber = userDTO.getPhoneNumber();
        if(userRepository.existsByPhoneNumber(phoneNumber))
-           throw new DataIntegrityViolationException("số điện thoại đã được đăng ký");
+           throw new DataIntegrityViolationException("registered phone number");
        Role role = roleRepository.findById(userDTO.getRoleId())
-               .orElseThrow(()->new DataNotFoundException("không tìm thấy role"));
+               .orElseThrow(()->new DataNotFoundException("role not found"));
        if(role.getName().toUpperCase().equals(Role.ADMIN)){
-            throw new PermissionDenyException("Bạn không thể đăng ký admin account");
+            throw new PermissionDenyException("You cannot register an administrator account");
        }
        User newUser = User.builder()
                .fullName(userDTO.getFullName())
@@ -64,13 +67,15 @@ public class UserServiceImp implements UserService {
         // sử dụng spring security
         Optional<User> optionalUser = userRepository.findByPhoneNumber(phoneNumber);
         if(!optionalUser.isPresent()) {
-            throw new DataNotFoundException("phone number hoặc password không hợp lệ");
+            throw new UnauthorizedException("Invalid phone number or password");
+//            throw new DataNotFoundException("phone number hoặc password không hợp lệ");
         }
         User existingUser = optionalUser.get();
         // check password
         if(existingUser.getFacebookId() == 0 && existingUser.getGoogleId() == 0) {
             if(!passwordEncoder.matches(password,existingUser.getPassword()))
-                throw new BadCredentialsException("sai số điện thoại hoặc password");
+//              throw new BadCredentialsException("sai số điện thoại hoặc password");
+                throw new UnauthorizedException("wrong phone number or password");
         }
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 phoneNumber,password, existingUser.getAuthorities()

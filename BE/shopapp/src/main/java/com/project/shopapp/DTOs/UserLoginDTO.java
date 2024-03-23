@@ -14,11 +14,11 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 public class UserLoginDTO {
     @JsonProperty("phone_number")
-    @NotBlank(message = "số điện thoại là bắt buộc")
+    @NotBlank(message = "Phone number is required")
     private String phoneNumber;
 
     private String email;
 
-    @NotBlank(message = "Mật khẩu không được để trống")
+    @NotBlank(message = "Password can not be blank")
     private String password;
 }

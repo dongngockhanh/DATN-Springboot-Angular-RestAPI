@@ -29,7 +29,7 @@ public class ProductServiceImp implements ProductService {
     @Override
     public Product createProduct(ProductDTO productDTO) throws DataNotFoundException {
         Category existingCategory =  categoryRepository.findById(productDTO.getCategoryId())
-                .orElseThrow(()-> new DataNotFoundException("không tìm thấy danh mục với id = "+productDTO.getCategoryId()));
+                .orElseThrow(()-> new DataNotFoundException("Category not found with id = "+productDTO.getCategoryId()));
         Product newProduct = Product.builder()
                 .name(productDTO.getName())
                 .price(productDTO.getPrice())
@@ -49,7 +49,7 @@ public class ProductServiceImp implements ProductService {
     @Override
     public Product getProductById(long id) throws DataNotFoundException {
         return productRepository.findById(id)
-                .orElseThrow(()->new DataNotFoundException("không tìm thấy sản phẩm với id = "+id));
+                .orElseThrow(()->new DataNotFoundException("Product not found với id = "+id));
     }
 
     @Override
@@ -59,7 +59,7 @@ public class ProductServiceImp implements ProductService {
            //copy từ dto sang entity
            //sử dụng model mapper
            Category existingCategory =  categoryRepository.findById(productDTO.getCategoryId())
-                   .orElseThrow(()-> new DataNotFoundException("không tìm thấy danh mục với id = "+productDTO.getCategoryId()));
+                   .orElseThrow(()-> new DataNotFoundException("Category not found with id = "+productDTO.getCategoryId()));
            existingProduct.setName(productDTO.getName());
            existingProduct.setPrice(productDTO.getPrice());
            existingProduct.setImage(productDTO.getImage());
@@ -89,7 +89,7 @@ public class ProductServiceImp implements ProductService {
         Product existingProduct = productRepository
                 .findById(productId)
                 .orElseThrow(()->
-                new DataNotFoundException("không tìm thấy sản phẩm với id = "+productImageDTO.getProductId()));
+                new DataNotFoundException("Product not found id = "+productImageDTO.getProductId()));
         ProductImage newProductImage = ProductImage.builder()
                 .product(existingProduct)
                 .imageUrl(productImageDTO.getImageUrl())
@@ -98,7 +98,7 @@ public class ProductServiceImp implements ProductService {
         int size = productImageRepository.findByProductId(productId).size();
         if(size >= ProductImage.MAXIMUM_IMAGE_PER_PRODUCT) {
             throw new InvalidParamException(
-                    "số lượng ảnh của sản phẩm phải nhỏ hơn hoặc bằng " +
+                    "\n" + "The number of product photos must be less than or equal " +
                             ProductImage.MAXIMUM_IMAGE_PER_PRODUCT);
         }
         return productImageRepository.save(newProductImage);

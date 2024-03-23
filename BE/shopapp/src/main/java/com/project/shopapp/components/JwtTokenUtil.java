@@ -48,7 +48,7 @@ public class JwtTokenUtil {
             return token;
         }catch (Exception e){
             //có thể dùng logger thay vì System.out.println
-            throw new InvalidParameterException("không thể tạo jwt token, error: "+e.getMessage());
+            throw new InvalidParameterException("Cannot create jwt token, error: "+e.getMessage());
 //            return null;
         }
     }

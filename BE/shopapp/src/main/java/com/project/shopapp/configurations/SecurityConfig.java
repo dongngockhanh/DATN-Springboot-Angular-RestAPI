@@ -23,7 +23,7 @@ public class SecurityConfig {
     public UserDetailsService userDetailsService() {
         return phoneNumber -> userRepository
                     .findByPhoneNumber(phoneNumber)
-                    .orElseThrow(()->new UsernameNotFoundException("không tìm user với phone number"+phoneNumber));
+                    .orElseThrow(()->new UsernameNotFoundException("Can't find users with phone number "+phoneNumber));
     }
 
     @Bean// mã hoá mật khẩu người dùng SHA-256

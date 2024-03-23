@@ -63,7 +63,7 @@ export class LoginPageComponent implements OnInit {
       "password":this.passwordRegister,
       "retype_password":this.retypePasswordRegister,
       "address":"",
-      "date_of_birth":new Date(),
+      "date_of_birth":null,
       "facebook_id":0,
       "google_id":0,
       "role_id":1    

@@ -32,7 +32,7 @@ public class CategoryServiceImp implements CategoryService {
     @Override
     public Category getCategoryById(long id) {
         return categoryRepository.findById(id)
-                .orElseThrow(()->new RuntimeException("không tìm thấy danh mục"));
+                .orElseThrow(()->new RuntimeException("\n" + "category not found"));
     }
 
     @Override

@@ -3,11 +3,10 @@ package com.project.shopapp.exceptions;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-//404
-@ResponseStatus(HttpStatus.NOT_FOUND)
-public class DataNotFoundException extends RuntimeException {
-    public DataNotFoundException(String message)
-    {
+//401
+@ResponseStatus(HttpStatus.UNAUTHORIZED)
+public class UnauthorizedException extends RuntimeException {
+    public UnauthorizedException(String message) {
         super(message);
     }
 }

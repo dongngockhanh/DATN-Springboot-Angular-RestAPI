@@ -33,7 +33,8 @@ export class RegisterDTO{
     address:string;
 
     // @IsDate()
-    date_of_birth:Date;
+    @IsOptional()
+    date_of_birth:Date|null;
     facebook_id:number = 0;
     google_id:number = 0;
     role_id:number = 1;

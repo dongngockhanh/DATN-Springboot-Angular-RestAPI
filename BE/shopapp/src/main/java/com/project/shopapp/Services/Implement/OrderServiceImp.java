@@ -29,7 +29,7 @@ public class OrderServiceImp implements OrderService {
     public OrderResponse createOrder(OrderDTO orderDTO) throws DataNotFoundException {
         User user = userRepository
                 .findById(orderDTO.getUserId())
-                .orElseThrow(()->new DataNotFoundException("không thể tìm thấy user với id: "+orderDTO.getUserId()));
+                .orElseThrow(()->new DataNotFoundException("User not found with id: "+orderDTO.getUserId()));
         // Convert từ Dto sang entity -- dùng thư viện model mapper
         modelMapper.typeMap(OrderDTO.class, Order.class)
                 .addMappings(mapper -> mapper.skip(Order::setId));
@@ -43,7 +43,7 @@ public class OrderServiceImp implements OrderService {
         LocalDate shippingDate = orderDTO.getShippingDate() == null ? LocalDate.now() : orderDTO.getShippingDate();
         if(shippingDate.isBefore(LocalDate.now()))
         {
-            throw new DataNotFoundException("Shipping date phải lớn hơn ngày hôm nay");
+            throw new DataNotFoundException("Shipping date must be greater than today's date");
         }
         order.setShippingDate(shippingDate);
         order.setActive(true);
@@ -54,7 +54,7 @@ public class OrderServiceImp implements OrderService {
 
     @Override
     public OrderResponse getOrderById(long id) throws Exception {
-        Order existingOrder = orderRepository.findById(id).orElseThrow(()->new DataNotFoundException("không tồn tại order với id = "+id));
+        Order existingOrder = orderRepository.findById(id).orElseThrow(()->new DataNotFoundException("Order not found with id = "+id));
         if(!existingOrder.isActive())
             throw new DataNotFoundException("order đã bị xoá");
         return mapOrderToOrderResponse(existingOrder);
@@ -62,7 +62,7 @@ public class OrderServiceImp implements OrderService {
 
     @Override
     public List<OrderResponse> getAllOrders(long userId) throws Exception {
-        userRepository.findById(userId).orElseThrow(()->new DataNotFoundException("không thể tìm thấy user với id = "+userId));
+        userRepository.findById(userId).orElseThrow(()->new DataNotFoundException("User not found with id = "+userId));
         List<Order> ordersList= orderRepository.findByUserId(userId);
         return ordersList.stream()
                 .map(this::mapOrderToOrderResponse)
@@ -72,7 +72,7 @@ public class OrderServiceImp implements OrderService {
     @Override
     public OrderResponse updateOrder(long orderId, OrderDTO orderDTO) throws Exception{
         Order order =  orderRepository.findById(orderId)
-                .orElseThrow(()->new DataNotFoundException("không tồn tại order với id = "+orderId));
+                .orElseThrow(()->new DataNotFoundException("Order not found with id = "+orderId));
         modelMapper.typeMap(OrderDTO.class,Order.class)
                 .addMappings(map->map.skip(Order::setId));
         LocalDate shippingDate = orderDTO.getShippingDate() == null ? LocalDate.now().plusDays(1) : orderDTO.getShippingDate();
@@ -84,7 +84,7 @@ public class OrderServiceImp implements OrderService {
 
     @Override
     public void deleteOrder(long id) throws Exception{
-        Order order = orderRepository.findById(id).orElseThrow(()->new DataNotFoundException("không tìm thấy id"));
+        Order order = orderRepository.findById(id).orElseThrow(()->new DataNotFoundException("Order not found with id = "+id));
         order.setActive(false);
         orderRepository.save(order);
     }
