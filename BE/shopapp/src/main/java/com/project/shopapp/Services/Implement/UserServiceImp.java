@@ -67,7 +67,7 @@ public class UserServiceImp implements UserService {
         // sử dụng spring security
         Optional<User> optionalUser = userRepository.findByPhoneNumber(phoneNumber);
         if(!optionalUser.isPresent()) {
-            throw new UnauthorizedException("Invalid phone number or password");
+            throw new UnauthorizedException("user.login.login_failed");
 //            throw new DataNotFoundException("phone number hoặc password không hợp lệ");
         }
         User existingUser = optionalUser.get();

@@ -2,18 +2,23 @@ package com.project.shopapp.Controllers;
 
 import com.project.shopapp.DTOs.UserDTO;
 import com.project.shopapp.DTOs.UserLoginDTO;
+import com.project.shopapp.DTOs.responses.MessageResponse;
+import com.project.shopapp.DTOs.responses.UserResponse;
 import com.project.shopapp.Services.UserService;
-import com.project.shopapp.exceptions.DataNotFoundException;
 import com.project.shopapp.exceptions.UnauthorizedException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.LocaleResolver;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 @RestController
@@ -21,9 +26,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+//    private final MessageSource messageSource;
+//    private final LocaleResolver localeResolver;
+    private final MessageResponse messageResponse;
 
     @PostMapping("/register")
-    public ResponseEntity<?> createUser(@Valid @RequestBody UserDTO userDTO, BindingResult result)
+    public ResponseEntity<?> createUser(@Valid @RequestBody UserDTO userDTO, BindingResult result, HttpServletRequest request)
     {
         try {
             if(result.hasErrors())
@@ -45,13 +53,22 @@ public class UserController {
         }
     }
     @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody UserLoginDTO userLoginDTO){
+    public ResponseEntity<?> login(
+            @Valid @RequestBody UserLoginDTO userLoginDTO,
+            HttpServletRequest request
+    ){
         // kiểm tra thông tin đăng nhập và sinh ra token
         try {
-            String token = userService.login(userLoginDTO.getPhoneNumber(),userLoginDTO.getPassword());
-            return ResponseEntity.ok(token);
+             String token = userService.login(userLoginDTO.getPhoneNumber(),userLoginDTO.getPassword());
+//            Locale locale = localeResolver.resolveLocale(request);
+            UserResponse userResponse = UserResponse.builder()
+                    .message(messageResponse.getMessageResponse("user.login.login_successfully"))
+                    .token(token)
+                    .build();
+            return ResponseEntity.ok(userResponse);
         }catch (UnauthorizedException e){
-            throw new UnauthorizedException(e.getMessage());
+            messageResponse.getMessageResponse(e.getMessage());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(messageResponse);
         }
         catch (Exception e){
             throw new RuntimeException(e.getMessage());
