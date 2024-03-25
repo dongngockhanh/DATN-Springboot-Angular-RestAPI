@@ -1,8 +1,10 @@
 package com.project.shopapp.Controllers;
 
 import com.project.shopapp.DTOs.OrderDTO;
+import com.project.shopapp.DTOs.responses.MessageResponse;
 import com.project.shopapp.DTOs.responses.OrderResponse;
 import com.project.shopapp.Services.OrderService;
+import com.project.shopapp.untils.MessageKeys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class OrderController {
     private final OrderService orderService;
+    private final MessageResponse messageResponse;
 
     @PostMapping("")
     public ResponseEntity<?> createOrder(
@@ -37,7 +40,7 @@ public class OrderController {
             OrderResponse orderResponse = orderService.createOrder(orderDTO);
             return ResponseEntity.status(HttpStatus.OK).body(orderResponse);
         }catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(messageResponse);
         }
     }
 
@@ -48,7 +51,7 @@ public class OrderController {
             OrderResponse orderById =  orderService.getOrderById(id);
             return ResponseEntity.ok(orderById);
         } catch (Exception e) {
-             return ResponseEntity.badRequest().body(e.getMessage());
+             return ResponseEntity.badRequest().body(messageResponse);
         }
     }
     // lấy order theo user_id
@@ -62,7 +65,7 @@ public class OrderController {
         }
         catch (Exception e)
         {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(messageResponse);
         }
     }
 
@@ -85,7 +88,7 @@ public class OrderController {
             return ResponseEntity.ok(orderResponse);
         }catch (Exception e)
         {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(messageResponse);
         }
     }
 
@@ -96,9 +99,9 @@ public class OrderController {
         try {
             orderService.deleteOrder(id);
             // xoá mềm => cập nhật truòng active = false
-            return ResponseEntity.ok().body(String.format("Delete order with id=%d successfully",id));
+            return ResponseEntity.ok().body(messageResponse.getMessageResponse(MessageKeys.DELETE_ORDER_SUCCESSFULLY,id));
         } catch (Exception e) {
-           return ResponseEntity.badRequest().body(e.getMessage());
+           return ResponseEntity.badRequest().body(messageResponse);
         }
     }
 }

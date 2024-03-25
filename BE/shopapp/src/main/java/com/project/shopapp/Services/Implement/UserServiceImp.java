@@ -10,6 +10,7 @@ import com.project.shopapp.exceptions.PermissionDenyException;
 import com.project.shopapp.exceptions.UnauthorizedException;
 import com.project.shopapp.models.Role;
 import com.project.shopapp.models.User;
+import com.project.shopapp.untils.MessageKeys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -34,11 +35,11 @@ public class UserServiceImp implements UserService {
     public User createUser(UserDTO userDTO) throws Exception {
        String phoneNumber = userDTO.getPhoneNumber();
        if(userRepository.existsByPhoneNumber(phoneNumber))
-           throw new DataIntegrityViolationException("registered phone number");
+           throw new DataIntegrityViolationException(MessageKeys.REGISTERED_NUMBER_PHONE);
        Role role = roleRepository.findById(userDTO.getRoleId())
-               .orElseThrow(()->new DataNotFoundException("role not found"));
+               .orElseThrow(()->new DataNotFoundException(MessageKeys.ROLE_NOT_FOUND));
        if(role.getName().toUpperCase().equals(Role.ADMIN)){
-            throw new PermissionDenyException("You cannot register an administrator account");
+            throw new PermissionDenyException(MessageKeys.NOT_REGISTER_ADMIN_ACCOUNT);
        }
        User newUser = User.builder()
                .fullName(userDTO.getFullName())
@@ -67,7 +68,7 @@ public class UserServiceImp implements UserService {
         // sử dụng spring security
         Optional<User> optionalUser = userRepository.findByPhoneNumber(phoneNumber);
         if(!optionalUser.isPresent()) {
-            throw new UnauthorizedException("user.login.login_failed");
+            throw new UnauthorizedException(MessageKeys.LOGIN_FAILED);
 //            throw new DataNotFoundException("phone number hoặc password không hợp lệ");
         }
         User existingUser = optionalUser.get();
@@ -75,7 +76,7 @@ public class UserServiceImp implements UserService {
         if(existingUser.getFacebookId() == 0 && existingUser.getGoogleId() == 0) {
             if(!passwordEncoder.matches(password,existingUser.getPassword()))
 //              throw new BadCredentialsException("sai số điện thoại hoặc password");
-                throw new UnauthorizedException("wrong phone number or password");
+                throw new UnauthorizedException(MessageKeys.LOGIN_FAILED);
         }
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 phoneNumber,password, existingUser.getAuthorities()

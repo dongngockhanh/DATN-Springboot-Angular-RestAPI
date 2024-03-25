@@ -1,9 +1,13 @@
 package com.project.shopapp.Controllers;
 
 import com.project.shopapp.DTOs.CategoryDTO;
+import com.project.shopapp.DTOs.responses.MessageResponse;
 import com.project.shopapp.Services.CategoryService;
 import com.project.shopapp.models.Category;
+import com.project.shopapp.untils.MessageKeys;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -20,6 +24,7 @@ import java.util.stream.Collectors;
 public class CategoryController {
 //    private final CategoryServiceImp categoryServiceImp;
     private final CategoryService categoryService;
+    private final MessageResponse messageResponse;
     // thêm danh mục
     @PostMapping("")
     public ResponseEntity<?>createCategory(@Valid @RequestBody CategoryDTO categoryDTO, BindingResult result)
@@ -31,7 +36,7 @@ public class CategoryController {
 
         }
         categoryService.createCategory(categoryDTO);
-        return ResponseEntity.ok("Insert Category successfully "+categoryDTO);
+        return ResponseEntity.ok(messageResponse.getMessageResponse(MessageKeys.CREATE_CATEGORY_SUCCESSFULLY));
     }
 
 
@@ -47,16 +52,22 @@ public class CategoryController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateCategory(@PathVariable long id,@Valid @RequestBody CategoryDTO categoryDTO)
+    public ResponseEntity<?> updateCategory(@PathVariable long id,@Valid @RequestBody CategoryDTO categoryDTO)
     {
-        categoryService.updateCategory(id,categoryDTO);
-        return ResponseEntity.ok("update category successfully");
+        try {
+            categoryService.updateCategory(id,categoryDTO);
+            return ResponseEntity.ok(messageResponse.getMessageResponse(MessageKeys.UPDATE_CATEGORY_SUCCESSFULLY));
+        }catch (Exception e){
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(messageResponse.getMessageResponse(e.getMessage(),id));
+        }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteCategory(@PathVariable Long id)
+    public ResponseEntity<?> deleteCategory(@PathVariable Long id)
     {
-        categoryService.deleteCategory(id);
-        return ResponseEntity.ok("delete category with "+id+" successfully");
+            categoryService.deleteCategory(id);
+            return ResponseEntity.ok(messageResponse.getMessageResponse(MessageKeys.DELETE_CATEGORY_SUCCESSFULLY,id));
     }
 }

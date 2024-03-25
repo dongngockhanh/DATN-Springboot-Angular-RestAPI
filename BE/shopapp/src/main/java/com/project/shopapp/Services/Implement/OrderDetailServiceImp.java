@@ -1,6 +1,7 @@
 package com.project.shopapp.Services.Implement;
 
 import com.project.shopapp.DTOs.OrderDetailDTO;
+import com.project.shopapp.DTOs.responses.MessageResponse;
 import com.project.shopapp.DTOs.responses.OrderDetailResponse;
 import com.project.shopapp.Repositories.OrderDetailRepository;
 import com.project.shopapp.Repositories.OrderRepository;
@@ -10,6 +11,7 @@ import com.project.shopapp.exceptions.DataNotFoundException;
 import com.project.shopapp.models.Order;
 import com.project.shopapp.models.OrderDetail;
 import com.project.shopapp.models.Product;
+import com.project.shopapp.untils.MessageKeys;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,7 @@ public class OrderDetailServiceImp implements OrderDetailService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
     private final ModelMapper modelMapper;
+    private final MessageResponse messageResponse;
 
     @Override
     public OrderDetailResponse createOrderDetail(OrderDetailDTO orderDetailDTO) {
@@ -88,14 +91,17 @@ public class OrderDetailServiceImp implements OrderDetailService {
     // check các thành phần có tồn tại hay không có exception
     private OrderDetail existingOrderDetail(long orderDetailId) {
         return orderDetailRepository.findById(orderDetailId)
-                .orElseThrow(()-> new DataNotFoundException("Order details not found with id = "+orderDetailId));
+                .orElseThrow(()-> new
+                        DataNotFoundException(messageResponse.getMessageString(MessageKeys.NOT_FOUND_ORDER_DETAIL,orderDetailId)));
     }
     private Order existingOrder(long orderId) {
         return orderRepository.findById(orderId)
-                .orElseThrow(()-> new DataNotFoundException("Order not found with id = "+orderId));
+                .orElseThrow(()-> new
+                        DataNotFoundException(messageResponse.getMessageString(MessageKeys.NOT_FOUND_ORDER,orderId)));
     }
     private Product existingProduct(long productId) {
         return productRepository.findById(productId)
-                .orElseThrow(()-> new DataNotFoundException("Product not found with id = "+productId));
+                .orElseThrow(()-> new
+                        DataNotFoundException(messageResponse.getMessageString(MessageKeys.NOT_FOUND_PRODUCT,productId)));
     }
 }

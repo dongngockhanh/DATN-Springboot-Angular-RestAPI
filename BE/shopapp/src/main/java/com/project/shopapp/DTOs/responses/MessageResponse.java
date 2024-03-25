@@ -3,10 +3,9 @@ package com.project.shopapp.DTOs.responses;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.shopapp.untils.MessageKeys;
+import lombok.*;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -31,8 +30,16 @@ public class MessageResponse {
     @JsonProperty("message")
     private String message;
 
-    public String getMessageResponse(String messageKey) {
-        return this.message = messageSource.getMessage(messageKey,null,getLocale());
+    // trả về object
+    @JsonIgnore
+    public MessageResponse getMessageResponse(String messageKey,Object... params){
+        getMessageString(messageKey,params);
+        return this;
+    }
+
+    // trả về String
+    public String getMessageString(String messageKey,Object... params) {
+        return this.message = messageSource.getMessage(messageKey,params,getLocale());
     }
 
     //lấy locale từ client
@@ -43,4 +50,5 @@ public class MessageResponse {
                 .getRequest();
         return localeResolver.resolveLocale(request);
     }
+
 }

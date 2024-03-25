@@ -6,6 +6,7 @@ import com.project.shopapp.DTOs.responses.MessageResponse;
 import com.project.shopapp.DTOs.responses.UserResponse;
 import com.project.shopapp.Services.UserService;
 import com.project.shopapp.exceptions.UnauthorizedException;
+import com.project.shopapp.untils.MessageKeys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
@@ -31,7 +32,7 @@ public class UserController {
     private final MessageResponse messageResponse;
 
     @PostMapping("/register")
-    public ResponseEntity<?> createUser(@Valid @RequestBody UserDTO userDTO, BindingResult result, HttpServletRequest request)
+    public ResponseEntity<?> createUser(@Valid @RequestBody UserDTO userDTO, BindingResult result)
     {
         try {
             if(result.hasErrors())
@@ -43,13 +44,15 @@ public class UserController {
                 return ResponseEntity.badRequest().body(errorMessages);
             }
             if(!userDTO.getPassword().equals(userDTO.getRetypePassword()))
-                return ResponseEntity.badRequest().body("retype password does not match");
+                return ResponseEntity.badRequest()
+                        .body(messageResponse.getMessageResponse(MessageKeys.PASSWORD_NOT_MATCH));
             userService.createUser(userDTO);
-            return ResponseEntity.status(HttpStatus.OK).body("Register successfully");
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(messageResponse.getMessageResponse(MessageKeys.REGISTER_SUCCESSFULLY));
         }
-        catch (Exception e)
-        {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(messageResponse.getMessageResponse(e.getMessage()));
         }
     }
     @PostMapping("/login")
@@ -59,16 +62,15 @@ public class UserController {
     ){
         // kiểm tra thông tin đăng nhập và sinh ra token
         try {
-             String token = userService.login(userLoginDTO.getPhoneNumber(),userLoginDTO.getPassword());
-//            Locale locale = localeResolver.resolveLocale(request);
+            String token = userService.login(userLoginDTO.getPhoneNumber(),userLoginDTO.getPassword());
             UserResponse userResponse = UserResponse.builder()
-                    .message(messageResponse.getMessageResponse("user.login.login_successfully"))
+                    .message(messageResponse.getMessageString(MessageKeys.LOGIN_SUCCESSFULLY))
                     .token(token)
                     .build();
             return ResponseEntity.ok(userResponse);
         }catch (UnauthorizedException e){
-            messageResponse.getMessageResponse(e.getMessage());
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(messageResponse);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(messageResponse.getMessageResponse(e.getMessage()));
         }
         catch (Exception e){
             throw new RuntimeException(e.getMessage());

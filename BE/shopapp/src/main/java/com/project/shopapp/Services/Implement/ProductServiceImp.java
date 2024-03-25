@@ -2,6 +2,7 @@ package com.project.shopapp.Services.Implement;
 
 import com.project.shopapp.DTOs.ProductDTO;
 import com.project.shopapp.DTOs.ProductImageDTO;
+import com.project.shopapp.DTOs.responses.MessageResponse;
 import com.project.shopapp.DTOs.responses.ProductResponse;
 import com.project.shopapp.Repositories.CategoryRepository;
 import com.project.shopapp.Repositories.ProductImageRepository;
@@ -12,6 +13,7 @@ import com.project.shopapp.exceptions.InvalidParamException;
 import com.project.shopapp.models.Category;
 import com.project.shopapp.models.Product;
 import com.project.shopapp.models.ProductImage;
+import com.project.shopapp.untils.MessageKeys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,11 +27,13 @@ public class ProductServiceImp implements ProductService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     private final ProductImageRepository productImageRepository;
+    private final MessageResponse messageResponse;
 
     @Override
     public Product createProduct(ProductDTO productDTO) throws DataNotFoundException {
         Category existingCategory =  categoryRepository.findById(productDTO.getCategoryId())
-                .orElseThrow(()-> new DataNotFoundException("Category not found with id = "+productDTO.getCategoryId()));
+                .orElseThrow(()-> new
+                        DataNotFoundException(messageResponse.getMessageString(MessageKeys.NOT_FOUND_CATEGORY,productDTO.getCategoryId())));
         Product newProduct = Product.builder()
                 .name(productDTO.getName())
                 .price(productDTO.getPrice())
@@ -49,7 +53,7 @@ public class ProductServiceImp implements ProductService {
     @Override
     public Product getProductById(long id) throws DataNotFoundException {
         return productRepository.findById(id)
-                .orElseThrow(()->new DataNotFoundException("Product not found với id = "+id));
+                .orElseThrow(()->new DataNotFoundException(messageResponse.getMessageString(MessageKeys.NOT_FOUND_PRODUCT,id)));
     }
 
     @Override
@@ -59,7 +63,8 @@ public class ProductServiceImp implements ProductService {
            //copy từ dto sang entity
            //sử dụng model mapper
            Category existingCategory =  categoryRepository.findById(productDTO.getCategoryId())
-                   .orElseThrow(()-> new DataNotFoundException("Category not found with id = "+productDTO.getCategoryId()));
+                   .orElseThrow(()-> new
+                           DataNotFoundException(messageResponse.getMessageString(MessageKeys.NOT_FOUND_CATEGORY,productDTO.getCategoryId())));
            existingProduct.setName(productDTO.getName());
            existingProduct.setPrice(productDTO.getPrice());
            existingProduct.setImage(productDTO.getImage());
@@ -89,7 +94,7 @@ public class ProductServiceImp implements ProductService {
         Product existingProduct = productRepository
                 .findById(productId)
                 .orElseThrow(()->
-                new DataNotFoundException("Product not found id = "+productImageDTO.getProductId()));
+                new DataNotFoundException(messageResponse.getMessageString(MessageKeys.NOT_FOUND_PRODUCT,productImageDTO.getProductId())));
         ProductImage newProductImage = ProductImage.builder()
                 .product(existingProduct)
                 .imageUrl(productImageDTO.getImageUrl())
@@ -97,9 +102,8 @@ public class ProductServiceImp implements ProductService {
         // không cho thêm quá 5 ảnh đối với 1 sản phẩm
         int size = productImageRepository.findByProductId(productId).size();
         if(size >= ProductImage.MAXIMUM_IMAGE_PER_PRODUCT) {
-            throw new InvalidParamException(
-                    "\n" + "The number of product photos must be less than or equal " +
-                            ProductImage.MAXIMUM_IMAGE_PER_PRODUCT);
+            throw new InvalidParamException(messageResponse.getMessageString(MessageKeys.NO_MORE_FIVE_IMAGE_FOR_PRODUCT,
+                            ProductImage.MAXIMUM_IMAGE_PER_PRODUCT));
         }
         return productImageRepository.save(newProductImage);
     }
