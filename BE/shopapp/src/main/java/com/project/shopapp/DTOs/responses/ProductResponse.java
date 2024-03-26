@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.project.shopapp.models.Product;
 import lombok.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -11,6 +12,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Builder
 public class ProductResponse extends BaseResponse{
+    private long id;
     private String name;
     private BigDecimal price;
     private String image;
@@ -25,6 +27,7 @@ public class ProductResponse extends BaseResponse{
     public static ProductResponse fromProduct(Product product)
     {
         ProductResponse productResponse = ProductResponse.builder()
+                .id(product.getId())
                 .name(product.getName())
                 .price(product.getPrice())
                 .image(product.getImage())

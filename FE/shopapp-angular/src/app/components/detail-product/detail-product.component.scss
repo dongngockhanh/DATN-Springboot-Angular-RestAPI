@@ -1,0 +1,76 @@
+.intro-section{
+    // color: white;
+    padding: 20px;
+    text-align: center;
+}
+.product-image{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.thumbnail-container{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.thumbnail-item{
+    width: 120px;
+    height: 120px;
+    margin-right: 5px; /* thêm khoảng cách ngang giữa các bức ảnh */
+}
+.thumbnail-item:last-child{
+    margin-right: 0; /* xóa khoảng cách ngang ở ảnh cuối cùng*/
+}
+.thumbnail-item img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.thumbnail-item.active img{
+    border: 2px solid;
+}
+.product-details{
+    padding: 20px;
+    // color: white;
+}
+.product-actions{
+    display: flex;
+    justify-content: flex-start;
+    // align-items: center;
+    margin-top: 20px;
+}
+.product-actions button{
+    margin-right: 10px;
+}
+.border-wrapper{
+    border: 1px solid;
+}
+.product-quanlity{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 10px;
+}
+.product-quanlity button{
+    background-color: transparent;
+    border: none;
+    // color: white;
+    color: inherit;
+    font-size: 16px;
+    align-items: center;
+    cursor: pointer;
+}
+.product-quanlity input{
+    background-color: transparent;
+    border: none;
+    width: 40px;
+    text-align: center;
+    // color: white;
+    color: inherit;
+    font-size: 16px;
+    margin: 0 10px;
+}
+.product-quanlity input:focus{
+    outline: none;
+}

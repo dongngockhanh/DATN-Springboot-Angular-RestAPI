@@ -1,5 +1,7 @@
 package com.project.shopapp.exceptions;
 
+import com.project.shopapp.DTOs.responses.MessageResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -12,7 +14,9 @@ import java.util.stream.Collectors;
 
 @ControllerAdvice
 //@RestControllerAdvice
+@RequiredArgsConstructor
 public class GlobalExceptionHandler {
+    private final MessageResponse messageResponse;
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseBody
@@ -31,7 +35,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<?> handleDataNotFoundException(DataNotFoundException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(messageResponse);
     }
 
     @ExceptionHandler(InvalidParamException.class)

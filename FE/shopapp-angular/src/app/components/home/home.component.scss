@@ -1,0 +1,94 @@
+.intro-section{
+    text-align: center;
+    // color: white;
+    padding: 20px;
+}
+.search-box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.product-category{
+    width: 200px;
+    color: #2d3436;
+    border-color: inherit;
+}
+.search-input{
+    width: 300px;
+    background-color: rgb(19,23,42);
+    margin-right: 10px;
+    // border-color: rgba(255, 255, 255, 0.5);
+    border-color: inherit;
+    color: white;
+}
+.form-control{
+    //  background-color: transparent;
+    //  color: white; 
+}
+option{
+    background-color: rgb(19,23,42);
+    color: white;
+}
+option.option-dis{
+    color: #2d3436;
+}
+.form-control::placeholder{/*chrome,firefox,opera,saferi 10.1+*/
+    color: rgba(255, 255, 255, 0.5);
+    opacity: 1;
+}
+.form-control:-ms-input-placeholder{/*internat explorer10-11*/
+    color: rgba(255, 255, 255, 0.5);
+}
+.form-control::-ms-input-placeholder{/*microsoft edge*/
+    color:rgba(255, 255, 255, 0.5);
+}
+.product-item{
+    background-color: rgb(19,23,42);
+    border: 1px solid rgb(35,39,61);
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+.product-image{
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+    background-size: cover; /* Chỉnh kích thước của hình ảnh để nó đủ rộng và đủ cao để lấp đầy toàn bộ phần nền */
+    background-position: center; /* Đảm bảo rằng hình ảnh nền được căn giữa */
+}
+.product-name{
+    color: white;
+}
+.product-description{
+    color:rgb(173,178,203);
+}
+.product-warranty{
+    color: rgb(242,126,212);
+}
+.product-price{
+    color: white;
+}
+.product-rating{
+    color: yellow;
+    margin-top: 10px;
+}
+.product-actions{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+.space-x{
+    margin: 0 5px;
+}
+
+// Slick Fade-In Animation with CSS for product items
+
+// .iop {
+//     opacity: 0;
+//     transition: opacity 0.5s ease;
+// }
+
+// .iop.show {
+//     opacity: 1;
+// }

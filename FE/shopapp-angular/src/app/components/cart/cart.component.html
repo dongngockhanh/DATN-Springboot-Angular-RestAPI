@@ -1,0 +1,71 @@
+<div class="container">
+    <div class="intro-section">
+        <div class="d-flex w-100">
+            <a class="nav-link" href="#">
+                <i class="fa-solid fa-arrow-left" style="font-size: 23px"></i>
+                <!-- <svg data-v-5273d083="" width="20" height="17" viewBox="0 0 20 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path data-v-5273d083="" d="M19 8.5L1 8.5M1 8.5L8 1M1 8.5L8 16" stroke="#121219" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg> -->
+            </a>
+            <h1 class="mx-auto">Đây là trang Giỏ Hàng</h1>
+        </div>
+        <p>sử dụng bootstrap</p>
+    </div>
+    <div class="product-cart">
+        <div class="wrapper">
+            <!-- header-cart -->
+            <div class="header-check-box">
+                <div class="d-flex align-items-center justify-content-center">
+                    <div class="select-product-action custom-control custom-checkbox">
+                        <!-- <input type="checkbox" class="checkbox-round" /> -->
+                        <input class="form-check-input checkbox-round" type="checkbox" id="headerCheckbox" [(ngModel)]="selectAll" (change)="checkAll()">
+                        <label class="custom-control-label" for="__BVID__117"></label>
+                    </div>
+                    <p>Chọn tất cả</p>
+                </div>
+            </div>
+            <!-- content -->
+            <div class="form-control custom-form" *ngFor="let product of products">
+                <div class="product-cart-item d-flex flex-md-row justify-content-between">
+                    <div class="d-flex">
+                        <div style="margin-right: 10px;" class="d-flex align-items-center">
+                            <input class="form-check-input checkbox-round checkbox-item" type="checkbox" [(ngModel)]="product.selected" (change)="checkSingle()">
+                        </div>
+                        <div class="product-cart-item__img">
+                            <img src="https://images.pexels.com/photos/249538/pexels-photo-249538.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                                class="img-fluid rounded-3" alt="Product Image">
+                        </div>
+                        <div class="product-cart-item__info d-flex flex-column justify-content-between ml-3">
+                            <h2 class="product-cart-item__title">Tên sản phẩm</h2>
+                            <h2 class="product-cart-item__title">Kiểu loại</h2>
+                            <p class="product-cart-item__price">Giá: $100</p>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-column align-items-end ">
+                        <div class="product-cart-item__quantity d-flex align-items-center ">
+                            <button class="btn btn-primary"
+                                onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <div class="form-outline">
+                                <input id="form1" min="0" name="quantity" value="1" type="number" class="form-control" />
+                            </div>
+                            <button class="btn btn-primary" onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                        <div class="product-cart-item__delete ml-3 mb-0" style="margin-top: auto;">
+                            <a href="#" style="color: #cecece;"><i class="fas fa-trash-alt"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- footer-cart -->
+            <div class="form-tongtien mt-auto d-flex justify-content-between align-items-center">
+                <div class="tinhtien">
+                    <h6> TẠM TÍNH: </h6>
+                    <p> 100.000đ </p>
+                </div>
+                <button class="btn btn-danger ml-80">Mua Ngay {{stringProductCount}}</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,96 @@
+<!-- <p>login-page works!</p> -->
+<div class="container">
+    <div class="intro-section">
+        <h1>Đây là trang đăng ký</h1>
+        <!-- <button (click)="signOut()">đăng xuất</button> -->
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+            <div class="form-container sign-in" *ngIf="isLoginFormVisible">
+                <form #validateForm="ngForm">
+                    <h1>Đăng Nhập</h1>
+                    <input type="email" placeholder="Số điện thoại hoặc Email" class="form-control"
+                    [(ngModel)]="phoneLogin" name="phoneLogin" required (focus)="validateForm.form.markAsTouched()">
+                    <div class="contains-errors">
+                        <p class="error-message" *ngIf="phoneLogin.length < 9 && validateForm.form.touched" >Số điện thoại không hợp lệ</p>
+                    </div>
+                    <input type="password" placeholder="Mật Khẩu" class="form-control" [(ngModel)]="passwordLogin" name="passwordLogin">
+                    <div class="forgot-password">
+                        <a href="#">Quên mật khẩu?</a>
+                    </div>
+                    <re-captcha [siteKey]="'6LfAt5MpAAAAAA4Y8lV1K5-qSxlWLhEb9NLLtEWT'"></re-captcha>
+                    <button class="btn btn-primary" (click)="login()">Đăng Nhập</button>
+                    <div class="d-flex custom-span">
+                        <span></span>
+                        <p style="margin: 0 10px;">hoặc đăng nhập bằng</p>
+                        <span></span>
+                    </div>
+                    <div class="social-icons" >
+                        <div class="d-flex align-items-center" style="">
+                            <asl-google-signin-button></asl-google-signin-button>
+                            <p style="margin: 0;">Google</p>
+                        </div>
+                        <div class="d-flex align-items-center" style="cursor: pointer;" (click) ="signInWithFB()">
+                            <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                            Facebook
+                        </div>
+                    </div>
+                    <div class="d-flex custom-checkout">
+                        <p>Bạn chưa có tài khoản?</p>
+                        <a href="#" (click)="isLoginFormVisible=false"> Đăng ký Ngay</a>
+                    </div>
+                </form>
+            </div>
+            <div class="form-container sign-up" *ngIf="!isLoginFormVisible">
+                <form #validateForm="ngForm">
+                    <h1>Tạo Tài Khoản</h1>
+                    <input type="text" placeholder="Họ Và Tên" class="form-control" 
+                    [(ngModel)]="fullname" name="fullname" required (focus)="validateForm.form.markAsTouched()">
+                    <div class="contains-errors">
+                        <p class="error-message" *ngIf="fullname.length < 1 && validateForm.form.touched" >Họ tên bị thiếu</p>
+                    </div>
+
+                    <input type="email" placeholder="Số Điện Thoại Hoặc Email" class="form-control" 
+                    [(ngModel)]="phoneRegister" name="phoneRegister" required (focus)="validateForm.form.markAsTouched()">
+                    <div class="contains-errors">
+                        <p class="error-message" *ngIf="phoneRegister.length < 9 && validateForm.form.touched" >Số điện thoại không hợp lệ</p>
+                    </div>
+
+                    <input type="password" placeholder="Mật Khẩu(*)" class="form-control" 
+                    [(ngModel)]="passwordRegister" name="passwordRegister" required (focus)="validateForm.form.markAsTouched()">
+                    <div class="contains-errors">
+                        <p class="error-message" *ngIf="passwordRegister.length < 8 && validateForm.form.touched">mật khẩu phải 8 ký tự</p>
+                    </div>
+
+                    <input type="password" placeholder="Nhập Lại Mật Khẩu(*)" class="form-control" 
+                    [(ngModel)]="retypePasswordRegister" name="retypePasswordRegister" required (input)="validateForm.form.markAsTouched();checkRetypepasswordMatch()">
+                    <div class="contains-errors">
+                        <p class="error-message" *ngIf="validateForm.form.controls['retypePasswordRegister'].hasError('passwordNotMatch') && validateForm.form.touched">mật khẩu không khớp</p>
+                    </div>
+
+                    <re-captcha [siteKey]="'6LfAt5MpAAAAAA4Y8lV1K5-qSxlWLhEb9NLLtEWT'"></re-captcha>
+                    <button class="btn btn-primary" (click)="register()" >Đăng ký</button>
+                    <div class="d-flex custom-span">
+                        <span></span>
+                        <p style="margin: 0 10px;">hoặc đăng ký bằng</p>
+                        <span></span>
+                    </div>
+                    <div class="social-icons">
+                        <div>
+                            <a href="#"><i class="fa-brands fa-google-plus-g"></i></a>
+                            Google
+                        </div>
+                        <div class="d-flex align-items-center" style="cursor: pointer;" (click) ="signInWithFB()">
+                            <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                            Facebook
+                        </div>
+                    </div>
+                    <div class="d-flex custom-checkout">
+                        <p>Bạn đã có tài khoản?</p>
+                        <a (click)="isLoginFormVisible=true">Đăng nhập Ngay</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -29,5 +29,6 @@ public class MessageKeys {
     public static String NO_MORE_FIVE_IMAGE_FOR_PRODUCT = "product.uploadImage.error.no_more_than_5_image";
     public static String NOT_FOUND_PRODUCT = "product.get.error.not.found.product";
 
+    public static String DELETE_ORDER_DETAIL_SUCCESSFULLY = "orderDetail.delete.delete_successfully";
     public static String NOT_FOUND_ORDER_DETAIL = "orderDetail.get.error.not_found_orderDetail";
 }

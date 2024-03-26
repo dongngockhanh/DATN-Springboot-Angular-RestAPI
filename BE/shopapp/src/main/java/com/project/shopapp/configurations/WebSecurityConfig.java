@@ -57,7 +57,9 @@ public class WebSecurityConfig {
 
                             // products
                             .antMatchers(GET,
-                                    String.format("%s/products**",apiBasePath)).hasAnyRole(Role.USER,Role.ADMIN)
+                                    String.format("%s/products**",apiBasePath)).permitAll()
+                            .antMatchers(GET,
+                                    String.format("%s/products/images/*",apiBasePath)).permitAll()
                             .antMatchers(POST,
                                     String.format("%s/products**",apiBasePath)).hasRole(Role.ADMIN)
                             .antMatchers(PUT,
