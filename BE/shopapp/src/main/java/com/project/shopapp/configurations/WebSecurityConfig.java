@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -47,7 +48,7 @@ public class WebSecurityConfig {
                             .permitAll()
                             // categories
                             .antMatchers(GET,
-                                    String.format("%s/categories**",apiBasePath)).hasAnyRole(Role.USER,Role.ADMIN)
+                                    String.format("%s/categories**",apiBasePath)).permitAll()
                             .antMatchers(POST,
                                     String.format("%s/categories/**",apiBasePath)).hasRole(Role.ADMIN)
                             .antMatchers(PUT,
@@ -76,6 +77,7 @@ public class WebSecurityConfig {
                                     String.format("%s/orders/**",apiBasePath)).hasRole(Role.USER)
                             .antMatchers(DELETE,
                                     String.format("%s/orders/**",apiBasePath)).hasRole(Role.USER)
+
 
 
                             // order_details

@@ -38,7 +38,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                                     @NonNull FilterChain filterChain)
             throws ServletException, IOException {
         try {
-            if(isBypassToken(request)){
+            if( isBypassToken(request)){
                 filterChain.doFilter(request,response);
                 return;
             }
@@ -68,7 +68,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED,"Unauthorized");
         }
-
     }
 
     private boolean isBypassToken(@NonNull HttpServletRequest request){

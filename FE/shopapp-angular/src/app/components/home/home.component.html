@@ -11,27 +11,32 @@
     </div>
     <!-- searchbox bên trái combobox bên phải -->
     <div class="search-box">
-        <input type="text" class="form-control search-input" placeholder="tìm sản phẩm">
-        <select class="form-control product-category">
+        <input type="text" class="form-control search-input" placeholder="tìm sản phẩm" [(ngModel)]="keywordsearch">
+        <button class="btn btn-light" (click)="onSearch()">tìm kiếm</button>
+        <select class="form-control product-category" #categorySelect (change)="onCategoryChange(+categorySelect.value)">
             <option selected disabled class="option-dis">Danh mục sản phẩm</option>
-            <option>Đồ điện tử</option>
+            <option  *ngFor="let category of categories" [value]="category.id">{{category.name}}</option>
+            <!-- <option>Đồ điện tử</option>
             <option>Đồ gia dụng</option>
-            <option>Bánh kẹo</option>
+            <option>Bánh kẹo</option> -->
         </select>
     </div>
     <!-- sản phẩm -->
     <div class="row">
-        <div class="col-lg-4 col-md-6 iop" *ngFor="let product of products">
-            <div class="product-item">
+        <div class="col-lg-4 col-md-6 iop" id="iop" *ngFor="let product of products" data-aos="fade-up" >
+            <div class="product-item" name="productid">
                 <div class="test">
-                    <img [src]="product.image" 
+                    <img [src]= "product.image"
                     alt="Product Image" class="product-image">
                 </div>
-                <h3 class="product-name">Product 1</h3>
-                <p class="product-description">Thiết kế mỏng nhẹ và rất sang trọng. Đây chính là điều mà MacBook được
-                    nhiều người lựa chọn</p>
+                <h3 class="product-name">{{product.name}}</h3>
+                <p class="product-description">
+                    <!-- Thiết kế mỏng nhẹ và rất sang trọng. Đây chính là điều mà MacBook được
+                    nhiều người lựa chọn -->
+                    {{product.description}}
+                </p>
                 <p class="product-warranty">Bảo hành: 12 tháng</p>
-                <p class="product-price">Giá: <del>$200</del> $100</p>
+                <p class="product-price">Giá: <del>$200</del> $100 {{product.price}}</p>
                 <div class="product-rating">
                     <i class="fas fa-star"></i>
                     <i class="fas fa-star"></i>

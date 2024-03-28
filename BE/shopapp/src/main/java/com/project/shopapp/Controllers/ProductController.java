@@ -50,15 +50,17 @@ public class ProductController {
 
     @GetMapping("")// http://localhost:8888/api/v1/products?page=1&limit=10
     public ResponseEntity<ProductListResponse> getAllProducts(
-            @RequestParam("page") int page,
-            @RequestParam("limit") int limit
+            @RequestParam(defaultValue = "") String keyword,
+            @RequestParam(defaultValue = "0", name="category_id") Long categoryId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "12") int limit
     ) {
         //taọ Pageable từ thông tin trang và giới hạn
         PageRequest pageRequest = PageRequest.of(page, limit
 //                , Sort.by("createdAt").descending()
                 , Sort.by("id").ascending()
         );
-        Page<ProductResponse> productPage = productService.getAllProducts(pageRequest);
+        Page<ProductResponse> productPage = productService.getAllProducts(keyword,categoryId,pageRequest);
         int totalPages = productPage.getTotalPages();
         List<ProductResponse> products = productPage.getContent();
         return ResponseEntity.ok(ProductListResponse.builder()

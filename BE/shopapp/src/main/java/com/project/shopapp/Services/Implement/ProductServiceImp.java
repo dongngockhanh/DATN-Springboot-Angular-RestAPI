@@ -45,9 +45,14 @@ public class ProductServiceImp implements ProductService {
     }
 
     @Override
-    public Page<ProductResponse> getAllProducts(PageRequest pageRequest) {
-        // lấy danh sách sản phẩm theo page(trang) và limit(giới hạn sản phẩm trong trang)
-       return productRepository.findAll(pageRequest).map(ProductResponse::fromProduct);
+    public Page<ProductResponse> getAllProducts(String keyword,Long categoryId,PageRequest pageRequest) {
+        // lấy danh sách sản phẩm theo page(trang) và limit(giới hạn sản phẩm trong trang) và categoryId nếu có
+        Page<Product> productPage;
+        productPage = productRepository.searchProducts(categoryId.intValue(),keyword,pageRequest);
+//        productPage = productRepository.findAll(pageRequest);
+
+        return productPage.map(ProductResponse::fromProduct);
+//       return productRepository.findAll(pageRequest).map(ProductResponse::fromProduct);
     }
 
     @Override

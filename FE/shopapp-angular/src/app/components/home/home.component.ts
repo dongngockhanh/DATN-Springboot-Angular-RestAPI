@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ProductResponse } from '../../responses/prodducts/product.response';
 import { ProductService } from '../../services/productService/product.service';
 import { environment } from '../../environments/environment';
+import Aos from 'aos';
+import { CategoryResponse } from '../../responses/categories/category.response';
+import { CategoryService } from '../../services/categoryService/category.service';
+
 
 @Component({
   selector: 'app-home',
@@ -22,18 +26,29 @@ export class HomeComponent implements OnInit{
   //   { id: 10, name: 'Product 10', price: 1000 },
   // ];
   products: ProductResponse[] =[];
+  categories: CategoryResponse[] = [];
+
   currentPage: number = 0;
   itemsPerPage: number = 12;
   pages: number[] = [];
   totalPages: number = 0;
   visiblePages: number[] = [];
 
-  constructor(private productService: ProductService) { }
-  ngOnInit(){
-    this.getProducts(this.currentPage,this.itemsPerPage);
+  keywordsearch: string ;
+  categoryID: number = 0;
+
+  constructor(private productService: ProductService,
+              private categoryService: CategoryService) { 
+    this.keywordsearch = '';
   }
-  getProducts(page: number, limit: number){
-    this.productService.getProducts(page, limit).subscribe({
+  ngOnInit(){
+    Aos.init();
+    this.getCategories();
+    this.getProducts(this.keywordsearch,this.categoryID,this.currentPage,this.itemsPerPage);
+  }
+  //lấy sản phẩm
+  getProducts(keyword:string, categoryid:number, page: number, limit: number){
+    this.productService.getProducts(keyword, categoryid, page, limit).subscribe({
       next: (response : any) => {
         debugger
         response.products.forEach((product: ProductResponse) => {
@@ -52,20 +67,50 @@ export class HomeComponent implements OnInit{
       }
     });
   }
-
+  //chuyển trang
   onPageChange(page: number){
     this.currentPage = page;
-    this.getProducts(this.currentPage, this.itemsPerPage);
+    this.getProducts(this.keywordsearch,this.categoryID,this.currentPage-1, this.itemsPerPage);
   }
-
+  //tạo mảng số trang
   generateVisiblePageArray(currentPage: number, totalPages: number): number[]{
     const MaxVisiblePages = 5;
     const halfVisiblePages = Math.floor(MaxVisiblePages / 2);
-    let startPage = Math.max(currentPage - halfVisiblePages, 1);
-    let endPage = Math.min(startPage + MaxVisiblePages - 1, totalPages);
+    let startPage = Math.max(currentPage - halfVisiblePages, 0);
+    let endPage = Math.min(startPage + MaxVisiblePages - 1, totalPages-1);
     if(endPage - startPage + 1 < MaxVisiblePages){
-      startPage = Math.max(endPage - MaxVisiblePages + 1, 1);
+      startPage = Math.max(endPage - MaxVisiblePages + 1, 0);
     }
-    return new Array(endPage - startPage + 1).fill(0).map((_, index) => startPage + index);
+    return new Array(endPage - startPage + 1).fill(0).map((_, index) => startPage + index+1);
+  }
+  //lấy danh mục
+  getCategories(){
+    this.categoryService.getCategories().subscribe({
+      next: (response: any) => {
+        debugger
+        
+        this.categories = response;
+
+      },
+      complete: () => {
+        debugger
+      },
+      error: (error) => {
+        debugger
+        console.log(error);
+      }
+    })
+  }
+
+  //lấy id từ category.component.ts
+  onCategoryChange(selectedCategoryId: number){
+    debugger
+    this.categoryID = selectedCategoryId;
+  }
+  //tìm kiếm
+  onSearch(){
+    debugger
+    this.currentPage = 0;
+    this.getProducts(this.keywordsearch,this.categoryID,this.currentPage, this.itemsPerPage);
   }
 }
