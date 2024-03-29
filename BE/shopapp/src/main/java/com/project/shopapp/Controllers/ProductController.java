@@ -74,7 +74,9 @@ public class ProductController {
     {
         try {
             Product existingProduct = productService.getProductById(productId);
-            return ResponseEntity.ok(ProductResponse.fromProduct(existingProduct));
+            ProductResponse response = ProductResponse.fromProduct(existingProduct);
+            response.setProductImages(productService.getImageByProductId(productId));
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(messageResponse);
         }

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ProductResponse } from '../../responses/prodducts/product.response';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { ProductResponse } from '../../responses/products/product.response';
 import { ProductService } from '../../services/productService/product.service';
 import { environment } from '../../environments/environment';
 import Aos from 'aos';

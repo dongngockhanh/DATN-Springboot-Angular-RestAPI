@@ -2,9 +2,11 @@ package com.project.shopapp.DTOs.responses;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.project.shopapp.models.Product;
+import com.project.shopapp.models.ProductImage;
 import lombok.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -17,6 +19,9 @@ public class ProductResponse extends BaseResponse{
     private BigDecimal price;
     private String image;
     private String description;
+
+    @JsonProperty("product_images")
+    private List<ProductImageResponse> productImages;
 
     @JsonProperty("category_id")
     private Long categoryId;

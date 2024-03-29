@@ -1,3 +1,5 @@
+import { ProductImage } from "./product-image.response";
+
 export interface ProductResponse {
     id: number;
     name: string;
@@ -7,4 +9,5 @@ export interface ProductResponse {
     created_at: number[]; // Mảng chứa các giá trị số nguyên đại diện cho ngày tạo
     updated_at: number[]; // Mảng chứa các giá trị số nguyên đại diện cho ngày cập nhật
     category_id: number;
+    product_images: ProductImage[]; // Mảng chứa các hình ảnh của sản phẩm
 }

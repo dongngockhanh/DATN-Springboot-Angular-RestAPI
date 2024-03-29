@@ -3,6 +3,7 @@ package com.project.shopapp.Services.Implement;
 import com.project.shopapp.DTOs.ProductDTO;
 import com.project.shopapp.DTOs.ProductImageDTO;
 import com.project.shopapp.DTOs.responses.MessageResponse;
+import com.project.shopapp.DTOs.responses.ProductImageResponse;
 import com.project.shopapp.DTOs.responses.ProductResponse;
 import com.project.shopapp.Repositories.CategoryRepository;
 import com.project.shopapp.Repositories.ProductImageRepository;
@@ -15,11 +16,17 @@ import com.project.shopapp.models.Product;
 import com.project.shopapp.models.ProductImage;
 import com.project.shopapp.untils.MessageKeys;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +35,7 @@ public class ProductServiceImp implements ProductService {
     private final CategoryRepository categoryRepository;
     private final ProductImageRepository productImageRepository;
     private final MessageResponse messageResponse;
+    private final ModelMapper modelMapper;
 
     @Override
     public Product createProduct(ProductDTO productDTO) throws DataNotFoundException {
@@ -111,5 +119,13 @@ public class ProductServiceImp implements ProductService {
                             ProductImage.MAXIMUM_IMAGE_PER_PRODUCT));
         }
         return productImageRepository.save(newProductImage);
+    }
+
+    @Override
+    public List<ProductImageResponse> getImageByProductId(long id)
+    {
+        List<ProductImage> productImageList = productImageRepository.findByProductId(id);
+        Type listType = new TypeToken<List<ProductImageResponse>>() {}.getType();
+        return modelMapper.map(productImageList,listType);
     }
 }

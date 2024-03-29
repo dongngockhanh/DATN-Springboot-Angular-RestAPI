@@ -1,6 +1,6 @@
 import { Injectable, numberAttribute } from "@angular/core";
 import { HttpClient, HttpErrorResponse, HttpParams } from "@angular/common/http";
-import { ProductResponse } from "../../responses/prodducts/product.response";
+import { ProductResponse } from "../../responses/products/product.response";
 import { environment } from "../../environments/environment";
 import { catchError, Observable, throwError } from "rxjs";
 @Injectable({
@@ -18,5 +18,8 @@ export class ProductService{
         .set('page', page.toString())
         .set('limit', limit.toString());
         return this.http.get<ProductResponse[]>(this.apiProduct, {params});
+    }
+    getDetailProduct(productId: number){
+        return this.http.get(`${this.apiProduct}/${productId}`);
     }
 }
