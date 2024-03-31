@@ -159,3 +159,48 @@
       color: #1C173C;
     }
   }
+
+
+  //// test css btn
+$d: 2em;
+$t: .3s;
+$c: #fcfcfc #d2dae6;
+
+$o: .125*$d;
+
+button.change-quantity{
+	--i: var(--light, 0);
+	--not-i: calc(1 - var(--i));
+	--j: var(--press, 0);
+	--not-j: calc(1 - var(--j));
+	z-index: var(--i);
+	border: none;
+	width: $d; height: $d;
+	border-radius: 15%;
+	transform: scale(calc(1 - var(--j)*.02));
+	box-shadow:  
+		calc(var(--not-j)*#{-$o}) calc(var(--not-j)*#{-$o}) #{$o} #{rgba(nth($c, 1), var(--not-j))}, 
+		calc(var(--not-j)*#{$o}) calc(var(--not-j)*#{$o}) #{$o} #{rgba(nth($c, 2), var(--not-j))}, 
+		inset calc(var(--j)*#{$o}) calc(var(--j)*#{$o}) #{$o} #{rgba(nth($c, 2), var(--j))}, 
+		inset calc(var(--j)*#{-$o}) calc(var(--j)*#{-$o}) #{$o} #{rgba(nth($c, 1), var(--j))};
+	background: #e8e8e8;
+	font-size: 1.2em;
+	transition: box-shadow $t, transform $t cubic-bezier(.2,4,1,3);
+	cursor: pointer;
+	
+	&::after {
+		filter: 
+			Contrast(0) 
+			Sepia(var(--i)) 
+			Hue-Rotate(calc(var(--hue) - 50deg))
+			Saturate(5)
+			Opacity(calc(var(--i) + .21*var(--not-i)))
+			Drop-Shadow(1px 1px hsla(0, 0%, 100%, var(--not-i)));
+		transition: filter $t;
+		content: attr(data-ico)
+	}
+	
+	&:focus { outline: none }
+	&:hover, &:focus { --light: 1 }
+	&:active { --press: 1 }
+}

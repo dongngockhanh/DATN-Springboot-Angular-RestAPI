@@ -3,6 +3,8 @@ import { ProductService } from '../../services/productService/product.service';
 import { ProductResponse } from '../../responses/products/product.response';
 import { ProductImage } from '../../responses/products/product-image.response';
 import { environment } from '../../environments/environment';
+import { CartService } from '../../services/cart.service';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-detail-product',
@@ -13,11 +15,13 @@ export class DetailProductComponent {
   product?: ProductResponse;
   productId: number = 0;
   currentImageProduct: number = 0;
+  quantity: number = 1;
 
-  constructor(private productService: ProductService) { }
+  constructor(private productService: ProductService,private cartService: CartService) { }
   ngOnInit(){
     debugger
-    const idParam = 6
+    // this.cartService.clearCart();//test xoá giỏ hàng
+    const idParam = 1
     if(idParam!==null)
     {
       this.productId = +idParam;
@@ -77,5 +81,37 @@ export class DetailProductComponent {
   prevImage(): void{
     debugger
     this.showImage(this.currentImageProduct - 1);
+  }
+
+  // chuyển giá tiền thừ 20000 -> 20.000
+  formatPrice(price: number|undefined): string{
+    if (price != null){
+    // return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    return price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+    }
+    return '';
+  }
+
+  addToCart(): void{
+    debugger
+    if (this.product){
+      this.cartService.addToCart(this.product.id,this.quantity);
+    } else{
+      console.error('Không thể thêm vào giỏ hàng vì sản phẩm không tồn tại');
+    }
+  }
+
+  increaseQuantity(): void{
+    this.quantity++;
+  }
+
+  decreaseQuantity(): void{
+    if(this.quantity > 1){
+      this.quantity--;
+    }
+  }
+
+  buyNow(): void{
+    // xử lý sau
   }
 }

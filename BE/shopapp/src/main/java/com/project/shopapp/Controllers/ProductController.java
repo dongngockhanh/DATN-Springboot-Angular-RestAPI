@@ -34,10 +34,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.rmi.MarshalException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -80,6 +77,16 @@ public class ProductController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(messageResponse);
         }
+    }
+
+    @GetMapping("/by-ids")// phục vụ lấy danh sách giỏ hàng
+    public ResponseEntity<?> getProductByIds(@RequestParam("ids") String ids)
+    {
+        List<Long> productIds = Arrays.stream(ids.split(","))
+                            .map(Long::parseLong)
+                            .collect(Collectors.toList());
+        List<Product> products = productService.getProductByIds(productIds);
+        return ResponseEntity.ok(products);
     }
 
     @PostMapping("")

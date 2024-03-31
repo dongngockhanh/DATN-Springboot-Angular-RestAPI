@@ -8,6 +8,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 @Repository
 public interface ProductRepository extends JpaRepository<Product,Long> {
     boolean existsByName(String name);//kiểm tra xem có tồn tại sản phẩm bằng name
@@ -20,4 +22,6 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
     Page<Product> searchProducts(@Param("categoryId") int categoryId,
                                @Param("keyword") String keyword,
                                Pageable pageable);
+    @Query("SELECT p FROM Product p WHERE p.id IN :ids")
+    List<Product> getProductProductIds(@Param("ids") List<Long> ids);
 }

@@ -17,6 +17,7 @@ public interface ProductService {
     Product createProduct(ProductDTO productDTO) throws DataNotFoundException;
     Page<ProductResponse> getAllProducts(String keyword, Long categoryId,PageRequest pageRequest);
     Product getProductById(long id) throws DataNotFoundException;
+    List<Product> getProductByIds(List<Long> ids);
     Product updateProduct(long id,ProductDTO productDTO) throws DataNotFoundException;
     void deleteProduct(long id);
     boolean existProductByName(String name);

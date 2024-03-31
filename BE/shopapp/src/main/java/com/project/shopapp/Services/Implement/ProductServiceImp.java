@@ -65,13 +65,24 @@ public class ProductServiceImp implements ProductService {
 
     @Override
     public Product getProductById(long id) throws DataNotFoundException {
-        return productRepository.findById(id)
-                .orElseThrow(()->new DataNotFoundException(messageResponse.getMessageString(MessageKeys.NOT_FOUND_PRODUCT,id)));
+        Product product = productRepository.findById(id)
+                .orElseThrow(()->new
+                        DataNotFoundException(messageResponse.getMessageString(MessageKeys.NOT_FOUND_PRODUCT,id)));
+        ProductResponse response = ProductResponse.fromProduct(product);
+        response.setProductImages(getImageByProductId(id));
+        return product;
+    }
+
+    @Override
+    public List<Product> getProductByIds(List<Long> ids) {
+        return productRepository.getProductProductIds(ids);
     }
 
     @Override
     public Product updateProduct(long id, ProductDTO productDTO) throws DataNotFoundException {
-       Product existingProduct = getProductById(id);
+       Product existingProduct = productRepository.findById(id)
+               .orElseThrow(()->new
+                       DataNotFoundException(messageResponse.getMessageString(MessageKeys.NOT_FOUND_PRODUCT)));
        if(existingProduct != null) {
            //copy từ dto sang entity
            //sử dụng model mapper

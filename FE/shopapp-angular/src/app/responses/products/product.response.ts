@@ -10,4 +10,6 @@ export interface ProductResponse {
     updated_at: number[]; // Mảng chứa các giá trị số nguyên đại diện cho ngày cập nhật
     category_id: number;
     product_images: ProductImage[]; // Mảng chứa các hình ảnh của sản phẩm
+    quantity: number;
+    selected: boolean|false;
 }

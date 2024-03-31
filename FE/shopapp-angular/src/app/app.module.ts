@@ -18,6 +18,11 @@ import { RecaptchaModule} from 'ng-recaptcha';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SocialLoginModule,SocialAuthServiceConfig, GoogleLoginProvider,GoogleSigninButtonModule, FacebookLoginProvider } from '@abacritt/angularx-social-login';
 import { TokenInterceptor } from './interceptors/token.interceptor';
+import { LOCALE_ID } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localeVi from '@angular/common/locales/vi';
+
+registerLocaleData(localeVi, 'vi');
 
 @NgModule({
   declarations: [
@@ -62,6 +67,10 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptor,
     multi: true
+  },
+  {
+    provide: LOCALE_ID,
+    useValue: 'vi-VN' // hoặc 'vi'
   }
   ],
   bootstrap: [

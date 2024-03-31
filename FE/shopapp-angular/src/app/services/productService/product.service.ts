@@ -22,4 +22,9 @@ export class ProductService{
     getDetailProduct(productId: number){
         return this.http.get(`${this.apiProduct}/${productId}`);
     }
+    getProductByIds(ids: number[]){
+        const params = new HttpParams()
+        .set('ids', ids.join(','));
+        return this.http.get<ProductResponse[]>(`${this.apiProduct}/by-ids`, {params});
+    }
 }

@@ -44,22 +44,26 @@
         <div class="col-md-6">
             <div class="product-details">
                 <h2>Thông tin chi tiết sản phẩm</h2>
-                <h3 class="product-name">Macbook Pro 2021</h3>
+                <h3 class="product-name">{{product?.name}}</h3>
                 <p>Mô tả</p>
-                <p>Macbook Pro 2021 là chiếc laptop mà nhiều người mong muốn sở hữu</p>
-                <p>Thiết kế mỏng nhẹ và rất sang trọng. Đây chính là điều mà MacBook được nhiều người lựa chọn</p>
+                <p>{{product?.description}}</p>
+                <!-- <p>Macbook Pro 2021 là chiếc laptop mà nhiều người mong muốn sở hữu</p>
+                <p>Thiết kế mỏng nhẹ và rất sang trọng. Đây chính là điều mà MacBook được nhiều người lựa chọn</p> -->
                 <p>Bảo hành: 12 tháng</p>
-                <p>Giá: $100</p>
+                <!-- <p>Giá: {{ formatPrice(product?.price) }}</p> -->
+                <p>Giá: {{ product?.price | currency:'VND' }}</p>
+                <!-- <p>Giá: {{ product?.price| currency:'VND' : 'symbol':'1.0-0'}}</p> -->
+                <!-- <p>Giá: $100</p> -->
                 <div class="product-actions">
-                    <button class="btn btn-primary">Thêm vào giỏ hàng</button>
+                    <button class="btn btn-primary" (click)="addToCart()">Thêm vào giỏ hàng</button>
                     <span class="space-x"></span>
-                    <button class="btn btn-success">Mua ngay</button>
+                    <button class="btn btn-success" (click)="buyNow()">Mua ngay</button>
                 </div>
                 <div class="product-quanlity">
                     <div class="border-wrapper">
-                        <button>-</button>
-                        <input type="text" value="1">
-                        <button >+</button>
+                        <button (click)="decreaseQuantity()">-</button>
+                        <input type="text" [value]="quantity">
+                        <button (click)="increaseQuantity()">+</button>
                     </div>
             </div>
         </div>

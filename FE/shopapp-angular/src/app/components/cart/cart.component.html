@@ -7,12 +7,12 @@
             </a>
             <h1 class="mx-auto">Đây là trang Giỏ Hàng</h1>
         </div>
-        <p>sử dụng bootstrap</p>
+        <!-- <p>sử dụng bootstrap</p> -->
     </div>
-    <div class="product-cart">
+    <div class="product-cart" *ngIf="products.length>0">
         <div class="wrapper">
             <!-- header-cart -->
-            <div class="header-check-box">
+            <div class="header-check-box justify-content-between">
                 <div class="d-flex align-items-center justify-content-center">
                     <div class="select-product-action custom-control custom-checkbox">
                         <!-- <input type="checkbox" class="checkbox-round" /> -->
@@ -20,6 +20,9 @@
                         <label class="custom-control-label" for="__BVID__117"></label>
                     </div>
                     <p>Chọn tất cả</p>
+                </div>
+                <div class="delete-product" style="font-size: 80%;" *ngIf="selectedProductCount!==0" >
+                    <em style="cursor: pointer;" (click)="removeSelectedProduct()">xoá sản phẩm đã chọn</em>
                 </div>
             </div>
             <!-- content -->
@@ -30,29 +33,30 @@
                             <input class="form-check-input checkbox-round checkbox-item" type="checkbox" [(ngModel)]="product.selected" (change)="checkSingle()">
                         </div>
                         <div class="product-cart-item__img">
-                            <img src="https://images.pexels.com/photos/249538/pexels-photo-249538.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                            <!-- <img src="https://images.pexels.com/photos/249538/pexels-photo-249538.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                                class="img-fluid rounded-3" alt="Product Image"> -->
+                                 <img [src]="product.image"
                                 class="img-fluid rounded-3" alt="Product Image">
                         </div>
                         <div class="product-cart-item__info d-flex flex-column justify-content-between ml-3">
-                            <h2 class="product-cart-item__title">Tên sản phẩm</h2>
+                            <h2 class="product-cart-item__title">{{product.name}}</h2>
                             <h2 class="product-cart-item__title">Kiểu loại</h2>
-                            <p class="product-cart-item__price">Giá: $100</p>
+                            <p class="product-cart-item__price">Giá: {{product.price|currency:"VND"}}</p>
                         </div>
                     </div>
                     <div class="d-flex flex-column align-items-end ">
                         <div class="product-cart-item__quantity d-flex align-items-center ">
-                            <button class="btn btn-primary"
-                                onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                                <i class="fas fa-minus"></i>
+                            <button class="change-quantity" (click)="decreaseQuantity(product.id)">
+                                <i class="fas fa-minus d-flex align-items-center justify-content-center" style="font-size: 70%;"></i>
                             </button>
-                            <div class="form-outline">
-                                <input id="form1" min="0" name="quantity" value="1" type="number" class="form-control" />
+                            <div class="form-outline justify-content-center">
+                                <input readonly="disable" min="1" name="quantity" [value]="product.quantity" class="form-control" style="text-align: center;"/>
                             </div>
-                            <button class="btn btn-primary" onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                                <i class="fas fa-plus"></i>
+                            <button class="change-quantity" (click)="increaseQuantity(product.id)">
+                                <i class="fas fa-plus d-flex align-items-center justify-content-center" style="font-size: 70%;"></i>
                             </button>
                         </div>
-                        <div class="product-cart-item__delete ml-3 mb-0" style="margin-top: auto;">
+                        <div class="product-cart-item__delete ml-3 mb-0" style="margin-top: auto;" (click)="removeProduct(product.id)">
                             <a href="#" style="color: #cecece;"><i class="fas fa-trash-alt"></i></a>
                         </div>
                     </div>
@@ -62,9 +66,20 @@
             <div class="form-tongtien mt-auto d-flex justify-content-between align-items-center">
                 <div class="tinhtien">
                     <h6> TẠM TÍNH: </h6>
-                    <p> 100.000đ </p>
+                    <p> {{totalMoney|currency:'VND'}}</p>
                 </div>
                 <button class="btn btn-danger ml-80">Mua Ngay {{stringProductCount}}</button>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="products.length===0" class=" d-flex justify-content-center">
+        <div class="wrapper">
+            <div class="empty-cart d-flex flex-column align-items-center">
+                <img src="assets/images/pngwing.com.png"
+                    class="img-fluid rounded-3" alt="Product Image" style="width: 60%;">
+                <h2>Giỏ hàng trống</h2>
+                <p>Không có sản phẩm nào trong giỏ hàng của bạn</p>
+                <a href="/shop" class="btn" style="background: linear-gradient(to right, rgb(191, 66, 230), rgb(95, 34, 114)); color: #ffffff;">Tiếp tục mua sắm</a>
             </div>
         </div>
     </div>
