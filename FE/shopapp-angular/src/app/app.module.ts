@@ -21,8 +21,11 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
 import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localeVi from '@angular/common/locales/vi';
-
 registerLocaleData(localeVi, 'vi');
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatInputModule } from '@angular/material/input';
+import { FormGroup } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -34,7 +37,7 @@ registerLocaleData(localeVi, 'vi');
     DetailProductComponent,
     OrderComponent,
     CartComponent,
-    LoginPageComponent
+    LoginPageComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,6 +48,11 @@ registerLocaleData(localeVi, 'vi');
     RecaptchaModule,
     SocialLoginModule,
     GoogleSigninButtonModule,
+    MatFormFieldModule,
+    MatAutocompleteModule,
+    MatInputModule,
+    ReactiveFormsModule,  
+    BrowserAnimationsModule,
   ],
   providers: [
     {

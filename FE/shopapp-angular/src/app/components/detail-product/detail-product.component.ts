@@ -21,7 +21,7 @@ export class DetailProductComponent {
   ngOnInit(){
     debugger
     // this.cartService.clearCart();//test xoá giỏ hàng
-    const idParam = 1
+    const idParam = 13
     if(idParam!==null)
     {
       this.productId = +idParam;

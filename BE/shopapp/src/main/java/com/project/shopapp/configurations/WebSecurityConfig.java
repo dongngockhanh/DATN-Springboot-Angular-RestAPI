@@ -43,9 +43,19 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(requests ->{
                     requests
                             .antMatchers(
+                                    String.format("%s/provincial",apiBasePath),
                                     String.format("%s/users/register",apiBasePath),
                                     String.format("%s/users/login",apiBasePath))
                             .permitAll()
+
+//                            .antMatchers(GET,
+//                                    "https://vapi.vnappmob.com/api/province/").permitAll()
+                            .antMatchers(GET,
+                                    String.format("%s/provincial/provinces",apiBasePath),
+                                    String.format("%s/provincial/districts",apiBasePath),
+                                    String.format("%s/provincial/communes",apiBasePath))    
+                            .permitAll()
+
                             // categories
                             .antMatchers(GET,
                                     String.format("%s/categories**",apiBasePath)).permitAll()

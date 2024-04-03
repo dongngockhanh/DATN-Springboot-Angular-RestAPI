@@ -40,19 +40,79 @@
                 <h6>THÔNG TIN NHẬN HÀNG</h6>
                 <div class="form-control custom-form">
                     <div class="row">
-                        <div class="col-md-6 form-group">
-                            <input type="text" class="form-control custom-input" id="InputTinh_Thanhpho" placeholder="Tỉnh / Thành Phố">
+                        <div class="col-md-6 form-group" >
+                            <!-- <input type="text" class="form-control custom-input" id="InputTinh_Thanhpho" placeholder="Tỉnh / Thành Phố" > -->
+                            <form [formGroup]="formGroup" >
+                                <mat-form-field class="my-custom-form-field">
+                                    <input
+                                    type="text"
+                                    placeholder="Chọn tỉnh/thành phố"
+                                    aria-label="Number"
+                                    matInput
+                                    [matAutocomplete]="autoProvince"
+                                    formControlName="employee"
+                                  />
+                                  <mat-label>Tỉnh/Thành Phố</mat-label>
+                                    <mat-autocomplete #autoProvince="matAutocomplete">
+                                        <mat-option class="my-option" *ngFor=" let item of filteredProvinces" [value]="item.province_name">{{item.province_name}}</mat-option>
+                                    </mat-autocomplete>
+                               </mat-form-field> 
+                            </form> 
                         </div>
                         <div class="col-md-6 form-group">
-                            <input type="text" class="form-control custom-input" id="InputQuan_huyen" aria-describedby="emailHelp" placeholder="Quận / Huyện">
+                            <!-- <input type="text" class="form-control custom-input" id="InputQuan_huyen"  placeholder="Quận / Huyện"> -->
+                            <form [formGroup]="formGroup">
+                                <mat-form-field class="my-custom-form-field">
+                                    <mat-label>Quận/huyện</mat-label>
+                                    <input
+                                    type="text"
+                                    placeholder="Chọn huyện"
+                                    aria-label="Number"
+                                    matInput
+                                    [matAutocomplete]="autoDistrict"
+                                    formControlName="district"
+                                  />
+                                    <mat-autocomplete #autoDistrict="matAutocomplete">
+                                        <mat-option class="my-option" *ngFor=" let item of filteredDistricts" [value]="item.district_name">{{item.district_name}}</mat-option>
+                                    </mat-autocomplete>
+                               </mat-form-field>  
+                            </form>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6 form-group ">
-                            <input type="text" class="form-control custom-input" id="InputEmail" aria-describedby="emailHelp" placeholder="Phường/xã">
+                            <!-- <input type="text" class="form-control custom-input" id="InputEmail" aria-describedby="emailHelp" placeholder="Phường/xã"> -->
+                            <form [formGroup]="formGroup" >
+                                <mat-form-field class="my-custom-form-field">
+                                    <mat-label>Phường/Xã</mat-label>
+                                    <input
+                                    type="text"
+                                    placeholder="Chọn Phường/Xã"
+                                    aria-label="Number"
+                                    matInput
+                                    [matAutocomplete]="autoWard"
+                                    formControlName="ward"
+                                  />
+                                    <mat-autocomplete #autoWard="matAutocomplete">
+                                        <mat-option class="my-option" *ngFor=" let item of filteredWards" [value]="item.ward_name">{{item.ward_name}}</mat-option>
+                                    </mat-autocomplete>
+                                </mat-form-field> 
+                            </form>  
                         </div>
                         <div class="col-md-6 form-group">
-                            <input type="text" class="form-control custom-input" id="InputSoNha_tenduong" aria-describedby="emailHelp" placeholder="Số nhà,tên đường">
+                            <!-- <input type="text" class="form-control custom-input" id="InputSoNha_tenduong" aria-describedby="emailHelp" placeholder="Số nhà,tên đường">  -->
+                            <mat-form-field class="my-custom-form-field">
+                                <mat-label>Số nhà/tên đường</mat-label>
+                                <input
+                                type="text"
+                                placeholder="số nhà,tên đường"
+                                aria-label="Number"
+                                matInput
+                              />
+                                <!-- <mat-autocomplete #auto="matAutocomplete">
+                                    <mat-option class="my-option" *ngFor=" let item of options" [value]="item">{{item}}</mat-option>
+                                </mat-autocomplete> -->
+                           </mat-form-field> 
                         </div>
                     </div>
                     <div class="row">
@@ -60,6 +120,11 @@
                             <input type="text" class="form-control custom-input" id="note" placeholder="Ghi chú (Nếu có)">
                         </div>
                     </div>
+                </div>
+                
+                <div style="height: 200px;">
+                    <!-- <form class="form-control custom-input"> -->
+                    <!-- </form> -->
                 </div>
             </div>
         </div>
@@ -157,12 +222,12 @@
             </div>
             <div class="form-tongtien mt-auto" >
                 <div class="tinhtien" >                
-                    <h6>TỔNG TIỀN TẠM TÍNH:</h6>
+                    <h6>TỔNG TIỀN:</h6>
                     <div class="giatien">
-                       <p>100.000đ</p>
+                       <p>{{100000|currency:'VND'}}</p>
                     </div>
                 </div>
-                <button class="btn btn-danger">Tiếp tục</button>
+                <button class="btn btn-danger" >Tiếp tục</button>
             </div>
         </div>
     </div>
