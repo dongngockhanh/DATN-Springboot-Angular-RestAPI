@@ -16,6 +16,9 @@
   body{
     min-height: 100vh;
     position: relative; // Đảm bảo rằng body::before sẽ lấy body làm phần tử cha tham chiếu cho vị trí tuyệt đối
+    // overflow-x: scroll; /* Hiển thị thanh trượt ngang */
+    // overflow-y: hidden; /* Ngăn chặn xuất hiện thanh trượt dọc */
+    overflow-y: scroll; /* Luôn hiển thị thanh trượt dọc */
   }
   
   body::before {

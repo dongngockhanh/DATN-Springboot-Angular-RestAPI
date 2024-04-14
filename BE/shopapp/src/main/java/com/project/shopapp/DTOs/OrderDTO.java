@@ -10,6 +10,7 @@ import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Builder
@@ -44,7 +45,7 @@ public class OrderDTO {
     @JsonProperty("shipping_method")
     private String shippingMethod;
 
-    @JsonProperty("payment_Method")
+    @JsonProperty("payment_method")
     private String paymentMethod;
 
     @JsonProperty("shipping_date")
@@ -52,4 +53,8 @@ public class OrderDTO {
 
     @JsonProperty("shipping_address")
     private String shippingAddress;
+
+    @JsonProperty("cart_items")
+    private List<CartItemDTO> cartItemDTOS;
+
 }

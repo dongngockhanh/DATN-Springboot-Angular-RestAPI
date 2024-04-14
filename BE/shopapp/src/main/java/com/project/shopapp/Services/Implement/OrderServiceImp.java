@@ -1,21 +1,26 @@
 package com.project.shopapp.Services.Implement;
 
+import com.project.shopapp.DTOs.CartItemDTO;
 import com.project.shopapp.DTOs.OrderDTO;
+import com.project.shopapp.DTOs.OrderDetailDTO;
 import com.project.shopapp.DTOs.responses.MessageResponse;
 import com.project.shopapp.DTOs.responses.OrderResponse;
+import com.project.shopapp.Repositories.OrderDetailRepository;
 import com.project.shopapp.Repositories.OrderRepository;
+import com.project.shopapp.Repositories.ProductRepository;
 import com.project.shopapp.Repositories.UserRepository;
 import com.project.shopapp.Services.OrderService;
+import com.project.shopapp.Z_ProcessingProvincialData.ProvincialRepo.ProvinceRepository;
 import com.project.shopapp.exceptions.DataNotFoundException;
-import com.project.shopapp.models.Order;
-import com.project.shopapp.models.OrderStatus;
-import com.project.shopapp.models.User;
+import com.project.shopapp.models.*;
 import com.project.shopapp.untils.MessageKeys;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,8 +30,11 @@ import java.util.stream.Collectors;
 public class OrderServiceImp implements OrderService {
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
+    private final ProductRepository productRepository;
+    private final OrderDetailRepository orderDetailRepository;
     private final ModelMapper modelMapper; // dùng để convert dữ liệu
     private final MessageResponse messageResponse;
+//    private final OrderDetailServiceImp orderDetailServiceImp;
 
     @Override
     public OrderResponse createOrder(OrderDTO orderDTO){
@@ -41,6 +49,7 @@ public class OrderServiceImp implements OrderService {
         Order order = new Order();
         modelMapper.map(orderDTO,order);
         order.setUser(user);
+        order.setTotalMoney(orderDTO.getTotalMoney());
         order.setOrderDate(new Date());
         order.setStatus(OrderStatus.PENDING);
         // kiểm tra shipping date >= ngày hôm nay
@@ -52,6 +61,25 @@ public class OrderServiceImp implements OrderService {
         order.setShippingDate(shippingDate);
         order.setActive(true);
         orderRepository.save(order);
+        // tạo mới chi tiết đơn hàng
+        List<OrderDetail> orderDetails = new ArrayList<>();
+        for(CartItemDTO cartItemDTO : orderDTO.getCartItemDTOS())
+        {
+            Long productId = cartItemDTO.getProductId();
+            int quantity = cartItemDTO.getQuantity();
+            Product product = productRepository.findById(productId).orElseThrow(()->
+                    new DataNotFoundException(messageResponse.getMessageString(MessageKeys.NOT_FOUND_PRODUCT)));
+
+            OrderDetail orderDetail = new OrderDetail();
+            orderDetail.setOrder(order);
+            orderDetail.setProduct(product);
+            orderDetail.setQuantity(quantity);
+            orderDetail.setPrice(product.getPrice());
+            orderDetail.setTotalMoney(product.getPrice().multiply(BigDecimal.valueOf(quantity)));
+//            orderDetail.setColor("null");
+            orderDetails.add(orderDetail);
+        }
+        orderDetailRepository.saveAll(orderDetails);
         modelMapper.typeMap(Order.class,OrderResponse.class);
         return modelMapper.map(order,OrderResponse.class);
     }

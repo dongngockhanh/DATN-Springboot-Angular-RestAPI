@@ -13,6 +13,7 @@ import com.project.shopapp.models.ProductImage;
 import com.project.shopapp.untils.MessageKeys;
 import com.sun.jndi.toolkit.url.Uri;
 import lombok.RequiredArgsConstructor;
+import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,8 +27,14 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
 import javax.validation.Valid;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -35,6 +42,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.rmi.MarshalException;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
@@ -173,7 +181,16 @@ public class ProductController {
         // đường dẫn đầy đủ đén file
         Path destination = Paths.get(uploadDir.toString(),uniqueFilename);
         //sao chép file vào thư mục đích
-        Files.copy(file.getInputStream(),destination, StandardCopyOption.REPLACE_EXISTING);
+//        Files.copy(file.getInputStream(),destination, StandardCopyOption.REPLACE_EXISTING); // copy chất lượng gốc
+//        InputStream inputStream = file.getInputStream();
+        try(InputStream inputStream = file.getInputStream()) {
+//            BufferedImage image = ImageIO.read(inputStream);
+            Thumbnails.of(inputStream)
+                    .size(600, 400)
+                    .outputQuality(1.0) // 100% chất lượng
+                    .toFile(destination.toFile());
+        }
+//        inputStream.close();
         return uniqueFilename;
     }
 

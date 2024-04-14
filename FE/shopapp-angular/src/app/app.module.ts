@@ -2,30 +2,33 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
-import { HomeComponent } from './components/home/home.component';
-import { HeaderComponent } from './components/header/header.component';
-import { FooterComponent } from './components/footer/footer.component';
-import { DetailProductComponent } from './components/detail-product/detail-product.component';
+import { HomeComponent } from './components/Client/home/home.component';
+import { HeaderComponent } from './components/Client/header/header.component';
+import { FooterComponent } from './components/Client/footer/footer.component';
+import { DetailProductComponent } from './components/Client/detail-product/detail-product.component';
 import { AppComponent } from './app.component';
-import { OrderComponent } from './components/order/order.component';
-import { CartComponent } from './components/cart/cart.component';
+import { OrderComponent } from './components/Client/order/order.component';
+import { CartComponent } from './components/Client/cart/cart.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule,HTTP_INTERCEPTORS } from '@angular/common/http';
-import { LoginPageComponent } from './components/login-page/login-page.component';
+import { LoginPageComponent } from './components/Client/login-page/login-page.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RecaptchaModule} from 'ng-recaptcha';
 // import { AppComponent } from './app.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { SocialLoginModule,SocialAuthServiceConfig, GoogleLoginProvider,GoogleSigninButtonModule, FacebookLoginProvider } from '@abacritt/angularx-social-login';
+import { GoogleLoginProvider, GoogleSigninButtonModule, FacebookLoginProvider } from '@abacritt/angularx-social-login';
 import { TokenInterceptor } from './interceptors/token.interceptor';
 import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localeVi from '@angular/common/locales/vi';
+import { SocialAuthServiceConfig, SocialLoginModule } from 'angularx-social-login';
+
 registerLocaleData(localeVi, 'vi');
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
-import { FormGroup } from '@angular/forms';
+import { DashboardComponent } from './components/Admin/dashboard/dashboard.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -38,6 +41,7 @@ import { FormGroup } from '@angular/forms';
     OrderComponent,
     CartComponent,
     LoginPageComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,6 +57,7 @@ import { FormGroup } from '@angular/forms';
     MatInputModule,
     ReactiveFormsModule,  
     BrowserAnimationsModule,
+    FontAwesomeModule
   ],
   providers: [
     {

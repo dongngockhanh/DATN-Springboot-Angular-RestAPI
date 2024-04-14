@@ -1,0 +1,200 @@
+<div class="container">
+    <!-- <div class="intro-section">
+        <div style="">
+            <a class="nav-link" href="#">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+        </div>
+        <h1>Đây là trang Order</h1>
+        <p>sử dụng bootstrap</p>
+    </div> -->
+    <div class="intro-section">
+        <div class="d-flex w-100">
+            <a class="nav-link" href="#">
+                <i class="fa-solid fa-arrow-left" style="font-size: 23px"></i>
+                <!-- <svg data-v-5273d083="" width="20" height="17" viewBox="0 0 20 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path data-v-5273d083="" d="M19 8.5L1 8.5M1 8.5L8 1M1 8.5L8 16" stroke="#121219" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg> -->
+            </a>
+            <h1 class="mx-auto">Đây là trang Order</h1>
+        </div>
+        <p>sử dụng bootstrap</p>
+    </div>
+    <div class="row">
+        <!-- thông tin -->
+        <div class="col-md-6">
+            <div class="form-thongtin">
+                <h6>THÔNG TIN KHÁCH HÀNG</h6>
+                <div class="form-control custom-form">
+                    <div class="row">
+                        <div class="col-md-6 form-group">
+                            <input type="text" class="form-control custom-input" placeholder="Họ và Tên" 
+                            [(ngModel)]="fullname"
+                            name="fullname">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <input type="text" class="form-control custom-input" id="exampleInputSDT" aria-describedby="emailHelp" placeholder="Số điện thoại" 
+                            [(ngModel)]="phonenumber"
+                            name="phonenumber">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 form-group ">
+                            <input type="text" class="form-control custom-input" aria-describedby="emailHelp" placeholder="Nhập Email(Không bắt buộc)" 
+                            [(ngModel)]="email"
+                            name="email">
+                        </div>
+                    </div>
+                </div>
+                <h6>THÔNG TIN NHẬN HÀNG</h6>
+                <div class="form-control custom-form">
+                    <div class="row">
+                        <div class="col-md-6 form-group" >
+                            <!-- <input type="text" class="form-control custom-input" id="InputTinh_Thanhpho" placeholder="Tỉnh / Thành Phố" > -->
+                            <form [formGroup]="formGroup" >
+                                <mat-form-field class="my-custom-form-field">
+                                    <input
+                                    type="text"
+                                    placeholder="Chọn tỉnh/thành phố"
+                                    aria-label="Number"
+                                    matInput
+                                    [matAutocomplete]="autoProvince"
+                                    formControlName="province"
+                                  />
+                                  <mat-label>Tỉnh/Thành Phố</mat-label>
+                                    <mat-autocomplete #autoProvince="matAutocomplete">
+                                        <mat-option class="my-option" *ngFor=" let item of filteredProvinces" [value]="item.province_name">{{item.province_name}}</mat-option>
+                                    </mat-autocomplete>
+                               </mat-form-field> 
+                            </form> 
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <!-- <input type="text" class="form-control custom-input" id="InputQuan_huyen"  placeholder="Quận / Huyện"> -->
+                            <form [formGroup]="formGroup">
+                                <mat-form-field class="my-custom-form-field">
+                                    <mat-label>Quận/huyện</mat-label>
+                                    <input
+                                    type="text"
+                                    placeholder="Chọn huyện"
+                                    aria-label="Number"
+                                    matInput
+                                    [matAutocomplete]="autoDistrict"
+                                    formControlName="district"
+                                  />
+                                    <mat-autocomplete #autoDistrict="matAutocomplete">
+                                        <mat-option class="my-option" *ngFor=" let item of filteredDistricts" [value]="item.district_name">{{item.district_name}}</mat-option>
+                                    </mat-autocomplete>
+                               </mat-form-field>  
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 form-group ">
+                            <!-- <input type="text" class="form-control custom-input" id="InputEmail" aria-describedby="emailHelp" placeholder="Phường/xã"> -->
+                            <form [formGroup]="formGroup" >
+                                <mat-form-field class="my-custom-form-field">
+                                    <mat-label>Phường/Xã</mat-label>
+                                    <input
+                                    type="text"
+                                    placeholder="Chọn Phường/Xã"
+                                    aria-label="Number"
+                                    matInput
+                                    [matAutocomplete]="autoWard"
+                                    formControlName="ward"
+                                  />
+                                    <mat-autocomplete #autoWard="matAutocomplete">
+                                        <mat-option class="my-option" *ngFor=" let item of filteredWards" [value]="item.ward_name">{{item.ward_name}}</mat-option>
+                                    </mat-autocomplete>
+                                </mat-form-field> 
+                            </form>  
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <!-- <input type="text" class="form-control custom-input" id="InputSoNha_tenduong" aria-describedby="emailHelp" placeholder="Số nhà,tên đường">  -->
+                            <mat-form-field class="my-custom-form-field">
+                                <mat-label>Số nhà/tên đường</mat-label>
+                                <input
+                                type="text"
+                                placeholder="số nhà,tên đường"
+                                aria-label="Number"
+                                matInput
+                                [(ngModel)]="homeaddress"
+                                name="homeaddress"
+                              />
+                                <!-- <mat-autocomplete #auto="matAutocomplete">
+                                    <mat-option class="my-option" *ngFor=" let item of options" [value]="item">{{item}}</mat-option>
+                                </mat-autocomplete> -->
+                           </mat-form-field> 
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 form-group ">
+                            <input type="text" class="form-control custom-input" id="note" placeholder="Ghi chú (Nếu có)"
+                            [(ngModel)]="note" name="note"
+                            >
+                        </div>
+                    </div>
+                </div>
+                <h6>PHƯƠNG THỨC VẬN CHUYỂN</h6>
+                <div class="form-control custom-form">
+                    <div class="form-group">
+                        <select class="form-control custom-input" (change)="getShippingMethod($event)">
+                            <option *ngFor="let item of shippingMethods" [value]="item">{{item}}</option>
+                            <!-- <option>Giao hàng SPX Express</option>
+                            <option>Giao hàng nhanh</option> -->
+                        </select>
+                    </div>
+                </div>
+                <h6>PHƯƠNG THỨC THANH TOÁN</h6>
+                <div class="form-control custom-form">
+                    <div class="form-group">
+                        <select class="form-control custom-input" (change)="getPaymentMethod($event)" >
+                            <option *ngFor="let item of paymentMethods" [value]="item">{{item}}</option>
+                            <!-- <option value="cash">Thanh toán khi nhận hàng</option>
+                            <option value="online">Thanh toán trực tuyến</option> -->
+                        </select>
+                    </div>
+                </div>
+                <div *ngIf="paymentMethod==='Thanh toán trực tuyến'">
+                    <h6>HÌNH THỨC THANH TOÁN TRỰC TUYẾN</h6>
+                    <div class="form-control custom-form">
+                        <div class="form-group">
+                            <h3 class="d-flex justify-content-center">đang phát triển</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- sản phẩm -->
+        <div class="col-md-6">
+            <div class="form-sanpham">
+                <h6>THÔNG TIN ĐƠN HÀNG</h6>
+                <div class="form-control custom-form">
+                    <div class="product-order" *ngFor="let item of products">
+                        <div class="row mb-3 mx-auto">
+                            <!-- Sản phẩm 1 -->
+                            <div class="col-md-3 col-3">
+                                <img alt="product" class="img-fluid" [src]="item.image">
+                            </div>
+                            <div class="col-md-9 col-9 d-flex justify-content-between">
+                                <div>
+                                    <h6>{{item.name}}</h6>
+                                    <p>Giá: <span class="red-text">{{item.price|currency:'VND'}}</span></p>
+                                </div>
+                                <p>Số lượng: <span class="red-text">{{item.quantity}}</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-tongtien mt-auto" >
+                <div class="tinhtien" >                
+                    <h6>TỔNG TIỀN:</h6>
+                    <div class="giatien">
+                       <p>{{totalMoney|currency:'VND'}}</p>
+                    </div>
+                </div>
+                <button class="btn btn-danger" (click)="createOrder()">Tiếp tục</button>
+                <!-- <i>âfa</i>
+                <button class="btn btn-danger" (click)="test()">test</button> -->
+            </div>
+        </div>
+    </div>
+</div>

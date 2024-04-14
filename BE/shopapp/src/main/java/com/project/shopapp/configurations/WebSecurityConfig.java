@@ -84,7 +84,7 @@ public class WebSecurityConfig {
                             .antMatchers(GET,
                                     String.format("%s/orders/**",apiBasePath)).hasAnyRole(Role.USER,Role.ADMIN)
                             .antMatchers(POST,
-                                    String.format("%s/orders/**",apiBasePath)).hasRole(Role.USER)
+                                    String.format("%s/orders",apiBasePath)).hasRole(Role.USER)
                             .antMatchers(PUT,
                                     String.format("%s/orders/**",apiBasePath)).hasRole(Role.USER)
                             .antMatchers(DELETE,

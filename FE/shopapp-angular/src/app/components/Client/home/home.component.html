@@ -1,0 +1,113 @@
+<!-- header -->
+<!-- <app-header></app-header> -->
+<!-- index -->
+<div class="container">
+    <!-- <h1 class=>aaa</h1> -->
+    <div class="intro-section">
+        <h1>Đây là trang home</h1>
+        <p>trang này hiển thị các danh sách sản phẩm, kèm ảnh</p>
+        <p>các bạn có thể chọn xem sản phẩm và mua hàng tại đây</p>
+
+    </div>
+    <!-- searchbox bên trái combobox bên phải -->
+    <div class="search-box">
+        <input type="text" class="form-control search-input" placeholder="tìm sản phẩm" [(ngModel)]="keywordsearch">
+        <button class="btn btn-light" (click)="onSearch()">tìm kiếm</button>
+        <select class="form-control product-category" #categorySelect (change)="onCategoryChange(+categorySelect.value)">
+            <option [value]=0>tất cả sản phẩm</option>
+            <option  *ngFor="let category of categories" [value]="category.id">{{category.name}}</option>
+            <!-- <option>Đồ điện tử</option>
+            <option>Đồ gia dụng</option>
+            <option>Bánh kẹo</option> -->
+        </select>
+    </div>
+    <!-- sản phẩm -->
+    <div class="row">
+        <div class="col-lg-4 col-md-6 iop" id="iop" *ngFor="let product of products" data-aos="fade-up" >
+            <div class="product-item" name="productid" [routerLink]="['/detail-product',product.id]" style="cursor: pointer;">
+                <div class="test">
+                    <img [src]= "product.image"
+                    alt="Product Image" class="product-image">
+                </div>
+                <h3 class="product-name">{{product.name}}</h3>
+                <p class="product-description">
+                    <!-- Thiết kế mỏng nhẹ và rất sang trọng. Đây chính là điều mà MacBook được
+                    nhiều người lựa chọn -->
+                    {{product.description}}
+                </p>
+                <p class="product-warranty">Bảo hành: 12 tháng</p>
+                <p class="product-price">Giá: <del>0đ</del> {{product.price|currency:'VND'}}</p>
+                <div class="product-rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </div>
+                <div class="product-actions">
+                    <button class="btn btn-primary" (click)="onAddToCart(product.id); $event.stopPropagation()">Thêm vào giỏ hàng</button>
+                    <span class="space-x"></span>
+                    <button class="btn btn-success" (click)="onBuyNow(product.id)">Mua ngay</button>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="col-lg-4 col-md-6" *ngFor="let product of products">
+            <div class="product-item">
+                <img src="https://images.pexels.com/photos/249538/pexels-photo-249538.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                    alt="Product Image" class="product-image">
+                <h3 class="product-name">Product 1</h3>
+                <p class="product-description">Thiết kế mỏng nhẹ và rất sang trọng. Đây chính là điều mà MacBook được
+                    nhiều người lựa chọn</p>
+                <p class="product-warranty">Bảo hành: 12 tháng</p>
+                <p class="product-price">Giá: <del>$200</del> $100</p>
+                <div class="product-rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </div>
+                <div class="product-actions">
+                    <button class="btn btn-primary">Thêm vào giỏ hàng</button>
+                    <span class="space-x"></span>
+                    <button class="btn btn-success">Mua ngay</button>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <!-- pagination -->
+    <nav aria-label="Page navigation example" class="d-flex justify-content-center" style=" height: 37px">
+        <ul class="pagination">
+            <li class="page-item" *ngIf="currentPage>1">
+                <a class="page-link" href="#" aria-label="Previous" (click)="onPageChange(1)">Đầu
+                </a>
+            </li>
+            <li class="page-item" *ngIf="currentPage > 1">
+                <a class="page-link" href="#" (click)="onPageChange(currentPage-1)">                    
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                </a>
+            </li>
+            <ng-container *ngFor="let page of visiblePages">
+                <li class="page-item" [ngClass]="{'active': page === currentPage}">
+                    <a class="page-link" href="#" (click)="onPageChange(page)">{{page}}</a>
+                </li>
+            </ng-container>
+            <li class="page-item" *ngIf="currentPage<totalPages">
+                <a class="page-link" href="#" (click)="onPageChange(currentPage+1)">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </li>
+            <li class="page-item" *ngIf="currentPage<totalPages">
+                <a class="page-link" href="#" aria-label="Next" (click)="onPageChange(totalPages)">
+                    Cuối
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+<!-- back to top -->
+<button (click)="scrollToTop()" class="back-to-top">Lên đầu</button>
+<!-- Footer -->
+<!-- <app-footer></app-footer> -->
