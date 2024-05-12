@@ -10,6 +10,9 @@ public class MessageKeys {
     public static String ROLE_NOT_FOUND = "user.register.error.role_not_found";
     public static String NOT_REGISTER_ADMIN_ACCOUNT = "user.register.error.not_register_admin_account";
     public static String NOT_FOUND_USER_BY_ID = "user.get.error.not_found_user_by_id";
+    public static String UPDATE_USER_SUCCESSFULLY = "user.update.update_successfully";
+    public static String OLD_PASSWORD_IS_INCORRECT = "user.update.error.old_password_is_incorrect";
+    public static String DELETE_USER_SUCCESSFULLY = "user.delete.delete_successfully";
 
     public static String CREATE_CATEGORY_SUCCESSFULLY = "category.create.create_successfully";
     public static String UPDATE_CATEGORY_SUCCESSFULLY = "category.update.update_successfully";

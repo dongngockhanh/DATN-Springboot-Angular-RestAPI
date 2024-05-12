@@ -1,0 +1,18 @@
+.loading{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.loading i{
+    font-size: 35px;
+    animation: spin 0.3s infinite;
+}
+@keyframes spin {
+    0% {
+         transform: rotate(-180deg);
+    }
+}
+.p-card .p-card-content {
+    padding: 0 !important;
+}

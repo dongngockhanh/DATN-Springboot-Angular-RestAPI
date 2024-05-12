@@ -12,14 +12,21 @@ import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Rout
 export class AppComponent{
   title = 'ShopApp-Angular';
   isDashboardRoute :boolean = false;
+  loadingData: boolean = false;
 
   // code under this line is for fixing page refresh issue of dark mode
   constructor(private router: Router,
               private renderer: Renderer2, 
               @Inject(DOCUMENT) private document: Document) {
                 this.router.events.subscribe((event: Event) => {
+                  if (event instanceof NavigationStart) {
+                    this.loadingData = false;
+                  }
                   if (event instanceof NavigationEnd) {
                     this.isDashboardRoute = event.urlAfterRedirects.startsWith('/admin');
+                    // setTimeout(() => {
+                      this.loadingData = true;
+                    // }, 300);
                   }
                 });
   }

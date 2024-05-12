@@ -64,7 +64,7 @@ public class ProductServiceImp implements ProductService {
     }
 
     @Override
-    public Product getProductById(long id) throws DataNotFoundException {
+    public Product getProductById(long id) {
         Product product = productRepository.findById(id)
                 .orElseThrow(()->new
                         DataNotFoundException(messageResponse.getMessageString(MessageKeys.NOT_FOUND_PRODUCT,id)));
@@ -75,7 +75,7 @@ public class ProductServiceImp implements ProductService {
 
     @Override
     public List<Product> getProductByIds(List<Long> ids) {
-        return productRepository.getProductProductIds(ids);
+            return productRepository.getProductProductIds(ids);
     }
 
     @Override
@@ -129,6 +129,11 @@ public class ProductServiceImp implements ProductService {
             throw new InvalidParamException(messageResponse.getMessageString(MessageKeys.NO_MORE_FIVE_IMAGE_FOR_PRODUCT,
                             ProductImage.MAXIMUM_IMAGE_PER_PRODUCT));
         }
+        if(existingProduct.getImage()==null||existingProduct.getImage().equals(""))
+        {
+            existingProduct.setImage(productImageDTO.getImageUrl());
+            productRepository.save(existingProduct);
+        }
         return productImageRepository.save(newProductImage);
     }
 
@@ -139,4 +144,11 @@ public class ProductServiceImp implements ProductService {
         Type listType = new TypeToken<List<ProductImageResponse>>() {}.getType();
         return modelMapper.map(productImageList,listType);
     }
+
+    @Override
+    public void deleteImage(long id) {
+        Optional<ProductImage> optionalProduct = productImageRepository.findById(id); //kiểm tra sự tồn tại của product
+        optionalProduct.ifPresent(productImageRepository::delete);// thực hiện xoá nếu tồn tại bằng lamda optional
+    }
+
 }

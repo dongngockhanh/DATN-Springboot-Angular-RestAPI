@@ -1,16 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
 // css for dark mode
 @import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
+a{
+  cursor: pointer;
+}
   body.light-mode  {
     background: #dfe6e9;
     color: #2d3436;
   }
   body.dark-mode {
     // background: #2d3436;
-    color: #dfe6e9;
-  }
-  header{
-    background: rgb(14,17,36);
     color: #dfe6e9;
   }
   body{
@@ -40,3 +39,6 @@
   body.dark-mode::before {
     opacity: 1;
   }
+  .p-card .p-card-content {
+    padding: 0 !important;
+}

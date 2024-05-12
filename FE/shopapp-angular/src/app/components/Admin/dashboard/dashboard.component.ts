@@ -16,6 +16,7 @@ import {faGear} from '@fortawesome/free-solid-svg-icons'
 import {faRightFromBracket} from '@fortawesome/free-solid-svg-icons'
 // import { AuthService } from 'src/app/_service/auth.service';s
 import { StorageService } from '../../../services/storage.service';
+import { UserService } from '../../../services/user.service';
 
 
 
@@ -40,22 +41,30 @@ export class DashboardComponent implements OnInit{
   gear = faGear;
   logoutIcon = faRightFromBracket;
   tag = faTag;
-
+  user = faUser;
+  statistics = faTachometerAlt;
   constructor(private storageService:StorageService,
               // private authService:AuthService,
-              private router: Router){}
-
-  ngOnInit(): void {
+              private userService: UserService,
+              private router: Router,
+              private route: ActivatedRoute
+            ){}
+  isRouteActive!: boolean;
+  ngOnInit() {
+    this.router.events.subscribe(() => {
+    this.isRouteActive = this.route.firstChild ? true : false;});
   }
-
-
+  logout() {
+    this.userService.logout();
+    this.router.navigate(['/login-page']);
+  }
   // logout(){
-  //   this.authService.logout().subscribe({
-  //     next: res =>{
-  //       this.storageService.clean();
-  //       this.router.navigate(['/']);
-  //     }
-  //   })
+    // this.authService.logout().subscribe({
+    //   next: res =>{
+    //     this.storageService.clean();
+    //     this.router.navigate(['/']);
+    //   }
+    // })
   // }
   
 

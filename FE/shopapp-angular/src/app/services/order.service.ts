@@ -13,4 +13,16 @@ export class OrderService {
     createOrder(order: OrderDTO): Observable<any>{
         return this.http.post(this.apiOrderUrl, order);
     }
+    getListOrder(): Observable<any>{
+        return this.http.get(this.apiOrderUrl);
+    }
+    getOrderByUserId(userId: number): Observable<any>{
+        return this.http.get(`${this.apiOrderUrl}/user/${userId}`);
+    }
+    getOrderByOrderId(orderId: number): Observable<any>{
+        return this.http.get(`${this.apiOrderUrl}/${orderId}`);
+    }
+    getOrderDetailByOrderId(orderId: number): Observable<any>{
+        return this.http.get(`${environment.apiBaseUrl}/order_details/order/${orderId}`);
+    }
 }

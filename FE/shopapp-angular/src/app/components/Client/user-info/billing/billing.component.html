@@ -1,0 +1,180 @@
+
+<div class="row">
+    <div class="container-xl ">
+        <!-- Account page navigation-->
+        <!-- Payment methods card-->
+        <p-dialog header="Thêm Phương Thức" [(visible)]="showDialog" [style]="{width: '450px'}" [modal]="true"
+            [transitionOptions]="'.3s'">
+            <form action="">
+                <div class="d-flex">
+                    <label class="d-flex align-items-center" for="paymentName">Chọn Hình thức</label>
+                    &nbsp;&nbsp;&nbsp;
+                    <!-- <div style="margin: 5px;">
+                        <p-selectButton [options]="stateOptions" optionLabel="label">
+                            <ng-template let-item pTemplate="body">
+                                    <i [class]="item.icon"></i>
+                            </ng-template>
+                        </p-selectButton>
+                    </div> -->
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                        <button #active class="btn btn-outline-primary" *ngFor="let item of stateOptions"
+                            (click)="method=item.value"
+                            >
+                            <i [class]="item.icon"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="p-field mt-3">
+                    <!-- form add visa card -->
+                    <form action="" *ngIf="method==='visa'">
+                        <label for="paymentDetails">Thẻ ghi nợ quốc tế</label>
+                        <div class="form-group">
+                            <label for="cardNumber">Số thẻ</label>
+                            <input type="text" class="form-control" id="cardNumber" placeholder="xxxx-xxxx-xxxx-xxxx">
+                        </div>
+                        <div class="form-group">
+                            <label for="cardName">Tên chủ thẻ</label>
+                            <input type="text" class="form-control" id="cardName" placeholder="Nguyễn Văn A">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="cardExpiration">Ngày hết hạn</label>
+                                <input type="text" class="form-control" id="cardExpiration" placeholder="MM/YY">
+                            </div>
+                            <div class="form-group">
+                                <label for="cardCVV">CVV</label>
+                                <input type="text" class="form-control" id="cardCVV" placeholder="xxx">
+                            </div>
+                        </div>
+                    </form>
+                    <!-- form add debit card -->
+                    <form action="" *ngIf="method==='napas'">
+                        <label>Thẻ ghi nợ nội địa</label>
+                        <div class="form-group">
+                            <label for="cardNumber">Số thẻ</label>
+                            <input type="text" class="form-control" id="cardNumber" placeholder="xxxx-xxxx-xxxx-xxxx">
+                        </div>
+                        <div class="form-group">
+                            <label for="cardName">Tên chủ thẻ</label>
+                            <input type="text" class="form-control" id="cardName" placeholder="Nguyễn Văn A">
+                        </div>
+                            <div class="form-group">
+                                <label for="cardExpiration">Ngày hết hạn</label>
+                                <input type="text" class="form-control" id="cardExpiration" placeholder="MM/YY">
+                            </div>
+                    
+                    </form>
+                    <!-- form add e-wallet -->
+                    <form action="" *ngIf="method==='e-wallet'">
+                        <label for="paymentDetails">Ví điện tử</label>
+                        <div class="form-group">
+                            <label for="cardNumber">Số điện thoại</label>
+                            <input type="text" class="form-control" id="cardNumber" placeholder="09xxxxxxxx">
+                        </div>
+                    </form>
+                </div>
+                <div class="p-field mt-3">
+                    <button type="submit" pButton>Tạo mới</button>
+                    <button pButton type="button" class="p-button-danger ml-3" (click)="showDialog=false">Hủy</button>
+                </div>
+            </form>
+        </p-dialog>
+        <div class="card card-header-actions mb-4">
+            <div class="card-header">
+                Phương thức thanh toán
+                <button class="btn btn-sm btn-primary" (click)="openDialog()" type="button">Thêm mới</button>
+            </div>
+            <div class="card-body px-0">
+                <!-- Payment method 1-->
+                <div class="d-flex align-items-center justify-content-between px-4">
+                    <div class="d-flex align-items-center">
+                        <i class="fab fa-cc-visa fa-2x cc-color-visa"></i>
+                        <div class="ms-4">
+                            <div class="small">Visa ending in 1234</div>
+                            <div class="text-xs text-muted">Expires 04/2024</div>
+                        </div>
+                    </div>
+                    <div class="ms-4 small">
+                        <div class="badge bg-light text-dark me-3">Mặc định</div>
+                        <a href="#!">Sửa</a>
+                    </div>
+                </div>
+                <hr>
+                <!-- Payment method 2-->
+                <div class="d-flex align-items-center justify-content-between px-4">
+                    <div class="d-flex align-items-center">
+                        <i class="fab fa-cc-mastercard fa-2x cc-color-mastercard"></i>
+                        <div class="ms-4">
+                            <div class="small">Mastercard ending in 5678</div>
+                            <div class="text-xs text-muted">Expires 05/2022</div>
+                        </div>
+                    </div>
+                    <div class="ms-4 small">
+                        <a class="text-muted me-3" href="#!">Đặt làm mặc đinh</a>
+                        <a href="#!">Sửa</a>
+                    </div>
+                </div>
+                <hr>
+                <!-- Payment method 3-->
+                <div class="d-flex align-items-center justify-content-between px-4">
+                    <div class="d-flex align-items-center">
+                        <i class="fab fa-cc-amex fa-2x cc-color-amex"></i>
+                        <div class="ms-4">
+                            <div class="small">American Express ending in 9012</div>
+                            <div class="text-xs text-muted">Expires 01/2026</div>
+                        </div>
+                    </div>
+                    <div class="ms-4 small">
+                        <a class="text-muted me-3" href="#!">Đặt làm mặc định</a>
+                        <a href="#!">Sửa</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Billing history card-->
+        <div class="card mb-4">
+            <div class="card-header">Lịch sử thanh toán</div>
+            <div class="card-body p-0">
+                <!-- Billing history table-->
+                <div class="table-responsive table-billing-history">
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                <th class="border-gray-200" scope="col">ID giao dịch</th>
+                                <th class="border-gray-200" scope="col">Ngày</th>
+                                <th class="border-gray-200" scope="col">Số tiền</th>
+                                <th class="border-gray-200" scope="col">Tình trạng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#39201</td>
+                                <td>06/15/2024</td>
+                                <td>$29.99</td>
+                                <td><span class="badge bg-light text-dark">Chờ</span></td>
+                            </tr>
+                            <tr>
+                                <td>#38594</td>
+                                <td>05/15/2024</td>
+                                <td>$29.99</td>
+                                <td><span class="badge bg-success">Paid</span></td>
+                            </tr>
+                            <tr>
+                                <td>#38223</td>
+                                <td>04/15/2024</td>
+                                <td>$29.99</td>
+                                <td><span class="badge bg-success">Paid</span></td>
+                            </tr>
+                            <tr>
+                                <td>#38125</td>
+                                <td>03/15/2024</td>
+                                <td>$29.99</td>
+                                <td><span class="badge bg-success">Paid</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

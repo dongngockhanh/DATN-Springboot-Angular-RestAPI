@@ -13,5 +13,13 @@ export class CategoryService {
         debugger
         return this.http.get<CategoryResponse[]>(this.apiCategory);
     }
-    
+    createCategory(name: string): Observable<CategoryResponse> {
+        return this.http.post<CategoryResponse>(this.apiCategory, { name });    
+    }
+    updateCategory(id: number, name: string): Observable<CategoryResponse> {
+        return this.http.put<CategoryResponse>(`${this.apiCategory}/${id}`, { name });
+    }
+    deleteCategory(id: number): Observable<CategoryResponse> {
+        return this.http.delete<CategoryResponse>(`${this.apiCategory}/${id}`);
+    }
 }

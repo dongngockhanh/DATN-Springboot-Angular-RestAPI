@@ -1,145 +1,172 @@
 <p-toast></p-toast>
+<p-card>
+    <div class="">
+        <p-toolbar styleClass="mb-4 gap-2">
+            <ng-template pTemplate="left">
+                <button pButton pRipple label="Thêm sản phẩm" icon="pi pi-plus" class="p-button-success mr-2"
+                    (click)="openNew()"></button>
+            </ng-template>
+        </p-toolbar>
 
-<div class="card">
-    <p-toolbar styleClass="mb-4 gap-2">
-        <ng-template pTemplate="left">
-            <button pButton pRipple label="Thêm sản phẩm" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
-        </ng-template>
-    </p-toolbar>
+        <p-table #dt [value]="listProduct" [rows]="6" [paginator]="true" [globalFilterFields]="['name','category.name']"
+            [tableStyle]="{'min-width': '75rem'}" [rowHover]="true" dataKey="id"
+            currentPageReportTemplate="Hiển thị {first} đến {last} trong số {totalRecords} SP"
+            [showCurrentPageReport]="true">
+            <ng-template pTemplate="caption">
+                <div class="flex align-items-center justify-content-between">
+                    <h5 class="m-0">Quản lí sản phẩm</h5>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                            placeholder="Tìm kiếm" />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>
+                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                    </th>
+                    <th pSortableColumn="name" style="min-width:15rem">Tên <p-sortIcon field="name"></p-sortIcon></th>
+                    <th>Hình ảnh </th>
+                    <th pSortableColumn="price">Giá tiền <p-sortIcon field="price"></p-sortIcon></th>
+                    <th pSortableColumn="category" style="min-width:10rem">Danh mục <p-sortIcon
+                            field="category"></p-sortIcon></th>
+                    <th style="min-width:10rem">Hành động</th>
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-product>
+                <tr>
+                    <td>
+                        <p-tableCheckbox [value]="product"></p-tableCheckbox>
+                    </td>
+                    <td>{{product.name}}</td>
+                    <td><img src="{{product.imageUrl}}" [alt]="product.name" width="100" class="shadow-4" /></td>
+                    <td>{{product.price | currency:'VND'}}</td>
+                    <td>{{product.category.name}}</td>
+                    <td>
+                        <p-toggleButton [ngModel]="true" [onIcon]="'pi pi-eye'" ngDefaultControl="on"
+                            offIcon="pi pi-eye-slash" [style]="{'border-radius':'50%','width':'49px','height':'49px'}">
+                        </p-toggleButton>
+                        <!-- <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-info mr-2" ></button> -->
+                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
+                            (click)="openUpdate(product)"></button>
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                            (click)="onDelete(product.id,product.name)"></button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary">
+                <div class="flex align-items-center justify-content-between">
+                    <!-- In total there are {{products ? products.length : 0 }} products. -->
+                </div>
+            </ng-template>
+        </p-table>
+    </div>
+</p-card>
 
-    <p-table #dt [value]="listProduct" [rows]="6" [paginator]="true" [globalFilterFields]="['name','category.name']" [tableStyle]="{'min-width': '75rem'}"
-        [rowHover]="true" dataKey="id"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
-        <ng-template pTemplate="caption">
-            <div class="flex align-items-center justify-content-between">
-                <h5 class="m-0">Manage Products</h5>
-                <span class="p-input-icon-left">
-                    <i class="pi pi-search"></i>
-                    <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Tìm kiếm" />`
-                </span>
-            </div>
-        </ng-template>
-        <ng-template pTemplate="header">
-            <tr>
-                <th>
-                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                </th>
-                <th pSortableColumn="name" style="min-width:15rem">Name <p-sortIcon field="name"></p-sortIcon></th>
-                <th>Image</th>
-                <th pSortableColumn="price">Price <p-sortIcon field="price"></p-sortIcon></th>
-                <th pSortableColumn="category" style="min-width:10rem">Category <p-sortIcon field="category"></p-sortIcon></th>
-                <th style="min-width:10rem">Action</th>
-                <th></th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-product>
-            <tr>
-                <td>
-                    <p-tableCheckbox [value]="product"></p-tableCheckbox>
-                </td>
-                <td>{{product.name}}</td>
-                <td><img src="{{'data:image/jpg;base64,' +product.images[0].data}}" [alt]="product.name" width="100" class="shadow-4" /></td>
-                <td>{{product.price | currency:'USD'}}</td>
-                <td>{{product.category.name}}</td>
-                <td>
-                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="openUpdate(product)"></button>
-                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="onDelete(product.id,product.name)"></button>
-                </td>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="summary">
-            <div class="flex align-items-center justify-content-between">
-                <!-- In total there are {{products ? products.length : 0 }} products. -->
-            </div>
-        </ng-template>
-    </p-table>
-</div>
-
-<p-dialog [(visible)]="showForm" [style]="{width: '30vw'}" header="Product Details" [modal]="true" styleClass="p-fluid">
+<p-dialog [(visible)]="showForm" [style]="{width: '480px'}" header="Chi tiết sản phẩm" [modal]="true"
+    styleClass="p-fluid">
     <ng-template pTemplate="content">
         <!-- <img [src]="'assets/showcase/images/demo/product/' + product.image" [alt]="product.image" class="product-image" *ngIf="product.image"> -->
         <div class="field">
-            <label for="name">Name</label>
+            <label for="name">Tên</label>
             <input type="text" pInputText id="name" [(ngModel)]="productForm.name" required autofocus />
             <!-- <small class="p-error" *ngIf="submitted && !product.name">Name is required.</small> -->
         </div>
         <div class="field">
-            <label for="description">Description</label>
-            <textarea id="description" pInputTextarea [(ngModel)]="productForm.description" required rows="3" cols="20"></textarea>
+            <label for="description">Mô tả</label>
+            <textarea id="description" pInputTextarea [(ngModel)]="productForm.description" required rows="3"
+                cols="20"></textarea>
         </div>
 
 
         <div class="field">
-            <label class="mb-3">Category</label>
+            <label class="">Danh mục</label>
             <div class="formgrid grid">
                 <div class="field-radiobutton col-6" *ngFor="let category of listCategory">
-                        <p-radioButton name="category" value="{{category.id}}" [(ngModel)]="productForm.categoryId" [inputId]="category.id" class="mr-2"></p-radioButton>
-                    <label [for]="category.id">{{category.name}}</label>
+                    <p-radioButton name="category" value="{{category.id}}" [(ngModel)]="productForm.categoryId"
+                        [inputId]="category.id" class="mr-2"></p-radioButton>&nbsp;
+                    <label style="font-weight: normal;" [for]="category.id">{{category.name}}</label>
                 </div>
             </div>
         </div>
 
-        
+
         <div class="formgrid grid">
             <div class="field col">
-                <label for="price">Price</label>
-                <p-inputNumber id="price" [(ngModel)]="productForm.price" mode="currency" currency="USD" locale="en-US"></p-inputNumber>
+                <label for="price">Giá</label>
+                <p-inputNumber id="price" [(ngModel)]="productForm.price"
+                    locale="vi-VN"></p-inputNumber>
             </div>
             <div class="field col">
-                <label for="quantity">Quantity</label>
+                <label for="quantity">Số lượng</label>
                 <p-inputNumber id="quantity" [(ngModel)]="productForm.quantity"></p-inputNumber>
             </div>
         </div>
 
-        <div class="field">
+        <div class="field mt-2">
             <button pButton type="button" class="p-button-success w-auto" (click)="onChooseImage()"> Chọn ảnh</button>
-            <p-dialog header="Chọn ảnh" [(visible)]="showImage" position="top" [modal]="true" [style]="{width: '40vw'}" [transitionOptions]="'.3s'">
+            <p-dialog header="Chọn ảnh" [(visible)]="showImage" position="top" [modal]="true" [style]="{width: '40vw'}"
+                [transitionOptions]="'.3s'">
                 <div class="flex justify-content-between">
                     <div>
-                        <input type="file" #file (change)="uploadFile($event)" hidden>
-                        <button pButton (click)="file.click()" label="Tải ảnh lên" icon="pi pi-plus" class="p-button-warning w-auto"></button>
+                        <input type="file" #file (change)="uploadFile($event)" hidden multiple>
+                        <!-- <button pButton (click)="file.click()" label="Tải ảnh lên" icon="pi pi-plus" class="p-button-warning w-auto"></button> -->
                     </div>
-                    <div>
-                        <button pButton (click)="chooseImage()" class="p-button-primary w-auto" label="Chọn ảnh" [disabled]="disabled"></button>
-                        <button pButton class="p-button-danger ml-2 w-auto" icon="pi pi-trash " label="Xóa ảnh" [disabled]="disabled"></button>
+                    <div class="d-flex justify-content-between mt-1">
+                        <button pButton (click)="file.click()" label="Tải ảnh lên" icon="pi pi-plus"
+                            class="p-button-warning w-auto"></button>
+                        <!-- <button pButton (click)="chooseImage()" class="p-button-primary w-auto" label="Lưu" [disabled]="disabled"></button> -->
+                        <button pButton (click)="remoteImage()" class="p-button-danger ml-2 w-auto" icon="pi pi-trash "
+                            label="Xóa ảnh" [disabled]="disabled"></button>
                     </div>
                 </div>
-                <p-divider align="left" >
+                <p-divider align="left">
                     Ảnh đã tải lên
                 </p-divider>
-                <div class="grid">
-                    <div class="col-4 list-image flex align-items-center" *ngFor="let image of listImage" >
-                        <img src="{{'data:image/jpg;base64,' + image.data}}" alt="" class="w-full h-full p-2 border-1 " (click)="selectImage($event,image)" >
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px;"
+                    *ngIf="!onUpdate">
+                    <div class="col-4 list-image w-100 align-items-center" *ngFor="let image of showListImage">
+                        <img [src]="image.url" alt="" class="w-100 h-100" (click)="selectImage($event, image)">
                     </div>
                 </div>
-
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px;"
+                    *ngIf="onUpdate">
+                    <div class="col-4 list-image w-100 align-items-center" *ngFor="let image of url">
+                        <img [src]="image.image_url" alt="" class="w-100 h-100" (click)="selectImage($event, image)">
+                    </div>
+                </div>
             </p-dialog>
-            <div class="grid mt-1" *ngIf="listImageChoosen != null">
+            <!-- <div class="grid mt-1" *ngIf="listImageChoosen != null">
                 <div class="product-image col-2 flex align-items-center" *ngFor="let image of listImageChoosen">
                     <img src="{{'data:image/jpg;base64,' + image.data}}" alt="" class="w-full h-full">
                     <button pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-danger p-button-text delete-image"></button>
                 </div>
-            </div>
+            </div> -->
         </div>
 
     </ng-template>
 
     <ng-template pTemplate="footer">
         <button type="submit" pButton *ngIf="!onUpdate" (click)="createProduct()">Tạo mới</button>
-        <button type="submit" pButton *ngIf="onUpdate" (click)="updateProduct()" >Cập nhật</button>
+        <button type="submit" pButton *ngIf="onUpdate" (click)="updateProduct()">Cập nhật</button>
         <button pButton type="button" class="p-button-danger ml-3" (click)="showForm=false">Hủy</button>
     </ng-template>
 </p-dialog>
 
-<p-dialog header="Xác nhận" [(visible)]="showDelete" [style]="{width :'30vw'}" [modal]="true" [transitionOptions]="'.3s'">
+<p-dialog header="Xác nhận" [(visible)]="showDelete" [style]="{width :'30vw'}" [modal]="true"
+    [transitionOptions]="'.3s'">
     <div>
-        <i class="pi pi pi-exclamation-triangle"></i>
+        <i style="color: red;" class="pi pi pi-exclamation-triangle"></i>
+        &nbsp;
         <span class="ml-2">Bạn có chắc xóa <span>{{productForm.name}}</span> ?</span>
     </div>
-    <div class="flex justify-content-end mt-3">
-        <p-button label="Yes" icon="pi pi-check" class="mr-2" (click)="deleteProduct()"></p-button>
-        <p-button label="No" icon="pi pi-times" (click)="showDelete=false"></p-button>
-    </div>
+    <p-footer>
+        <button type="button" class="btn btn-secondary" (click)="showDelete=false">Hủy</button>
+        <button type="button" class="btn btn-danger" (click)="deleteProduct()">Xóa</button>
+    </p-footer>
 </p-dialog>
 
 <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

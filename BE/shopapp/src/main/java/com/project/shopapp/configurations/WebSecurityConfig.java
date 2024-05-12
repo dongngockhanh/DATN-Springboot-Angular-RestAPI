@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.annotation.web.configurers.CorsConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -48,6 +49,14 @@ public class WebSecurityConfig {
                                     String.format("%s/users/login",apiBasePath))
                             .permitAll()
 
+                            // users
+                            .antMatchers(PUT,
+                                    String.format("%s/users",apiBasePath)).permitAll()
+                            .antMatchers(PATCH,
+                                    String.format("%s/users",apiBasePath)).permitAll()
+                            .antMatchers(DELETE,
+                                    String.format("%s/users/**",apiBasePath)).permitAll()
+
 //                            .antMatchers(GET,
 //                                    "https://vapi.vnappmob.com/api/province/").permitAll()
                             .antMatchers(GET,
@@ -55,6 +64,14 @@ public class WebSecurityConfig {
                                     String.format("%s/provincial/districts",apiBasePath),
                                     String.format("%s/provincial/communes",apiBasePath))    
                             .permitAll()
+
+                            // carts
+                            .antMatchers(GET,
+                                    String.format("%s/carts/**",apiBasePath)).permitAll()
+                            .antMatchers(POST,
+                                    String.format("%s/carts",apiBasePath)).permitAll()
+                            .antMatchers(DELETE,
+                                    String.format("%s/carts/**",apiBasePath)).permitAll()
 
                             // categories
                             .antMatchers(GET,
@@ -75,10 +92,14 @@ public class WebSecurityConfig {
                                     String.format("%s/products/images/*",apiBasePath)).permitAll()
                             .antMatchers(POST,
                                     String.format("%s/products**",apiBasePath)).hasRole(Role.ADMIN)
+                            .antMatchers(POST,
+                                    String.format("%s/products/uploads",apiBasePath)).hasRole(Role.ADMIN)
                             .antMatchers(PUT,
                                     String.format("%s/products/**",apiBasePath)).hasRole(Role.ADMIN)
                             .antMatchers(DELETE,
                                     String.format("%s/products/**",apiBasePath)).hasRole(Role.ADMIN)
+                            .antMatchers(DELETE,
+                                    String.format("%s/products/images/**",apiBasePath)).hasRole(Role.ADMIN)
 
                             //orders
                             .antMatchers(GET,
@@ -110,7 +131,7 @@ public class WebSecurityConfig {
             public void customize(CorsConfigurer<HttpSecurity> httpSecurityCorsConfigurer) {
                 CorsConfiguration corsConfiguration = new CorsConfiguration();
                 corsConfiguration.setAllowedOrigins(Collections.singletonList("*"));
-                corsConfiguration.setAllowedMethods(Arrays.asList("GET","POST","PATCH","DELETE","OPTIONS"));
+                corsConfiguration.setAllowedMethods(Arrays.asList("GET","POST","PUT","PATCH","DELETE","OPTIONS"));
                 corsConfiguration.setAllowedHeaders(Arrays.asList("authorization","content-type","x-auth-token"));
                 corsConfiguration.setExposedHeaders(Collections.singletonList("x-auth-token"));
                 UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

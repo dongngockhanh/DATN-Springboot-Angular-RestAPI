@@ -1,6 +1,9 @@
 package com.project.shopapp.Services.Implement;
 
+import com.project.shopapp.DTOs.PasswordUpdateDTO;
 import com.project.shopapp.DTOs.UserDTO;
+import com.project.shopapp.DTOs.responses.MessageResponse;
+import com.project.shopapp.DTOs.responses.UserResponse;
 import com.project.shopapp.Repositories.RoleRepository;
 import com.project.shopapp.Repositories.UserRepository;
 import com.project.shopapp.Services.UserService;
@@ -21,6 +24,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -31,6 +36,7 @@ public class UserServiceImp implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenUtil jwtTokenUtil;
     private final AuthenticationManager authenticationManager;
+    private final MessageResponse messageResponse;
     @Override
     public User createUser(UserDTO userDTO) throws Exception {
        String phoneNumber = userDTO.getPhoneNumber();
@@ -73,6 +79,10 @@ public class UserServiceImp implements UserService {
 //            throw new DataNotFoundException("phone number hoặc password không hợp lệ");
         }
         User existingUser = optionalUser.get();
+        // kiểm tra active user
+        if(!existingUser.isActive()){
+            throw new UnauthorizedException(MessageKeys.LOGIN_FAILED);
+        }
         // check password
         if(existingUser.getFacebookId() == 0 && existingUser.getGoogleId() == 0) {
             if(!passwordEncoder.matches(password,existingUser.getPassword()))
@@ -85,5 +95,78 @@ public class UserServiceImp implements UserService {
         // authentication với java spring security
         authenticationManager.authenticate(authenticationToken);
         return jwtTokenUtil.generateToken(existingUser);
+    }
+
+    @Override
+    public User getUserDetailById(Long userId) throws Exception {
+        User user = userRepository.findById(userId).orElseThrow(()->new DataNotFoundException(MessageKeys.NOT_FOUND_USER_BY_ID));
+        return user;
+    }
+
+    @Override
+    public List<UserResponse> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        List<UserResponse> userResponses = new ArrayList<>();
+        for(User user :users){
+            if(user.getRoleId().getId()==1){
+                userResponses.add(UserResponse.fromUser(user));
+            }
+        }
+
+        return userResponses;
+    }
+
+    @Override
+    public String updateUser(String token, UserDTO userDTO) throws Exception {
+        if(jwtTokenUtil.isTokenExpired(token)){
+            throw new Exception("token is expired");
+        }
+        String phoneNumber = jwtTokenUtil.extractPhoneNumber(token);
+        User user = userRepository.findByPhoneNumber(phoneNumber).orElseThrow(()->new DataNotFoundException("Could not find"));
+        Optional<User> existingUser = userRepository.findByPhoneNumber(userDTO.getPhoneNumber());
+        if(existingUser.isPresent()&&!existingUser.get().equals(user)){
+            throw new DataIntegrityViolationException(MessageKeys.REGISTERED_NUMBER_PHONE);
+        }else{
+            user.setFullName(userDTO.getFullName());
+            user.setPhoneNumber(userDTO.getPhoneNumber());
+            user.setEmail(userDTO.getEmail());
+            if(userDTO.getPassword()!=null){
+                String password = userDTO.getPassword();
+                String encodedPassword = passwordEncoder.encode(password); // mã hoá mật khẩu
+                user.setPassword(encodedPassword);
+            }
+            user.setAddress(userDTO.getAddress());
+            user.setActive(true);
+            user.setDateOfBirth(userDTO.getDateOfBirth());
+            user.setFacebookId(userDTO.getFacebookId());
+            user.setGoogleId(userDTO.getGoogleId());
+            userRepository.save(user);
+            return jwtTokenUtil.generateToken(user);
+        }
+    }
+
+    @Override
+    public void updatePassword(String token, PasswordUpdateDTO passwordUpdateDTO) throws Exception {
+        if(jwtTokenUtil.isTokenExpired(token)){
+            throw new Exception("token is expired");
+        }
+        String phoneNumber = jwtTokenUtil.extractPhoneNumber(token);
+        User user = userRepository.findByPhoneNumber(phoneNumber)
+                .orElseThrow(()->new DataNotFoundException("Could not find"));
+        if(!passwordEncoder.matches(passwordUpdateDTO.getOldPassword(),user.getPassword())){
+            throw new UnauthorizedException(MessageKeys.OLD_PASSWORD_IS_INCORRECT);
+        }
+        String newPassword = passwordUpdateDTO.getNewPassword();
+        String encodedPassword = passwordEncoder.encode(newPassword); // mã hoá mật khẩu
+        user.setPassword(encodedPassword);
+        userRepository.save(user);
+    }
+
+    @Override // xoá mềm cập nhật trạng thái active
+    public void setActiveUser(Long userId) throws Exception {
+        User user = userRepository.findById(userId)
+                .orElseThrow(()->new DataNotFoundException(messageResponse.getMessageString(MessageKeys.NOT_FOUND_USER_BY_ID,userId)));
+        user.setActive(!user.isActive());
+        userRepository.save(user);
     }
 }

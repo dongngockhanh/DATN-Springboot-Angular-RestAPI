@@ -1,0 +1,245 @@
+<!-- kiểu 1 -->
+<!-- <div class="container h-100">
+      <div class="row d-flex justify-content-center align-items-center ">
+        <div class="col" style="width: 100%;">
+          <div class="card card-stepper" style="border-radius: 10px;">
+            <div class="card-body p-4">
+
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex flex-column">
+                  <span class="lead fw-normal">Your order has been delivered</span>
+                  <span class="text-muted small">by DHFL on 21 Jan, 2020</span>
+                </div>
+                <div>
+                  <button data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-primary" type="button">Track order details</button>
+                </div>
+              </div>
+              <hr class="my-4">
+  
+              <div class="d-flex flex-row justify-content-between align-items-center align-content-center">
+                <span class="dot"></span>
+                <hr class="flex-fill track-line"><span class="dot"></span>
+                <hr class="flex-fill track-line"><span class="dot"></span>
+                <hr class="flex-fill track-line"><span class="dot"></span>
+                <hr class="flex-fill track-line"><span
+                  class="d-flex justify-content-center align-items-center big-dot dot">
+                  <i class="fa fa-check text-white"></i></span>
+              </div>
+  
+              <div class="d-flex flex-row justify-content-between align-items-center">
+                <div class="d-flex flex-column align-items-start"><span>15 Mar</span><span>Order placed</span>
+                </div>
+                <div class="d-flex flex-column justify-content-center"><span>15 Mar</span><span>Order
+                    placed</span></div>
+                <div class="d-flex flex-column justify-content-center align-items-center"><span>15
+                    Mar</span><span>Order Dispatched</span></div>
+                <div class="d-flex flex-column align-items-center"><span>15 Mar</span><span>Out for
+                    delivery</span></div>
+                <div class="d-flex flex-column align-items-end"><span>15 Mar</span><span>Delivered</span></div>
+              </div>
+  
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row d-flex justify-content-center align-items-center ">
+        <div class="col">
+          <div class="card card-stepper" style="border-radius: 10px;">
+            <div class="card-body p-4">
+
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex flex-column">
+                  <span class="lead fw-normal">Your order has been delivered</span>
+                  <span class="text-muted small">by DHFL on 21 Jan, 2020</span>
+                </div>
+                <div>
+                  <button data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-primary" type="button">Track order details</button>
+                </div>
+              </div>
+              <hr class="my-4">
+  
+              <div class="d-flex flex-row justify-content-between align-items-center align-content-center">
+                <span class="dot"></span>
+                <hr class="flex-fill track-line"><span class="dot"></span>
+                <hr class="flex-fill track-line"><span class="dot"></span>
+                <hr class="flex-fill track-line"><span class="dot"></span>
+                <hr class="flex-fill track-line"><span
+                  class="d-flex justify-content-center align-items-center big-dot dot">
+                  <i class="fa fa-check text-white"></i></span>
+              </div>
+  
+              <div class="d-flex flex-row justify-content-between align-items-center">
+                <div class="d-flex flex-column align-items-start"><span>15 Mar</span><span>Order placed</span>
+                </div>
+                <div class="d-flex flex-column justify-content-center"><span>15 Mar</span><span>Order
+                    placed</span></div>
+                <div class="d-flex flex-column justify-content-center align-items-center"><span>15
+                    Mar</span><span>Order Dispatched</span></div>
+                <div class="d-flex flex-column align-items-center"><span>15 Mar</span><span>Out for
+                    delivery</span></div>
+                <div class="d-flex flex-column align-items-end"><span>15 Mar</span><span>Delivered</span></div>
+              </div>
+  
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+<!-- kiểu 2 https://bootdey.com/snippets/tagged/order-->
+<div class="row">
+  <div class="container padding-bottom-3x mb-3" *ngFor="let order of listOrder">
+    <div class="card mb-3">
+      <div class="p-4 text-center text-white text-lg rounded-top" style="background-color: rgb(14,17,36);"><span class="text-uppercase">Mã Vận Đơn - </span><span class="text-medium">{{order.tracking_number}}</span></div>
+      <div class="d-flex flex-wrap flex-sm-nowrap justify-content-between py-3 px-2 bg-secondary">
+        <div class="w-100 text-center py-1 px-2"><span class="text-medium">Đơn vị vận chuyển:</span> {{order.shipping_method}}</div>
+        <div class="w-100 text-center py-1 px-2"><span class="text-medium">Trạng thái:</span> {{statusOrderToVN[order.status]}}</div>
+        <div class="w-100 text-center py-1 px-2"><span class="text-medium">Ngày dự kiến:</span> 09-05-2024</div>
+      </div>
+      <div class="card-body">
+        <div class="steps d-flex flex-wrap flex-sm-nowrap justify-content-between padding-top-2x padding-bottom-1x">
+          <div class="step" [ngClass]="{'completed':isStepCompleted(order.status,'confirmation')}">
+            <div class="step-icon-wrap" >
+                <div class="step-icon" >
+                  <!-- <i class="fa-regular fa-circle-check" style="font-size: 15px;"></i> -->
+                  <i [ngClass]="isStepCompleted(order.status, 'confirmation') ? 'fa-regular fa-circle-check' : 'fa-regular fa-circle'" style="font-size: 15px;"></i>
+                </div>
+            </div>
+            <!-- <i class="fa-solid fa-list-check" style="font-size: 25px;"></i> -->
+            <i class="fas fa-clipboard-list fa-2x"></i>
+            <h4 class="step-title">Xác nhận đơn hàng</h4>
+          </div>
+          <div class="step" [ngClass]="{'completed':isStepCompleted(order.status,'processing')}">
+            <div class="step-icon-wrap">
+              <div class="step-icon">
+                <!-- <i class="fa-regular fa-circle-check" style="font-size: 15px;"></i> -->
+                <i [ngClass]="isStepCompleted(order.status, 'processing') ? 'fa-regular fa-circle-check' : 'fa-regular fa-circle'" style="font-size: 15px;"></i>
+              </div>
+            </div>
+            <i class="fas fa-box-open fa-2x"></i>
+            <h4 class="step-title">Xử lý đơn hàng</h4>
+          </div>
+          <!-- <div class="step completed">
+            <div class="step-icon-wrap">
+              <div class="step-icon">
+                
+                <i class="fa-regular fa-circle-check" style="font-size: 15px;"></i>
+              </div>
+            </div>
+            <i class="fa-solid fa-medal fa-2x"></i>
+            <h4 class="step-title">Kiểm tra chất lượng</h4>
+          </div> -->
+          <div class="step" [ngClass]="{'completed':isStepCompleted(order.status,'shipping')}">
+            <div class="step-icon-wrap">
+              <div class="step-icon">
+                <!-- <i class="fa-regular fa-circle-check" style="font-size: 15px;"></i> -->
+                <i [ngClass]="isStepCompleted(order.status, 'shipping') ? 'fa-regular fa-circle-check' : 'fa-regular fa-circle'" style="font-size: 15px;"></i>
+
+              </div>
+            </div>
+            <i class="fas fa-shipping-fast fa-2x "></i>
+            <h4 class="step-title">Đang vận chuyển</h4>
+          </div>
+          <div class="step" [ngClass]="{'completed':isStepCompleted(order.status,'shipped')}">
+            <div class="step-icon-wrap">
+              <div class="step-icon">
+                <!-- <i class="fa-regular fa-circle-check" style="font-size: 15px;"></i> -->
+                <i [ngClass]="isStepCompleted(order.status, 'shipped') ? 'fa-regular fa-circle-check' : 'fa-regular fa-circle'" style="font-size: 15px;"></i>
+              </div>
+            </div>
+            <i class="fas fa-home fa-2x"></i>
+            <h4 class="step-title">Sản phẩm đã được giao</h4>
+          </div>
+          <div class="step" [ngClass]="{'completed':isStepCompleted(order.status,'completed')}">
+            <div class="step-icon-wrap">
+              <div class="step-icon">
+                <!-- <i class="fa-regular fa-circle-check" style="font-size: 15px;"></i> -->
+                <i [ngClass]="isStepCompleted(order.status, 'shipped') ? 'fa-regular fa-circle-check' : 'fa-regular fa-circle'" style="font-size: 15px;"></i>
+              </div>
+            </div>
+            <i class="fa-solid fa-circle-check fa-2x"></i>
+            <h4 class="step-title">Hoàn thành</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex flex-wrap flex-md-nowrap justify-content-center justify-content-sm-between align-items-center">
+      <div class="custom-control custom-checkbox mr-3">
+        <input class="custom-control-input" type="checkbox" id="notify_me" checked="">
+        &nbsp;
+        <label class="custom-control-label" for="notify_me">Thông báo cho tôi về trạng thái đơn hàng</label>
+      </div>
+      <div class="text-left text-sm-right">
+        <a class="btn btn-outline-primary btn-rounded btn-sm" 
+           routerLink="/user/order-detail/{{order.id}}" 
+           data-toggle="modal" 
+           data-target="#orderDetails"
+           >Xem chi tiết đơn hàng</a>
+      </div>
+    </div>
+  </div>
+</div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
+
+<!-- kiểu 3 -->
+  <!-- <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12">
+        <div class="card card-stepper text-black" style="border-radius: 16px;">
+
+          <div class="card-body p-5">
+
+            <div class="d-flex justify-content-between align-items-center mb-5">
+              <div>
+                <h5 class="mb-0">INVOICE <span class="text-primary font-weight-bold">#Y34XDHR</span></h5>
+              </div>
+              <div class="text-end">
+                <p class="mb-0">Expected Arrival <span>01/12/19</span></p>
+                <p class="mb-0">USPS <span class="font-weight-bold">234094567242423422898</span></p>
+              </div>
+            </div>
+
+            <ul id="progressbar-2" class="d-flex justify-content-between mx-0 mt-0 mb-5 px-0 pt-0 pb-2">
+              <li class="step0 active text-center" id="step1"></li>
+              <li class="step0 active text-center" id="step2"></li>
+              <li class="step0 active text-center" id="step3"></li>
+              <li class="step0 text-muted text-end" id="step4"></li>
+            </ul>
+
+            <div class="d-flex justify-content-between">
+              <div class="d-lg-flex align-items-center">
+                <i class="fas fa-clipboard-list fa-3x me-lg-4 mb-3 mb-lg-0"></i>
+                <div>
+                  <p class="fw-bold mb-1">Đơn hàng</p>
+                  <p class="fw-bold mb-0">Được xác nhận</p>
+                </div>
+              </div>
+              <div class="d-lg-flex align-items-center">
+                <i class="fas fa-box-open fa-3x me-lg-4 mb-3 mb-lg-0"></i>
+                <div>
+                  <p class="fw-bold mb-1">Order</p>
+                  <p class="fw-bold mb-0">Đóng gói</p>
+                </div>
+              </div>
+              <div class="d-lg-flex align-items-center">
+                <i class="fas fa-shipping-fast fa-3x me-lg-4 mb-3 mb-lg-0"></i>
+                <div>
+                  <p class="fw-bold mb-1">Order</p>
+                  <p class="fw-bold mb-0">Đang vận chuyển</p>
+                </div>
+              </div>
+              <div class="d-lg-flex align-items-center">
+                <i class="fas fa-home fa-3x me-lg-4 mb-3 mb-lg-0"></i>
+                <div>
+                  <p class="fw-bold mb-1">Order</p>
+                  <p class="fw-bold mb-0">Sản phẩm được giao</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div> -->

@@ -74,12 +74,14 @@
   }
 // css for form product
   .custom-form{
-    border: 1px solid rgb(214, 214, 216);
+    // border: 1px solid rgb(214, 214, 216);
     margin-block-end: 20px;
     padding: 10px;
     width: 100%;
     height: auto;
     display: flex;
+    border: none;
+    box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
 }
 .custom-info{
     display: flex;
@@ -144,6 +146,7 @@
 }
 .product-cart-item {
     width: 100%;
+    // box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
 }
 //css for form tinh tien
 .tinhtien p{
@@ -164,7 +167,7 @@
       overflow-x: auto;
       background-color: white;
       border-radius: 5px;
-      box-shadow: #766db1 0px 0px 10px;
+      box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
       padding: 5px;
       color: #1C173C;
     }

@@ -13,11 +13,14 @@ import { environment } from '../../../environments/environment';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrderDTO } from '../../../dtos/order/order.dto';
 import { OrderService } from '../../../services/order.service';
+import { TokenService } from '../../../services/token.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-order',
   templateUrl: './order.component.html',
-  styleUrl: './order.component.scss'
+  styleUrl: './order.component.scss',
+  providers: [MessageService]
 })
 export class OrderComponent {
   constructor(
@@ -27,6 +30,8 @@ export class OrderComponent {
     private productService: ProductService,
     private provincialService: ProvincialService,
     private orderService: OrderService,
+    private tokenService: TokenService,
+    private messageService: MessageService,
     private fb: FormBuilder) {
 
     this.fullname = '';
@@ -248,6 +253,18 @@ export class OrderComponent {
     console.log(orderData);
     console.log(this.homeaddress+' '+this.address);
   }
+  // lấy user_id từ localStorage trong assets token
+  getUserId(){
+    const user_id = this.tokenService.getUserId().toString();
+    // console.log(user_id);
+    // alert(user_id);
+    return user_id ;
+  }
+  //hiển thị dialog xác nhận lần nữa
+  displayDialog: boolean = false;
+  showDialog() {
+  this.displayDialog = true;
+}
   // tạo đơn hàng 
   createOrder() {
     const orderData: OrderDTO = {
@@ -256,7 +273,7 @@ export class OrderComponent {
       email: this.email,
       address:this.homeaddress+' '+this.address,
       note: this.note,
-      user_id: '27',
+      user_id: this.getUserId(),
       total_money: this.totalMoney,
       shipping_method: this.shippingMethod,
       payment_method: this.paymentMethod,
@@ -271,15 +288,23 @@ export class OrderComponent {
       next: (response: any) => {
         debugger
         console.log(response);
+        for(let i = 0; i < this.listId.length; i++){
+          this.cartService.removeProduct(this.listId[i]);
+        }
       },
-      complete() {
+      complete:()=> {
         debugger
-        alert('Đặt hàng thành công');
+        // alert('Đặt hàng thành công');
+        this.showSuccess('Đặt hàng thành công');
       },
       error: (error) => {
         debugger
         console.log(error);
       }
     });
+  }
+  //hiển thị thông báo
+  showSuccess(message: string) {
+    this.messageService.add({severity:'success', summary: 'Success', detail: message});
   }
 }

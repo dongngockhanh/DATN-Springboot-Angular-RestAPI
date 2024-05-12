@@ -6,7 +6,8 @@
     align-items:center; 
 }
 .custom-form{
-    border: 1px solid rgb(188, 188, 192);
+    // border: 1px solid rgb(188, 188, 192);
+    box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
     margin-block-end: 20px;
     padding: 10px;
 }
@@ -70,7 +71,7 @@
       overflow-x: auto;
       background-color: white;
       border-radius: 5px;
-      box-shadow: #544c86 0px 0px 10px;
+      box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
       padding: 10px;
       color: #1C173C;
     }

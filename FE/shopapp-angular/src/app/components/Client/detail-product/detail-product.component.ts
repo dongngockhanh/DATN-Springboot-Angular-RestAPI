@@ -5,12 +5,14 @@ import { ProductImage } from '../../../responses/products/product-image.response
 import { environment } from '../../../environments/environment';
 import { CartService } from '../../../services/cart.service';
 import { CurrencyPipe } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-detail-product',
   templateUrl: './detail-product.component.html',
-  styleUrl: './detail-product.component.scss'
+  styleUrl: './detail-product.component.scss',
+  providers: [MessageService]
 })
 export class DetailProductComponent {
   product?: ProductResponse;
@@ -18,7 +20,10 @@ export class DetailProductComponent {
   currentImageProduct: number = 0;
   quantity: number = 1;
 
-  constructor(private activeRoute: ActivatedRoute,
+  constructor(
+              private router: Router,
+              private messageService: MessageService,
+              private activeRoute: ActivatedRoute,
               private productService: ProductService,
               private cartService: CartService) { }
   ngOnInit(){
@@ -55,7 +60,7 @@ export class DetailProductComponent {
           debugger
           console.log(error);
         }
-      })
+      });
     } 
   }
 
@@ -102,7 +107,7 @@ export class DetailProductComponent {
     debugger
     if (this.product){
       this.cartService.addToCart(this.product.id,this.quantity);
-      alert('Đã thêm vào giỏ hàng')
+      this.showSuccess('Đã thêm vào giỏ hàng');
     } else{
       console.error('Không thể thêm vào giỏ hàng vì sản phẩm không tồn tại');
     }
@@ -118,7 +123,15 @@ export class DetailProductComponent {
     }
   }
 
-  buyNow(): void{
-    // xử lý sau
+  onBuyNow(){
+    this.router.navigate(['/order'], { queryParams: { ids: this.productId } });
+  }
+
+  // Hiển thị thông báo
+  showSuccess(message: string) {
+    this.messageService.add({severity:'success', summary: 'Success', detail: message});
+  }
+  showError(message: string) {
+    this.messageService.add({severity:'error', summary: 'Error', detail: message});
   }
 }

@@ -1,0 +1,262 @@
+// kiểu 1
+// .track-line {
+//     height: 2px !important;
+//     background-color: #488978;
+//     opacity: 1;
+//     }
+    
+//     .dot {
+//     height: 10px;
+//     width: 10px;
+//     margin-left: 3px;
+//     margin-right: 3px;
+//     margin-top: 0px;
+//     background-color: #488978;
+//     border-radius: 50%;
+//     display: inline-block
+//     }
+    
+//     .big-dot {
+//     height: 25px;
+//     width: 25px;
+//     margin-left: 0px;
+//     margin-right: 0px;
+//     margin-top: 0px;
+//     background-color: #488978;
+//     border-radius: 50%;
+//     display: inline-block;
+//     }
+    
+//     .big-dot i {
+//     font-size: 12px;
+//     }
+    
+//     .card-stepper {
+//     z-index: 0
+//     }
+
+// kiểu 2 =======================================================================================
+body{margin-top:20px;}
+
+.steps .step {
+    display: block;
+    width: 100%;
+    margin-bottom: 35px;
+    text-align: center
+}
+
+.steps .step .step-icon-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // display: block;
+    position: relative;
+    width: 100%;
+    height: 80px;
+    text-align: center;
+}
+
+.steps .step .step-icon-wrap::before,
+.steps .step .step-icon-wrap::after {
+    display: block;
+    position: absolute;
+    top: 45%;
+    width: 50%;
+    height: 10px;
+    margin-top: -1px;
+    // background-color: #e1e7ec;
+    background-color: rgb(197,202,233);
+    content: '';
+    z-index: 1
+}
+
+.steps .step .step-icon-wrap::before {
+    left: 0
+}
+
+.steps .step .step-icon-wrap::after {
+    right: 0
+}
+
+.steps .step .step-icon {
+    display: inline-block;
+    position: relative;
+    border: 1px solid #e1e7ec;
+    width: 37px;
+    height: 37px;
+    border-radius: 50%;
+    // background-color: #f5f5f5;
+    background-color: rgb(197,202,233);
+    // color: #374250;
+    color: white;
+    font-size: 20px;
+    // line-height: 37px;
+    z-index: 2;
+    // top: 25%;
+    
+}
+
+.steps .step .step-title {
+    margin-top: 16px;
+    margin-bottom: 0;
+    // color: #606975;
+    color: black;
+    font-size: 14px;
+    font-weight: 750
+}
+
+.steps .step:first-child .step-icon-wrap::before {
+    display: none
+}
+
+.steps .step:last-child .step-icon-wrap::after {
+    display: none
+}
+
+.steps .step.completed .step-icon-wrap::before,
+.steps .step.completed .step-icon-wrap::after {
+    // background-color: #0da9ef,
+    background-color: rgb(101,32,255);
+}
+
+.steps .step.completed .step-icon {
+    // border-color: #0da9ef;
+    border-color: rgb(101,32,255);
+    background-color: rgb(101,32,255);
+    color: #fff
+}
+
+@media (max-width: 576px) {
+    .flex-sm-nowrap .step .step-icon-wrap::before,
+    .flex-sm-nowrap .step .step-icon-wrap::after {
+        display: none
+    }
+}
+
+@media (max-width: 768px) {
+    .flex-md-nowrap .step .step-icon-wrap::before,
+    .flex-md-nowrap .step .step-icon-wrap::after {
+        display: none
+    }
+}
+
+@media (max-width: 991px) {
+    .flex-lg-nowrap .step .step-icon-wrap::before,
+    .flex-lg-nowrap .step .step-icon-wrap::after {
+        display: none
+    }
+}
+
+@media (max-width: 1200px) {
+    .flex-xl-nowrap .step .step-icon-wrap::before,
+    .flex-xl-nowrap .step .step-icon-wrap::after {
+        display: none
+    }
+}
+
+.bg-faded, .bg-secondary {
+    background-color: #f5f5f5 !important;
+}
+
+// kiểu 3 ===============================================================================================
+// .card-stepper {
+//     z-index: 0
+//     }
+    
+//     #progressbar-2 {
+//     color: #455A64;
+//     }
+    
+//     #progressbar-2 li {
+//     list-style-type: none;
+//     font-size: 13px;
+//     width: 33.33%;
+//     float: left;
+//     position: relative;
+//     }
+    
+//     #progressbar-2 #step1:before {
+//     content: '\f058';
+//     font-family: "Font Awesome 5 Free";
+//     color: #fff;
+//     width: 37px;
+//     margin-left: 0px;
+//     padding-left: 0px;
+//     }
+    
+//     #progressbar-2 #step2:before {
+//     content: '\f058';
+//     font-family: "Font Awesome 5 Free";
+//     color: #fff;
+//     width: 37px;
+//     }
+    
+//     #progressbar-2 #step3:before {
+//     content: '\f058';
+//     font-family: "Font Awesome 5 Free";
+//     color: #fff;
+//     width: 37px;
+//     margin-right: 0;
+//     text-align: center;
+//     }
+    
+//     #progressbar-2 #step4:before {
+//     content: '\f111';
+//     font-family: "Font Awesome 5 Free";
+//     color: #fff;
+//     width: 37px;
+//     margin-right: 0;
+//     text-align: center;
+//     }
+    
+//     #progressbar-2 li:before {
+//     line-height: 37px;
+//     display: block;
+//     font-size: 12px;
+//     background: #c5cae9;
+//     border-radius: 50%;
+//     }
+    
+//     #progressbar-2 li:after {
+//     content: '';
+//     width: 100%;
+//     height: 10px;
+//     background: #c5cae9;
+//     position: absolute;
+//     left: 0%;
+//     right: 0%;
+//     top: 15px;
+//     z-index: -1;
+//     }
+    
+//     #progressbar-2 li:nth-child(1):after {
+//     left: 1%;
+//     width: 100%
+//     }
+    
+//     #progressbar-2 li:nth-child(2):after {
+//     left: 1%;
+//     width: 100%;
+//     }
+    
+//     #progressbar-2 li:nth-child(3):after {
+//     left: 1%;
+//     width: 100%;
+//     background: #c5cae9 !important;
+//     }
+    
+//     #progressbar-2 li:nth-child(4) {
+//     left: 0;
+//     width: 37px;
+//     }
+    
+//     #progressbar-2 li:nth-child(4):after {
+//     left: 0;
+//     width: 0;
+//     }
+    
+//     #progressbar-2 li.active:before,
+//     #progressbar-2 li.active:after {
+//     background: #6520ff;
+//     }
+    

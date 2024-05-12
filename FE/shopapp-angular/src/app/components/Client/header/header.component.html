@@ -8,26 +8,67 @@
                 </svg>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" (click)="toggleDropdown()">
                 <span class="navbar-toggler-icon custom-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active"
+                        <!-- <a class="nav-link" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active"
+                            routerLink="/">Trang chủ</a> -->
+                        <a class="nav-link" (click)="clickToActive($event)" routerLinkActive="active"
                             routerLink="/">Trang chủ</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" routerLinkActive="active">Thông báo</a>
+                        <ng-container *ngIf="userResponse">
+                            <ng-container popoverTitle="User actions"
+                                triggers="click" placement="'bottom'">
+                                <a style="cursor: pointer;" class="nav-link" [ngbPopover]="popoverContent"
+                                    (click)="togglePopover($event);clickToActive($event)"
+                                    >
+                                    <i class="fa-solid fa-bell"></i>
+                                    <span class='badge badge-warning' id='lblCartCount'>{{listNotification.length}}</span>
+                                    Thông báo
+                                </a>
+                                <ng-template #popoverContent>
+                                    <div class="d-flex flex-column popover-content">
+                                        <div><i class="fa-solid fa-bell"></i></div>
+                                        <a class="nav-link" *ngIf="listNotification.length==0">Trống</a>
+                                        <a class="nav-link" *ngFor="let item of listNotification">{{item}}</a>
+                                    </div>
+                                </ng-template>
+                            </ng-container>
+                        </ng-container>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" routerLinkActive="active" routerLink="/cart"> <!-- routerLink="/cart" -->
-                            <i class="fas fa-shopping-cart"></i>
+                        <a class="nav-link" (click)="clickToActive($event)" routerLink="/cart"
+                            style="color: none !important;"> <!-- routerLink="/cart" -->
+                            <i class="fa fa-shopping-cart"></i>
+                            <span class='badge badge-warning' id='lblCartCount' *ngIf="getCartQuantity()>0"> {{getCartQuantity()}} </span>
                             Giỏ hàng
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" routerLinkActive="active" routerLink="/login-page">Đăng nhập</a>
+                        <ng-container *ngIf="userResponse">
+                            <ng-container ngbPopover="tài khoản<br>Đơn hàng<br>Đăng xuất" popoverTitle="User actions"
+                                triggers="click" placement="'bottom'">
+                                <a style="cursor: pointer;" class="nav-link" [ngbPopover]="popoverContent"
+                                    (click)="togglePopover($event);clickToActive($event)">
+                                    {{userResponse.full_name}}
+                                </a>
+                                <ng-template #popoverContent>
+                                    <div class="d-flex flex-column popover-content">
+                                        <div><i class="fa-solid fa-circle-user"></i></div>
+                                        <a class="nav-link" routerLink="/user/profile">Tài khoản</a>
+                                        <a class="nav-link" routerLink="/user/order-status">Đơn hàng</a>
+                                        <a class="nav-link" (click)="logout()">Đăng xuất</a>
+                                    </div>
+                                </ng-template>
+                            </ng-container>
+                        </ng-container>
+                        <ng-container *ngIf="!userResponse">
+                            <a class="nav-link" (click)="clickToActive($event)" routerLink="/login-page">Đăng nhập</a>
+                        </ng-container>
                     </li>
                 </ul>
             </div>
@@ -45,4 +86,35 @@
         </div>
     </nav>
 </header>
+<div class="container" style="position: sticky; top:5px; z-index: 3; ">
+    <div class="d-flex align-items-center px-3 style-category-container">
+        <!-- lấy danh sách danh mục -->
+        <ng-container *ngIf="categoryResponse">
+            <a class="nav-link nav-category" routerLink="/">Tất cả</a>
+            <a class="nav-link nav-category"
+                *ngFor="let category of categoryResponse|slice:0:5"
+                (click)="onLoadPage(category.id)">{{category.name}}</a>
+        </ng-container>
+    </div>
+</div>
+<div class="container">
+    <div class="" style="margin-top: 6px;position: relative;">
+        <div #dropdownContent *ngIf="showDropdown" class="dropdown-content">
+            <ul  class="menu-dropdown">
+                <li (click)="showDropdown=false" routerLink="/">Trang chủ</li>
+                <li (click)="showDropdown=false" >Thông báo</li>
+                <li (click)="showDropdown=false" routerLink="/cart">Giỏ hàng</li>
+                <li (click) = "showUserOptions = !showUserOptions">{{userResponse?.full_name}} >
+                    <ul *ngIf="showUserOptions">
+                        <!-- Các thẻ con -->
+                        <li (click)="showDropdown=false" routerLink="/user/profile">Tài khoản</li>
+                        <li (click)="showDropdown=false" routerLink="/user/order-status">Đơn hàng</li>
+                        <li (click)="showDropdown=false;logout()" >Đăng xuất</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div #lcaaa></div>
 <div class="fake-header"></div>

@@ -1,17 +1,27 @@
 <div class="container">
-    <div class="intro-section">
+    <!-- <div class="intro-section">
         <h1>Chi tiết sản phẩm</h1>
         <p>trang này hiển thị chi tiết sản phẩm</p>
         <p>các bạn có thể xem chi tiết sản phẩm và mua hàng tại đây</p>
+    </div> -->
+    <!-- back -->
+    <div class="intro-section">
+        <div class="d-flex w-100">
+            <a class="nav-link" onclick="window.history.back()">
+                <i class="fa-solid fa-arrow-left" style="font-size: 23px"></i>
+                <!-- <svg data-v-5273d083="" width="20" height="17" viewBox="0 0 20 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path data-v-5273d083="" d="M19 8.5L1 8.5M1 8.5L8 1M1 8.5L8 16" stroke="#121219" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg> -->
+            </a>
+        </div>
+        <!-- <p>sử dụng bootstrap</p> -->
     </div>
-    <div class="row">
+    <div class="row mt-3">
         <div class="col-md-6">
             <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
                     <div *ngFor="let image of product?.product_images; let i = index"
                         class="carousel-item active" [ngClass]="{'active':i===currentImageProduct}">
                         <div class="square-imagge">
-                            <img [src]="image.image_url" class="product-image" alt="Product Image">
+                            <img [src]="image.image_url" class="product-image rounded-3" alt="Product Image">
                             <!-- <img src="https://images.pexels.com/photos/249538/pexels-photo-249538.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                             class="product-image" alt="Product Image"> -->
                         </div>
@@ -57,7 +67,7 @@
                 <div class="product-actions">
                     <button class="btn btn-primary" (click)="addToCart()">Thêm vào giỏ hàng</button>
                     <span class="space-x"></span>
-                    <button class="btn btn-success" (click)="buyNow()">Mua ngay</button>
+                    <button class="btn btn-success" (click)="onBuyNow()">Mua ngay</button>
                 </div>
                 <div class="product-quanlity">
                     <div class="border-wrapper">
@@ -69,3 +79,4 @@
         </div>
     </div>
 </div>
+<p-toast></p-toast>

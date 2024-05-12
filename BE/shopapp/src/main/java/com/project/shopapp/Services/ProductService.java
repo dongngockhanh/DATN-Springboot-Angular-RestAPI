@@ -16,7 +16,7 @@ import java.util.List;
 public interface ProductService {
     Product createProduct(ProductDTO productDTO) throws DataNotFoundException;
     Page<ProductResponse> getAllProducts(String keyword, Long categoryId,PageRequest pageRequest);
-    Product getProductById(long id) throws DataNotFoundException;
+    Product getProductById(long id);
     List<Product> getProductByIds(List<Long> ids);
     Product updateProduct(long id,ProductDTO productDTO) throws DataNotFoundException;
     void deleteProduct(long id);
@@ -25,4 +25,5 @@ public interface ProductService {
             Long productId,
             ProductImageDTO productImageDTO) throws Exception;
     List<ProductImageResponse> getImageByProductId(long id);
+    void deleteImage(long id);
 }

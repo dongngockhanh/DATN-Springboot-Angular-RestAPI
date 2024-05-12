@@ -20,12 +20,12 @@
         </form>
     </p-dialog>
 
-    <p-table [value]="listCategory" [rows]="5" [paginator]="true">
+    <p-table [value]="listCategory" [rows]="5" [paginator]="true" currentPageReportTemplate="Hiển thị {first} đến {last} của {totalRecords} danh mục" [showCurrentPageReport]="true">
         <ng-template pTemplate="header">
             <tr>
-                <th>Name</th>
-                <th>Enable</th>
-                <th>Action</th>
+                <th>tên</th>
+                <th>kích hoạt</th>
+                <th>hành động</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-category>
@@ -38,15 +38,16 @@
                 <td>
                     <button pButton type="button" icon="pi pi-pencil" class="p-button-rounded p-button-primary" (click)="onUpdateForm(category.id,category.name)"></button>
                     <button pButton type="button" icon="pi pi-trash" class="p-button-rounded p-button-danger ml-2" (click)="onDelete(category.id,category.name)"></button>
-                    <p-dialog header="Xác nhận" [(visible)]="deleteForm" [style]="{width :'30vw'}" [modal]="true" [transitionOptions]="'.3s'">
+                    <p-dialog header="Xác nhận" [(visible)]="deleteForm"  [modal]="true" [transitionOptions]="'.3s'">
                         <div>
-                            <i class="pi pi pi-exclamation-triangle"></i>
+                            <i style="color: red;" class="pi pi pi-exclamation-triangle"></i>
+                            &nbsp;
                             <span class="ml-2">Bạn có chắc xóa <span>{{categoryForm.name}}</span> ?</span>
                         </div>
-                        <div class="flex justify-content-end mt-3">
-                            <p-button label="Yes" icon="pi pi-check" class="mr-2" (click)="deleteCategory()"></p-button>
-                            <p-button label="No" icon="pi pi-times" (click)="deleteForm=false"></p-button>
-                        </div>
+                        <p-footer>
+                            <button type="button" class="btn btn-secondary" (click)="deleteForm=false">Hủy</button>
+                            <button type="button" class="btn btn-danger" (click)="deleteCategory()">Xóa</button>
+                        </p-footer>
                     </p-dialog>
                 </td>
             </tr>

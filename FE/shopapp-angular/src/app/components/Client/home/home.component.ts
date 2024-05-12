@@ -1,19 +1,23 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ProductResponse } from '../../../responses/products/product.response';
 import { ProductService } from '../../../services/productService/product.service';
 import { environment } from '../../../environments/environment';
 import Aos from 'aos';
 import { CategoryResponse } from '../../../responses/categories/category.response';
 import { CategoryService } from '../../../services/categoryService/category.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ViewEncapsulation } from '@angular/compiler';
 import { CartService } from '../../../services/cart.service';
+import { StorageService } from '../../../services/storage.service';
+import { MessageService } from 'primeng/api';
 
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
+  // templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
+  providers: [MessageService],
 })
 export class HomeComponent implements OnInit{
   // products = [
@@ -29,7 +33,7 @@ export class HomeComponent implements OnInit{
   //   { id: 10, name: 'Product 10', price: 1000 },
   // ];
   products: ProductResponse[] =[];
-  categories: CategoryResponse[] = [];
+  categories!: CategoryResponse[];
 
   currentPage: number = 0;
   itemsPerPage: number = 12;
@@ -37,26 +41,41 @@ export class HomeComponent implements OnInit{
   totalPages: number = 0;
   visiblePages: number[] = [];
 
-  keywordsearch: string ;
-  categoryID: number = 0;
+  keywordsearch: string;
+  categoryID!: number;
+  categoryName!: string;
 
   constructor(private router: Router,
+              private activatedRoute:ActivatedRoute,
               private productService: ProductService,
               private categoryService: CategoryService,
-              private cartService: CartService) { 
-    this.keywordsearch = '';
+              private cartService: CartService,
+              private storageService: StorageService,
+              private messageService: MessageService,
+              private renderer: Renderer2, private el: ElementRef
+              ) { 
+      this.keywordsearch = '';
   }
   ngOnInit(){
     Aos.init();
-    this.getCategories();
-    this.getProducts(this.keywordsearch,this.categoryID,this.currentPage,this.itemsPerPage);
-    // localStorage.removeItem('wish_list');
+    this.getCategories().then(() => {
+      this.activatedRoute.queryParams.subscribe(params => {
+        this.keywordsearch = '';
+        this.currentPage = 0;
+        this.categoryID = params['category'];
+        this.categoryName = this.categories.find(cate => cate.id == this.categoryID)?.name || '';
+        this.getProducts(this.keywordsearch, this.categoryID, this.currentPage, this.itemsPerPage);
+        console.log(this.categoryID);
+        console.log(this.categories);
+      });
+    });
+    // localStorage.removeItem('access_token');
   }
+
   //lấy sản phẩm
   getProducts(keyword:string, categoryid:number, page: number, limit: number){
     this.productService.getProducts(keyword, categoryid, page, limit).subscribe({
       next: (response : any) => {
-        debugger
         response.products.forEach((product: ProductResponse) => {
           product.image =  `${environment.apiBaseUrl}/products/images/${product.image}`
         });
@@ -65,7 +84,7 @@ export class HomeComponent implements OnInit{
         this.visiblePages = this.generateVisiblePageArray(this.currentPage, this.totalPages);
       },
       complete: () => {
-        debugger
+        // debugger
       },
       error: (error) => {
         debugger
@@ -77,6 +96,9 @@ export class HomeComponent implements OnInit{
   onPageChange(page: number){
     this.currentPage = page;
     this.getProducts(this.keywordsearch,this.categoryID,this.currentPage-1, this.itemsPerPage);
+    console.log(this.categoryID);
+    console.log(this.currentPage);
+    console.log(this.itemsPerPage);
   }
   //tạo mảng số trang
   generateVisiblePageArray(currentPage: number, totalPages: number): number[]{
@@ -90,22 +112,16 @@ export class HomeComponent implements OnInit{
     return new Array(endPage - startPage + 1).fill(0).map((_, index) => startPage + index+1);
   }
   //lấy danh mục
-  getCategories(){
-    this.categoryService.getCategories().subscribe({
-      next: (response: any) => {
-        debugger
-        
-        this.categories = response;
-
-      },
-      complete: () => {
-        debugger
-      },
-      error: (error) => {
-        debugger
-        console.log(error);
+  async getCategories() {
+    await this.categoryService.getCategories().toPromise().then(res => {
+      if (res) {
+        this.categories = res; // Gán dữ liệu categories từ response
+      } else {
+        console.error('Response is undefined');
       }
-    })
+    }).catch(error => {
+      console.error('Error fetching categories: ', error);
+    });
   }
 
   //lấy id từ category.component.ts
@@ -125,8 +141,21 @@ export class HomeComponent implements OnInit{
   }
   //nút thêm vào giỏ hàng(hiển thị thông báo là đã thêm vào giỏ hàng chứ không chuyển trang)
   onAddToCart(productId: number){
-    this.cartService.addToCart(productId);
-    alert('Đã thêm vào giỏ hàng');
+    if (this.storageService.isLoggedIn()) {
+      this.cartService.addToCart(productId);
+      this.showSuccess('Đã thêm vào giỏ hàng');
+    }
+    else {
+      alert('Vui lòng đăng nhập để thêm vào giỏ hàng');
+    }
+  }
+
+  // Hiển thị thông báo
+  showSuccess(message: string) {
+    this.messageService.add({severity:'success', summary: 'Success', detail: message});
+  }
+  showError(message: string) {
+    this.messageService.add({severity:'error', summary: 'Error', detail: message});
   }
 
    // Hiển thị nút "Back to Top" khi người dùng cuộn xuống một khoảng cách cụ thể
@@ -144,4 +173,60 @@ export class HomeComponent implements OnInit{
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
   };
+
+    //phục vụ css home-cate
+    ngAfterViewInit() {
+      window.addEventListener('scroll', this.scrollEvent, true);
+    }
+  
+    ngOnDestroy() {
+      window.removeEventListener('scroll', this.scrollEvent, true);
+    }
+  
+    scrollEvent = (event: any): void => {
+      const number = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      if (number > 85) {
+        // this.renderer.setStyle(this.el.nativeElement.querySelector('.style-home-cate'), 'border-top-left-radius', '0');
+        // this.renderer.setStyle(this.el.nativeElement.querySelector('.style-home-cate'), 'border-top-right-radius', '0');
+      }
+      else{
+        // this.renderer.setStyle(this.el.nativeElement.querySelector('.style-home-cate'), 'border-radius', '5px');
+      }
+    };
+
+
+  // currentTime:GLfloat =30;
+  // @ViewChild('myVideo')myVideo!: ElementRef;
+  // onHover(){
+  //   // this.currentTime = 20;
+  //   const videoElement = this.myVideo.nativeElement;
+  //     // phát video từ thời gian currentTime
+  //     videoElement.currentTime = this.currentTime;
+  //     videoElement.play();
+  //     // cập nhật value của videoSeekBar theo thời gian thực của video
+  //     videoElement.ontimeupdate = () => {
+  //       this.currentTime = videoElement.currentTime;
+  //       this.videoSeekBar.nativeElement.value = this.currentTime;
+  //     }
+  // }
+  // stopVideo(){
+  //   const videoElement = document.getElementById('myVideo') as HTMLVideoElement;
+  //   if (videoElement) {
+  //     this.currentTime = videoElement.currentTime;
+  //     videoElement.pause();
+  //   }
+  // }
+  // @ViewChild('videoSeekBar') videoSeekBar!: ElementRef;
+  // onSeek(){
+  //   this.currentTime = this.videoSeekBar.nativeElement.value;
+  //   this.myVideo.nativeElement.currentTime = this.currentTime;
+  // }
+  // ngAfterViewInit(){
+  //   const videoElement = this.myVideo.nativeElement;
+  //   videoElement.muted = true; // chính sách của trình duyệt không cho phép tự động phát video bắt buộc phải mute thì mới tự động phát được
+  //   videoElement.onloadedmetadata = () => {
+  //     this.videoSeekBar.nativeElement.max = videoElement.duration;
+  //   };
+  //   this.videoSeekBar.nativeElement.value = this.currentTime;
+  // }
 }

@@ -97,8 +97,8 @@ ALTER TABLE orders ADD COLUMN tracking_number VARCHAR(100);
 ALTER TABLE orders ADD COLUMN shipping_address VARCHAR(255);
 -- xoá đơn hàng -> xoá mềm ->thêm trường active
 ALTER TABLE orders ADD COLUMN active TINYINT(1);
---trạng thái đơn hàng: pending, shipping, shipped, completed, canceled
-ALTER TABLE orders MODIFY COLUMN status ENUM('pending', 'shipping', 'shipped', 'completed', 'canceled') 
+--trạng thái đơn hàng: pending, confirmation, processing, shipping, shipped, completed, canceled
+ALTER TABLE orders MODIFY COLUMN status ENUM('pending', 'confirmation', 'processing', 'shipping', 'shipped', 'completed', 'canceled') 
 COMMENT 'trạng thái đơn hàng';
 
 
@@ -114,3 +114,12 @@ CREATE TABLE order_details(
     total_monney DECIMAL(10, 2) NOT NULL COMMENT 'tổng tiền',
     color VARCHAR(100) DEFAULT '' COMMENT 'màu sắc sản phẩm',
 );
+-- bảng giỏ hàng
+Create TABLE carts(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT COMMENT 'id người dùng',
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    product_id INT COMMENT 'id sản phẩm',
+    FOREIGN KEY (product_id) REFERENCES products(id),
+    quantity INT NOT NULL COMMENT 'tổng số lượng sản phẩm'
+)

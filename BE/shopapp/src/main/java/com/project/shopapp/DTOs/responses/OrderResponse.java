@@ -40,7 +40,7 @@ public class OrderResponse extends BaseResponse{
     @JsonProperty("shipping_method")
     private String shippingMethod;
 
-    @JsonProperty("payment_Method")
+    @JsonProperty("payment_method")
     private String paymentMethod;
 
     @JsonProperty("shipping_date")

@@ -21,6 +21,12 @@ public class OrderDetailResponse {
     @JsonProperty("product_id")
     private Long productId;
 
+    @JsonProperty("product_name")
+    private String productName;
+
+    @JsonProperty("product_image")
+    private String productImage;
+
     @JsonProperty("quantity")
     private int quantity;
 

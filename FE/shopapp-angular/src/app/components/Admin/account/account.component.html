@@ -1,1 +1,59 @@
-<p>account works!</p>
+<!-- <p>account works!</p> -->
+<p-card>
+<!-- <div class="card"> -->
+    <p-table #dt [value]="listUser" [rows]="10" [paginator]="true" [globalFilterFields]="['full_name','address','phone_number','email']" [tableStyle]="{'min-width': '75rem'}"
+        [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Hiển thị {first} đến {last} của {totalRecords} người dùng" [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <h5 class="mt-0 mb-3">Danh sách tài khoản người dùng</h5>
+                <!-- <button (click)="test()">test</button> -->
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Tìm kiếm" />`
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 4rem">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th pSortableColumn="name">tên người dùng <p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="country">Quốc gia<p-sortIcon field="country"></p-sortIcon></th>
+                <th pSortableColumn="address">Địa chỉ <p-sortIcon field="address"></p-sortIcon></th>
+                <!-- <th pSortableColumn="town">Town/City <p-sortIcon field="town"></p-sortIcon></th>
+                <th pSortableColumn="state">Country/State<p-sortIcon field="state"></p-sortIcon></th> -->
+                <!-- <th pSortableColumn="postcode">Postcode/Zip <p-sortIcon field="postcode"></p-sortIcon></th> -->
+                <th pSortableColumn="phone">Số điện thoại <p-sortIcon field="phone"></p-sortIcon></th>
+                <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon></th>
+                <th pSortableColumn="total_money">Tổng tiền chi tiêu <p-sortIcon field="price"></p-sortIcon></th>
+                <th style="min-width:10rem">Trạng thái</th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-user>
+            <tr>
+                <td style="width: 4rem">
+                    <p-tableCheckbox [value]="user"></p-tableCheckbox>
+                </td>
+                <td>{{user.full_name}} {{user.lastname}}</td>
+                <td>{{user.country}}việt nam</td>
+                <td>{{user.address}}</td>
+                <td>{{user.phone_number}}</td>
+                <td>{{user.email}}</td>
+                <td>{{user.total_money}}</td>
+                <!-- <td><button pButton type="button" label="hoạt động" class="p-button-success"></button></td> -->
+                <td>
+                    <button pButton type="button"
+                    (click)="toggleActive(user)" 
+                    [label]="user.is_active ? 'hoạt động' : 'bị vô hiệu'" 
+                    [ngClass]="{'p-button-success': user.is_active, 
+                    'p-button-danger': !user.is_active}">
+                    </button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+<!-- </div> -->
+</p-card>

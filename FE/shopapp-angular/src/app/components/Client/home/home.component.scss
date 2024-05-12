@@ -1,7 +1,28 @@
 .intro-section{
-    text-align: center;
+    // text-align: center;
     // color: white;
-    padding: 20px;
+    // text-align: start;
+    position: sticky; top: 45px; z-index:1;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    .style-home-cate{
+        border-radius: 5px;
+        background-color: #dfe6e9;
+        padding:  10px;
+        box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
+    }
+    p{
+        color: black;
+        margin: 0 !important;
+    }
+    i{
+        color: black;
+    }
+    a{
+        color: black;
+        font-weight: 600;
+        text-decoration: none;
+    }
 }
 .search-box{
     display: flex;
@@ -121,3 +142,15 @@ option.option-dis{
 // .iop.show {
 //     opacity: 1;
 // }
+.product-item {
+    position: relative; /* Đảm bảo phần tử con được căn chỉnh đúng trong phần tử cha */
+  }
+  
+  .canchinh {
+    // background: red;
+    position: absolute; /* Đặt phần tử ở vị trí tuyệt đối trong phần tử cha */
+    bottom: 20px; /* Đặt ở phía dưới của phần tử cha */
+    left: 20px; /* Đặt ở phía trái của phần tử cha */
+    width:90% /* Chiếm toàn bộ chiều rộng của phần tử cha */
+    // text-align: center; /* Căn giữa các nút bên trong */
+  }

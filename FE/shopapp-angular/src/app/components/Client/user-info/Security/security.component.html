@@ -1,0 +1,99 @@
+    <div class="row">
+        <div class="col-lg-8">
+            <!-- Change password card-->
+            <div class="card mb-4">
+                <div class="card-header">Thay Đổi Mật Khẩu</div>
+                <!-- <button (click)="test()"> test</button> -->
+                <div class="card-body">
+                    <form>
+                        <!-- Form Group (current password)-->
+                        <div class="mb-3">
+                            <label class="small mb-1" for="currentPassword">Mật Khẩu Hiện Tại</label>
+                            <input class="form-control" id="currentPassword" type="password" placeholder="Nhập mật khẩu hiện tại" 
+                            [(ngModel)]="oldPassword" name="oldPassword">
+                        </div>
+                        <!-- Form Group (new password)-->
+                        <div class="mb-3">
+                            <label class="small mb-1" for="newPassword">Mật Khẩu Mới</label>
+                            <input class="form-control" id="newPassword" type="password" placeholder="Nhập mật khẩu mới"
+                            [(ngModel)]="newPassword" name="newPassword">
+                        </div>
+                        <!-- Form Group (confirm password)-->
+                        <div class="mb-3">
+                            <label class="small mb-1" for="confirmPassword">Xác Nhận Mật Khẩu</label>
+                            <input class="form-control" id="confirmPassword" type="password" placeholder="Xác nhận mật khẩu mới"
+                            [(ngModel)]="retypePassword" name="retypePassword">
+                        </div>
+                        <button class="btn btn-primary" type="button" (click)="savePassword()">Lưu Lại</button>
+                    </form>
+                </div>
+            </div>
+            <!-- Security preferences card-->
+            <div class="card mb-4">
+                <div class="card-header">Tuỳ chọn bảo mật</div>
+                <div class="card-body">
+                    <!-- Data sharing options-->
+                    <h5 class="mb-1">Chia sẻ dữ liệu</h5>
+                    <p class="small text-muted">Chia sẻ dữ liệu sử dụng có thể giúp chúng tôi cải thiện sản phẩm của mình và phục vụ người dùng tốt hơn khi họ điều hướng qua ứng dụng của chúng tôi. Khi bạn đồng ý chia sẻ dữ liệu sử dụng với chúng tôi, báo cáo sự cố và phân tích sử dụng sẽ tự động được gửi đến nhóm phát triển của chúng tôi để điều tra.</p>
+                    <form>
+                        <div class="form-check">
+                            <input class="form-check-input" id="radioUsage1" type="radio" name="radioUsage" checked="">
+                            <label class="form-check-label" for="radioUsage1">Có, chia sẻ dữ liệu và báo cáo sự cố với nhà phát triển ứng dụng</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" id="radioUsage2" type="radio" name="radioUsage">
+                            <label class="form-check-label" for="radioUsage2">Không, giới hạn chia sẻ dữ liệu của tôi với nhà phát triển ứng dụng</label>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <!-- Two factor authentication card-->
+            <div class="card mb-4">
+                <div class="card-header">Xác thực hai yếu tố</div>
+                <div class="card-body">
+                    <p>Thêm một mức độ bảo mật khác cho tài khoản của bạn bằng cách bật xác thực hai yếu tố. Chúng tôi sẽ gửi cho bạn một tin nhắn văn bản để xác minh các nỗ lực đăng nhập của bạn trên các thiết bị và trình duyệt không được nhận dạng.</p>
+                    <form>
+                        <div class="form-check">
+                            <input class="form-check-input" id="twoFactorOn" type="radio" name="twoFactor" checked="">
+                            <label class="form-check-label" for="twoFactorOn">Bật</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" id="twoFactorOff" type="radio" name="twoFactor">
+                            <label class="form-check-label" for="twoFactorOff">Tắt</label>
+                        </div>
+                        <div class="mt-3">
+                            <label class="small mb-1" for="twoFactorSMS">Số điện thoại xác thực SMS</label>
+                            <input class="form-control" id="twoFactorSMS" type="tel" placeholder="Enter a phone number" value="555-123-4567">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- Delete account card-->
+            <div class="card mb-4">
+                <div class="card-header">Xoá tài khoản</div>
+                <div class="card-body">
+                    <p>Xóa tài khoản của bạn là một hành động vĩnh viễn và không thể hoàn tác. Nếu bạn chắc chắn muốn xóa tài khoản của mình, hãy chọn nút bên dưới.</p>
+                    <button class="btn btn-danger-soft text-danger" type="button" (click)="showDialog()">Tôi hiểu, hãy xoá tài khoản của tôi</button>
+                    <p-dialog [(visible)]="displayDialog" [transitionOptions]="'.3s'" [modal]="true">
+                        <p-header>
+                            <!-- icon fontawsome cảnh báo -->
+                            <h3 >Xác Nhận Xoá Tài Khoản</h3>
+                        </p-header>
+                        <p-footer>
+                            <button type="button" class="btn btn-secondary" (click)="displayDialog = false">Hủy</button>
+                            <button type="button" class="btn btn-danger" (click)="deleteAccount()">Xoá tài khoản</button>
+                        </p-footer>
+                        <div class="d-flex mb-3">
+                            <p style="margin: 0; align-content: center;">Nhập mã xác nhận để tiếp tục: </p>
+                            &nbsp;
+                            <h4 style="align-content: center; margin: 0;">{{randomCode}}</h4>
+                        </div>
+                        <input class="form-control" style="font-size: 16px;" type="text" [(ngModel)]="userInput" placeholder="Nhập mã xác nhận">
+                    </p-dialog>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p-toast></p-toast>

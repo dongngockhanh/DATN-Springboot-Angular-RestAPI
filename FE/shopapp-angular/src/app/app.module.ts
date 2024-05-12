@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -29,6 +29,34 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { DashboardComponent } from './components/Admin/dashboard/dashboard.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ToastModule } from 'primeng/toast';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+import { ToolbarModule } from 'primeng/toolbar';
+import { DialogModule } from 'primeng/dialog';
+import { TableModule } from 'primeng/table';
+import { DividerModule } from 'primeng/divider';
+import { ConfirmDialogModule} from 'primeng/confirmdialog';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { ProfileComponent } from './components/Client/user-info/Profile/profile.component';
+import { SecurityComponent } from './components/Client/user-info/Security/security.component';
+import { ControlUserComponent } from './components/Client/user-info/control-user/control-user.component';
+import { OrderStatusComponent } from './components/Client/user-info/order-status/order-status.component';
+import { OrderDetailComponent } from './components/Client/user-info/order-detail/order-detail.component';
+import { PrimeNGConfig } from 'primeng/api';
+import { CategoryComponent } from './components/Admin/category/category.component';
+import { ProductComponent } from './components/Admin/product/product.component';
+import { OrderAdminComponent } from './components/Admin/order-admin/order-admin.component';
+import { ToggleButtonModule } from 'primeng/togglebutton';
+import { AccountComponent } from './components/Admin/account/account.component';
+import { StatisticsComponent } from './components/Admin/statistics/statistics.component';
+import { BillingComponent } from './components/Client/user-info/billing/billing.component';
+import { SelectButtonModule } from 'primeng/selectbutton';
 
 @NgModule({
   declarations: [
@@ -42,6 +70,17 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     CartComponent,
     LoginPageComponent,
     DashboardComponent,
+    ProfileComponent,
+    SecurityComponent,
+    ControlUserComponent,
+    OrderStatusComponent,
+    OrderDetailComponent,
+    CategoryComponent,
+    ProductComponent,
+    OrderAdminComponent,
+    AccountComponent,
+    StatisticsComponent,
+    BillingComponent
   ],
   imports: [
     BrowserModule,
@@ -57,7 +96,24 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     MatInputModule,
     ReactiveFormsModule,  
     BrowserAnimationsModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    NgbPopoverModule,
+    NgbModule,
+
+    ToastModule,
+    ButtonModule,
+    CardModule,
+    ToolbarModule, 
+    DialogModule, 
+    TableModule,
+    DividerModule,
+    ConfirmDialogModule,
+    RadioButtonModule,
+    InputNumberModule ,
+    InputTextModule,
+    InputTextareaModule,
+    ToggleButtonModule,
+    SelectButtonModule,
   ],
   providers: [
     {
@@ -90,6 +146,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     AppComponent
     // HomeComponent
 
-  ]
+  ],
 })
 export class AppModule { }

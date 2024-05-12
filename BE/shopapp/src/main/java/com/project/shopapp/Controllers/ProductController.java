@@ -11,9 +11,9 @@ import com.project.shopapp.exceptions.DataNotFoundException;
 import com.project.shopapp.models.Product;
 import com.project.shopapp.models.ProductImage;
 import com.project.shopapp.untils.MessageKeys;
-import com.sun.jndi.toolkit.url.Uri;
 import lombok.RequiredArgsConstructor;
 import net.coobird.thumbnailator.Thumbnails;
+import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,20 +27,14 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.ImageIO;
 import javax.validation.Valid;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.rmi.MarshalException;
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -216,7 +210,11 @@ public class ProductController {
             return ResponseEntity.notFound().build();
         }
     }
-
+    @DeleteMapping("images/{id}")
+    public ResponseEntity<?> deleteImage(@PathVariable Long id){
+        productService.deleteImage(id);
+        return ResponseEntity.ok().build();
+    }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateProduct(@PathVariable long id,@RequestBody ProductDTO productDTO)

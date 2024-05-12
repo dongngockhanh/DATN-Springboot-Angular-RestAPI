@@ -1,0 +1,15 @@
+<div class="container-xl px-4 mt-4">
+    <!-- Account page navigation-->
+    <nav class="nav nav-borders">
+        <!-- https://www.bootdey.com/snippets/view/bs5-edit-profile-account-details -->
+        <a class="nav-link" routerLinkActive="active" routerLink="/user/profile">Hồ sơ</a>
+        <a class="nav-link" routerLinkActive="active" routerLink="/user/security">Bảo mật</a>
+        <a class="nav-link" routerLinkActive="active" routerLink="/user/billing">Thanh toán</a>
+        <a class="nav-link" routerLinkActive="active" routerLink="/user/order-status">Đơn hàng</a>
+        <a class="nav-link" routerLink="/">Lịch sử mua hàng</a>
+    </nav>
+    <hr class="mt-0 mb-4" style="font-size: 3px;">
+    <div>
+        <router-outlet></router-outlet>
+    </div>
+</div>

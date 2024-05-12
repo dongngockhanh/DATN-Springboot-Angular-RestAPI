@@ -10,13 +10,13 @@
     </div> -->
     <div class="intro-section">
         <div class="d-flex w-100">
-            <a class="nav-link" href="#">
+            <a class="nav-link" onclick="window.history.back()">
                 <i class="fa-solid fa-arrow-left" style="font-size: 23px"></i>
                 <!-- <svg data-v-5273d083="" width="20" height="17" viewBox="0 0 20 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path data-v-5273d083="" d="M19 8.5L1 8.5M1 8.5L8 1M1 8.5L8 16" stroke="#121219" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg> -->
             </a>
-            <h1 class="mx-auto">Đây là trang Order</h1>
+            <!-- <h1 class="mx-auto">Đây là trang Order</h1> -->
         </div>
-        <p>sử dụng bootstrap</p>
+        <!-- <p>sử dụng bootstrap</p> -->
     </div>
     <div class="row">
         <!-- thông tin -->
@@ -156,7 +156,52 @@
                     <h6>HÌNH THỨC THANH TOÁN TRỰC TUYẾN</h6>
                     <div class="form-control custom-form">
                         <div class="form-group">
-                            <h3 class="d-flex justify-content-center">đang phát triển</h3>
+                            <!-- <h3 class="d-flex justify-content-center">đang phát triển</h3> -->
+                            <form class="">
+                                <div class="d-flex flex-row pb-3">
+                                    <div class="d-flex align-items-center pe-2">
+                                      <input class="form-check-input" type="radio" name="radioNoLabel" id="radioNoLabel1"
+                                        value="" aria-label="..." checked />
+                                    </div>
+                                    <div class="rounded border d-flex w-100 p-3 align-items-center">
+                                      <p class="mb-0">
+                                        <!-- <i src="/assets/image/momo_square_pinkbg.svg" class=""></i>Momo -->
+                                        <img src="/assets/image/momo_square_pinkbg.svg" alt="momo" class="img-fluid" style="width: 22.5px;">
+                                      </p>
+                                      &nbsp;&nbsp;
+                                      <p class="mb-0">MoMo</p>
+                                      <div class="ms-auto">******3456</div>
+                                    </div>
+                                  </div>
+
+                                <div class="d-flex flex-row pb-3">
+                                  <div class="d-flex align-items-center pe-2">
+                                    <input class="form-check-input" type="radio" name="radioNoLabel" id="radioNoLabel1"
+                                      value="" aria-label="..." checked />
+                                  </div>
+                                  <div class="rounded border d-flex w-100 p-3 align-items-center">
+                                    <p class="mb-0">
+                                      <i class="fab fa-cc-visa fa-lg text-primary pe-2"></i>Visa Debit
+                                      Card
+                                    </p>
+                                    <div class="ms-auto">************3456</div>
+                                  </div>
+                                </div>
+                
+                                <div class="d-flex flex-row">
+                                  <div class="d-flex align-items-center pe-2">
+                                    <input class="form-check-input" type="radio" name="radioNoLabel" id="radioNoLabel2"
+                                      value="" aria-label="..." />
+                                  </div>
+                                  <div class="rounded border d-flex w-100 p-3 align-items-center">
+                                    <p class="mb-0">
+                                      <i class="fab fa-cc-mastercard fa-lg text-dark pe-2"></i>Mastercard
+                                      Office
+                                    </p>
+                                    <div class="ms-auto">************1038</div>
+                                  </div>
+                                </div>
+                              </form>
                         </div>
                     </div>
                 </div>
@@ -171,7 +216,7 @@
                         <div class="row mb-3 mx-auto">
                             <!-- Sản phẩm 1 -->
                             <div class="col-md-3 col-3">
-                                <img alt="product" class="img-fluid" [src]="item.image">
+                                <img alt="product" class="img-fluid rounded-3" [src]="item.image">
                             </div>
                             <div class="col-md-9 col-9 d-flex justify-content-between">
                                 <div>
@@ -191,10 +236,35 @@
                        <p>{{totalMoney|currency:'VND'}}</p>
                     </div>
                 </div>
-                <button class="btn btn-danger" (click)="createOrder()">Tiếp tục</button>
-                <!-- <i>âfa</i>
-                <button class="btn btn-danger" (click)="test()">test</button> -->
+                <button class="btn btn-danger" (click)="showDialog()">Tiếp tục</button>
+            </div>
+            <div class="showdialog">
+                <p-dialog [(visible)]="displayDialog" [modal]="true">
+                    <p-header>
+                        <h6>Xác nhận đơn hàng</h6>
+                    </p-header>
+                    <div class="p-fluid" style="width: 350px;">
+                        <div class="p-field">
+                            <label for="name">Họ và tên</label>
+                            <p>{{fullname||'(trống)'}}</p>
+                        </div>
+                        <div class="p-field">
+                            <label for="phone">Số điện thoại</label>
+                            <p>{{phonenumber||"(trống)"}}</p>
+                        </div>
+                        <div class="p-field">
+                            <label for="address">Địa chỉ</label>
+                            <p style="word-wrap: break-word;">{{(homeaddress && address ? homeaddress + ' ' + address : "(trống)")}}</p>
+                        </div>
+                        <p style="color: red;margin: 0; word-wrap: break-word;">Nếu bạn đồng ý đơn hàng của bạn sẽ được cập nhật trên hệ thống</p>
+                    </div>
+                    <p-footer>
+                        <button type="button" pButton icon="pi pi-times" (click)="displayDialog=!displayDialog" label="Hủy"></button>
+                        <button type="button" pButton icon="pi pi-check" (click)="createOrder();displayDialog=false" label="Đồng ý"></button>
+                    </p-footer>
+                </p-dialog>
             </div>
         </div>
     </div>
 </div>
+<p-toast></p-toast>

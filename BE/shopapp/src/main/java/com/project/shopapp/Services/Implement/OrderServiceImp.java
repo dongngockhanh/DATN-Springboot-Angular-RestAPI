@@ -19,6 +19,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,8 +35,35 @@ public class OrderServiceImp implements OrderService {
     private final OrderDetailRepository orderDetailRepository;
     private final ModelMapper modelMapper; // dùng để convert dữ liệu
     private final MessageResponse messageResponse;
-//    private final OrderDetailServiceImp orderDetailServiceImp;
+    //private final OrderDetailServiceImp orderDetailServiceImp;
 
+    // hàm tạo tracking number ngẫu nhiên
+    private String generateTrackingNumber() {
+        int length = 11;
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        StringBuilder trackingNumber = new StringBuilder();
+        SecureRandom random = new SecureRandom();
+        boolean isExist;
+        do {
+            for (int i = 0; i < length; i++) {
+                int randomIndex = random.nextInt(characters.length());
+                trackingNumber.append(characters.charAt(randomIndex));
+            }
+            isExist = isTrackingNumberExist(trackingNumber.toString());
+            if (isExist) {
+                trackingNumber.setLength(0);
+            }
+        } while (isExist);
+        return trackingNumber.toString();
+    }
+    //hàm kiểm tra trùng lặp tracking number trong database
+    private boolean isTrackingNumberExist(String trackingNumber) {
+       Boolean existingOrder = orderRepository.findOrderByTrackingNumber(trackingNumber);
+       if (existingOrder != null && existingOrder) {
+           return true;
+       }
+       return false;
+    }
     @Override
     public OrderResponse createOrder(OrderDTO orderDTO){
         User user = userRepository
@@ -59,6 +87,7 @@ public class OrderServiceImp implements OrderService {
             throw new DataNotFoundException("Shipping date must be greater than today's date");
         }
         order.setShippingDate(shippingDate);
+        order.setTrackingNumber(generateTrackingNumber());
         order.setActive(true);
         orderRepository.save(order);
         // tạo mới chi tiết đơn hàng
@@ -92,9 +121,16 @@ public class OrderServiceImp implements OrderService {
             throw new DataNotFoundException(messageResponse.getMessageString(MessageKeys.ORDER_HAS_BEEN_DELETED));
         return mapOrderToOrderResponse(existingOrder);
     }
+    @Override
+    public List<OrderResponse> getAllOrders(){
+        List<Order> orders = orderRepository.findAll();
+        return orders.stream()
+                .map(this::mapOrderToOrderResponse)
+                .collect(Collectors.toList());
+    }
 
     @Override
-    public List<OrderResponse> getAllOrders(long userId) throws Exception {
+    public List<OrderResponse> getOrderByUserId(long userId) throws Exception {
         userRepository.findById(userId)
                 .orElseThrow(()->
                         new DataNotFoundException(messageResponse.getMessageString(MessageKeys.NOT_FOUND_USER_BY_ID,userId)));
@@ -116,6 +152,10 @@ public class OrderServiceImp implements OrderService {
         order.setShippingDate(shippingDate);
         orderRepository.save(order);
         return mapOrderToOrderResponse(order);
+    }
+    @Override
+    public void setStatusOrder(Long orderId) {
+
     }
 
     @Override

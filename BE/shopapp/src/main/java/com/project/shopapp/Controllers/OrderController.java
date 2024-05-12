@@ -43,6 +43,15 @@ public class OrderController {
             return ResponseEntity.badRequest().body(messageResponse);
         }
     }
+    @GetMapping("")
+    public ResponseEntity<?> getAllOrder(){
+        try {
+            List<OrderResponse> orders =  orderService.getAllOrders();
+            return ResponseEntity.ok(orders);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(messageResponse);
+        }
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getOrderById(@Valid @PathVariable("id") Long id)
@@ -60,7 +69,7 @@ public class OrderController {
     public ResponseEntity<?> getOrderByUserId(@Valid @PathVariable("user_id") Long userId)
     {
         try {
-            List<OrderResponse> ordersByUserIdResponse  = orderService.getAllOrders(userId);
+            List<OrderResponse> ordersByUserIdResponse  = orderService.getOrderByUserId(userId);
             return ResponseEntity.ok().body(ordersByUserIdResponse);
         }
         catch (Exception e)
