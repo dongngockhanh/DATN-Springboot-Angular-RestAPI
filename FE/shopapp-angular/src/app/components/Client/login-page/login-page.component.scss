@@ -64,5 +64,104 @@
     text-align: right;
 }
 
+// css card otp
+.form-card {
+  width: 280px;
+  height: 350px;
+  border-radius: 1.2rem;
+  background-color: #fff;
+  padding: 1.3rem;
+  color: #212121;
+  text-align: center;
+  position: relative;
+}
 
+.form-card-title {
+  font-size: 1.6rem;
+  margin-bottom: 0.6rem;
+  margin-top: 0.2rem;
+}
+
+.form-card-prompt {
+  margin-bottom: 2rem;
+  font-size: 14px;
+}
+/* hard reset */
+// .form-card-input {
+//   all: unset;
+// }
+
+// .form-card-input-wrapper {
+//   position: relative;
+//   width: 100%;
+//   height: 3rem;
+//   display: -webkit-box;
+//   display: -ms-flexbox;
+//   display: flex;
+//   margin-bottom: 1rem;
+// }
+
+// .form-card-input {
+//   font-size: 2rem;
+//   width: 100%;
+//   font-weight: bold;
+//   letter-spacing: 2rem;
+//   text-align: left;
+//   -webkit-transform: translateX(36px);
+//   -ms-transform: translateX(36px);
+//   transform: translateX(36px);
+//   position: absolute;
+//   z-index: 3;
+//   background-color: transparent;
+//   // background: red;
+//   height: 100%;
+// }
+
+// .form-card-input-bg {
+//   content: '';
+//   width: 100%;
+//   height: 100%;
+//   margin: auto;
+//   inset: 0;
+//   top: 5px;
+//   // bottom: 10px;
+//   position: absolute;
+//   z-index: 1;
+//   border-radius: 12px;
+//   background-color: rgba(206, 206, 206, 0.664);
+// }
+
+.call-again {
+  margin-top: 10px;
+  color: #5e5e5e;
+  font-size: 14px;
+}
+
+.call-again:hover {
+  cursor: pointer;
+}
+
+.underlined {
+  text-decoration: underline;
+}
+.otp-input input{
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  text-align: center;
+  border: 1px solid #d1d1d1;
+  border-radius: 5px;
+  margin: 0 5px;
+}
+.verifyButton {
+  width: 100%;
+  height: 30px;
+  border: none;
+  background-color: rgb(127, 129, 255);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 10px;
+  transition-duration: .2s;
+}
   

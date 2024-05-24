@@ -15,6 +15,8 @@ import { OrderDTO } from '../../../dtos/order/order.dto';
 import { OrderService } from '../../../services/order.service';
 import { TokenService } from '../../../services/token.service';
 import { MessageService } from 'primeng/api';
+import { PaymentService } from '../../../services/payment.service';
+import { PaymentDTO } from '../../../dtos/payment/payment.dto';
 
 @Component({
   selector: 'app-order',
@@ -30,6 +32,7 @@ export class OrderComponent {
     private productService: ProductService,
     private provincialService: ProvincialService,
     private orderService: OrderService,
+    private paymentService: PaymentService,
     private tokenService: TokenService,
     private messageService: MessageService,
     private fb: FormBuilder) {
@@ -49,6 +52,7 @@ export class OrderComponent {
     this.initForm();
     this.getProvinces();
     this.getProductByNow();
+    localStorage.removeItem('orderData');//xóa orderData trong localStorage
   }
 
   // lấy dữ liệu từ form
@@ -284,6 +288,7 @@ export class OrderComponent {
         }
       })
     };
+    if(this.paymentMethod === 'Thanh toán khi nhận hàng'){
     this.orderService.createOrder(orderData).subscribe({
       next: (response: any) => {
         debugger
@@ -291,6 +296,7 @@ export class OrderComponent {
         for(let i = 0; i < this.listId.length; i++){
           this.cartService.removeProduct(this.listId[i]);
         }
+        // this.showSuccess('Đặt hàng thành công');
       },
       complete:()=> {
         debugger
@@ -302,7 +308,27 @@ export class OrderComponent {
         console.log(error);
       }
     });
+    }
+    else {
+      // alert(this.paymentMethod);
+      localStorage.setItem('orderData', JSON.stringify(orderData));//lưu orderData vào localStorage
+      this.PaymentVnPay();
+    }
   }
+  //test thanh toán vnpay
+  linkVnPay!: string;
+  paymentDto: PaymentDTO ={
+    amount: 0 // Initialize totalMoney to a default value
+  };
+  PaymentVnPay(){
+    this.paymentDto.amount = this.totalMoney; // Assign the value of totalMoney to paymentDto.amount
+    this.paymentService.createPayment(this.paymentDto).subscribe((paymentResponse:any)=>{
+      this.linkVnPay = paymentResponse.url;
+      // chuyển hướng
+      window.location.href = this.linkVnPay;
+    })
+  }
+
   //hiển thị thông báo
   showSuccess(message: string) {
     this.messageService.add({severity:'success', summary: 'Success', detail: message});

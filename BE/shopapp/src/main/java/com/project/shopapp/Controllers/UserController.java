@@ -1,8 +1,10 @@
 package com.project.shopapp.Controllers;
 
+import com.project.shopapp.DTOs.CommentDTO;
 import com.project.shopapp.DTOs.PasswordUpdateDTO;
 import com.project.shopapp.DTOs.UserDTO;
 import com.project.shopapp.DTOs.UserLoginDTO;
+import com.project.shopapp.DTOs.responses.CommentResponse;
 import com.project.shopapp.DTOs.responses.LoginResponse;
 import com.project.shopapp.DTOs.responses.MessageResponse;
 import com.project.shopapp.DTOs.responses.UserResponse;
@@ -11,6 +13,7 @@ import com.project.shopapp.exceptions.UnauthorizedException;
 import com.project.shopapp.models.User;
 import com.project.shopapp.untils.MessageKeys;
 import lombok.RequiredArgsConstructor;
+import netscape.javascript.JSObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -19,6 +22,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,9 +51,13 @@ public class UserController {
             if(!userDTO.getPassword().equals(userDTO.getRetypePassword()))
                 return ResponseEntity.badRequest()
                         .body(messageResponse.getMessageResponse(MessageKeys.PASSWORD_NOT_MATCH));
-            userService.createUser(userDTO);
+            String token = userService.createUser(userDTO);
+            LoginResponse loginResponse = LoginResponse.builder()
+                    .message("đăng ký thành công")
+                    .token(token)
+                    .build();
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(messageResponse.getMessageResponse(MessageKeys.REGISTER_SUCCESSFULLY));
+                    .body(loginResponse);
         }
         catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -62,11 +71,7 @@ public class UserController {
     ){
         // kiểm tra thông tin đăng nhập và sinh ra token
         try {
-            String token = userService.login(userLoginDTO.getPhoneNumber(),userLoginDTO.getPassword());
-            LoginResponse loginResponse = LoginResponse.builder()
-                    .message(messageResponse.getMessageString(MessageKeys.LOGIN_SUCCESSFULLY))
-                    .token(token)
-                    .build();
+            LoginResponse loginResponse = userService.login(userLoginDTO.getPhoneNumber(),userLoginDTO.getPassword());
             return ResponseEntity.ok(loginResponse);
         }catch (UnauthorizedException e){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
@@ -150,5 +155,31 @@ public class UserController {
             return ResponseEntity.badRequest().body(messageResponse);
         }
     }
+    @PostMapping("/comment")
+    public ResponseEntity<?> createComment(@RequestBody CommentDTO commentDTO){
+        try {
+            List<CommentResponse> comment = userService.createComment(commentDTO);
+            return ResponseEntity.ok().body(comment);
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+    @GetMapping("/comment")
+    public ResponseEntity<?> getComment(@RequestParam("productId") long id){
+        List<CommentResponse> commentResponses = userService.getComments(id);
+        return ResponseEntity.ok().body(commentResponses);
+    }
+    @GetMapping("/otp/resend")
+    public void resendOtp(@RequestParam("phoneNumber") String phoneNumber){
+        userService.resendOtp(phoneNumber);
+    }
+    @GetMapping("/otp/verify")
+    public boolean verifyOtp(@RequestParam("otp") String otp){
+        return userService.verifyTwoFa(otp);
+    }
 
+    @PatchMapping("/{id}/changeTwoFa")
+    public void changeTwoFa(@PathVariable("id") Long id){
+        userService.changeTwoFa(id);
+    }
 }

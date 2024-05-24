@@ -60,6 +60,9 @@ public class UserResponse {
     @JsonProperty("role_id")
     private Role roleId;
 
+    @JsonProperty("twoFa")
+    private boolean twoFa;
+
     public static UserResponse fromUser(User user){
         return UserResponse.builder()
                 .id(user.getId())
@@ -72,6 +75,7 @@ public class UserResponse {
                 .facebookId(user.getFacebookId())
                 .googleId(user.getGoogleId())
                 .roleId(user.getRoleId())
+                .twoFa(user.isTwoFa())
                 .build();
     }
 }

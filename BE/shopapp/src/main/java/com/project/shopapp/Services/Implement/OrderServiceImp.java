@@ -135,6 +135,7 @@ public class OrderServiceImp implements OrderService {
                 .orElseThrow(()->
                         new DataNotFoundException(messageResponse.getMessageString(MessageKeys.NOT_FOUND_USER_BY_ID,userId)));
         List<Order> ordersList= orderRepository.findByUserId(userId);
+        ordersList.removeIf(order -> !order.isActive());
         return ordersList.stream()
                 .map(this::mapOrderToOrderResponse)
                 .collect(Collectors.toList());

@@ -14,7 +14,7 @@ export class LoginDTO{
     @IsNotEmpty()
     @IsString()
     password: string;
-    
+
     constructor(data:any){
         this.phone_number = data.phoneNumber;
         this.password = data.password;

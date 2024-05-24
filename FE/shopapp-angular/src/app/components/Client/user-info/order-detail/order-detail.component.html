@@ -74,15 +74,17 @@
                   </tr>
                   <tr>
                     <td colspan="2">Phí vận chuyển</td>
-                    <td class="text-end">$20.00</td>
+                    <td class="text-end">{{0|currency:"VND"}}</td>
                   </tr>
                   <tr>
-                    <td colspan="2">Giảm giá (mã: NEWYEAR)</td>
-                    <td class="text-danger text-end">-$10.00</td>
+                    <!-- <td colspan="2">Giảm giá (mã: NEWYEAR)</td> -->
+                    <!-- <td class="text-danger text-end">-$10.00</td> -->
+                    <td colspan="2">Giảm giá (không có)</td>
+                    <td class="text-danger text-end">{{0|currency:'VND'}}</td>
                   </tr>
                   <tr class="fw-bold">
                     <td colspan="2">TỔNG TIỀN</td>
-                    <td class="text-end">$169,98</td>
+                    <td class="text-end">{{orderInfo.total_money|currency:'VND'}}</td>
                   </tr>
                 </tfoot>
               </table>

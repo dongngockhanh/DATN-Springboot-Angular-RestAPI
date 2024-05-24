@@ -7,6 +7,7 @@ import { CartService } from '../../../services/cart.service';
 import { CurrencyPipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-detail-product',
@@ -22,6 +23,7 @@ export class DetailProductComponent {
 
   constructor(
               private router: Router,
+              private userService: UserService,
               private messageService: MessageService,
               private activeRoute: ActivatedRoute,
               private productService: ProductService,
@@ -39,6 +41,7 @@ export class DetailProductComponent {
     }
     if(!isNaN(this.productId))
     {
+      this.getComment();
       this.productService.getDetailProduct(this.productId).subscribe({
         next:(response: any) => {
           //lấy ra các hình ảnh của sản phẩm và thay đổi đường dẫn
@@ -125,6 +128,51 @@ export class DetailProductComponent {
 
   onBuyNow(){
     this.router.navigate(['/order'], { queryParams: { ids: this.productId } });
+  }
+
+  listComment!: any[];
+  getComment(){
+    this.userService.getComment(this.productId).subscribe({
+      next:(response: any) => {
+        debugger
+        console.log(response);
+        response.forEach((comment: any) => {
+          comment.created_at = new Date(comment.created_at[0], comment.created_at[1] - 1, comment.created_at[2], comment.created_at[3], comment.created_at[4], comment.created_at[5]);
+        });
+        this.listComment = response
+      },
+      complete() {
+          debugger
+      },
+      error: (error) => {
+        debugger
+        console.log(error);
+      }
+    });
+  }
+  contentComment!: string;
+  test(){
+    alert(this.contentComment);
+    this.contentComment = '';
+  }
+  createComment(){
+    const user = this.userService.getUserDetailFromLocalStorage();
+    this.userService.addComment(this.productId, this.contentComment,user.user_id).subscribe({
+      next:(response: any) => {
+        debugger
+        console.log(response);
+        this.showSuccess('Đã thêm bình luận');
+        this.getComment();
+      },
+      complete() {
+          debugger
+      },
+      error: (error) => {
+        debugger
+        console.log(error);
+        this.showError('Không thể thêm bình luận');
+      }
+    });
   }
 
   // Hiển thị thông báo

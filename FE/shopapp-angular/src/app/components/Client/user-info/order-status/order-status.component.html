@@ -87,6 +87,7 @@
     </div> -->
 
 <!-- kiểu 2 https://bootdey.com/snippets/tagged/order-->
+<p-toast></p-toast>
 <div class="row">
   <div class="container padding-bottom-3x mb-3" *ngFor="let order of listOrder">
     <div class="card mb-3">
@@ -94,7 +95,7 @@
       <div class="d-flex flex-wrap flex-sm-nowrap justify-content-between py-3 px-2 bg-secondary">
         <div class="w-100 text-center py-1 px-2"><span class="text-medium">Đơn vị vận chuyển:</span> {{order.shipping_method}}</div>
         <div class="w-100 text-center py-1 px-2"><span class="text-medium">Trạng thái:</span> {{statusOrderToVN[order.status]}}</div>
-        <div class="w-100 text-center py-1 px-2"><span class="text-medium">Ngày dự kiến:</span> 09-05-2024</div>
+        <div class="w-100 text-center py-1 px-2"><span class="text-medium">Ngày giao hàng dự kiến:</span>{{order.order_date|date}}</div>
       </div>
       <div class="card-body">
         <div class="steps d-flex flex-wrap flex-sm-nowrap justify-content-between padding-top-2x padding-bottom-1x">
@@ -163,21 +164,43 @@
         </div>
       </div>
     </div>
+    <!-- đáy thẻ  -->
     <div class="d-flex flex-wrap flex-md-nowrap justify-content-center justify-content-sm-between align-items-center">
       <div class="custom-control custom-checkbox mr-3">
         <input class="custom-control-input" type="checkbox" id="notify_me" checked="">
         &nbsp;
         <label class="custom-control-label" for="notify_me">Thông báo cho tôi về trạng thái đơn hàng</label>
       </div>
-      <div class="text-left text-sm-right">
-        <a class="btn btn-outline-primary btn-rounded btn-sm" 
-           routerLink="/user/order-detail/{{order.id}}" 
-           data-toggle="modal" 
-           data-target="#orderDetails"
-           >Xem chi tiết đơn hàng</a>
+      <div class="text-left d-flex">
+        <div class="text-sm-right">
+          <a class="btn btn-outline-danger btn-rounded btn-sm" 
+            *ngIf="!isStepCompleted(order.status, 'shipping')"
+            (click)="showDialog(order.id, order.tracking_number)"
+             data-toggle="modal" 
+             data-target="#orderDetails"
+             >Huỷ đơn</a>
+        </div>
+        <div class="text-sm-right ms-3">
+          <a class="btn btn-outline-primary btn-rounded btn-sm" 
+             routerLink="/user/order-detail/{{order.id}}" 
+             data-toggle="modal" 
+             data-target="#orderDetails"
+             >Xem chi tiết đơn hàng</a>
+        </div>
       </div>
     </div>
   </div>
+  <p-dialog [(visible)]="isDialogVisible" transitionOptions=".3s" [modal]="true">
+    <p-header>Xác nhận huỷ đơn hàng</p-header>
+    <div>
+      <p>Đơn hàng {{tracking_order}} của bạn sẽ bị huỷ.</p>
+      <p style="margin: 0;">Bạn có chắc chắn muốn tiếp tục?</p>
+    </div>
+    <p-footer>
+      <button class="btn btn-danger" (click)="cancelOrder();isDialogVisible=false">Xác nhận</button>
+      <button class="btn btn-primary" (click)="isDialogVisible=false">Trở về</button>
+    </p-footer>
+  </p-dialog>
 </div>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
 

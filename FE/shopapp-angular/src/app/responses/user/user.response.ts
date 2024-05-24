@@ -11,4 +11,5 @@ export interface UserResponse {
     facebook_id: string
     google_id: string
     role_id: Role
+    twoFa:boolean
 }

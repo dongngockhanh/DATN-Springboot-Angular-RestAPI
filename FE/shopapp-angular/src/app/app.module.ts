@@ -43,6 +43,7 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { DropdownModule } from 'primeng/dropdown';
 import { ProfileComponent } from './components/Client/user-info/Profile/profile.component';
 import { SecurityComponent } from './components/Client/user-info/Security/security.component';
 import { ControlUserComponent } from './components/Client/user-info/control-user/control-user.component';
@@ -57,6 +58,7 @@ import { AccountComponent } from './components/Admin/account/account.component';
 import { StatisticsComponent } from './components/Admin/statistics/statistics.component';
 import { BillingComponent } from './components/Client/user-info/billing/billing.component';
 import { SelectButtonModule } from 'primeng/selectbutton';
+import { PaymentReturnComponent } from './components/Client/order/payment/payment-return/payment-return.component';
 
 @NgModule({
   declarations: [
@@ -80,7 +82,8 @@ import { SelectButtonModule } from 'primeng/selectbutton';
     OrderAdminComponent,
     AccountComponent,
     StatisticsComponent,
-    BillingComponent
+    BillingComponent,
+    PaymentReturnComponent
   ],
   imports: [
     BrowserModule,
@@ -112,6 +115,7 @@ import { SelectButtonModule } from 'primeng/selectbutton';
     InputNumberModule ,
     InputTextModule,
     InputTextareaModule,
+    DropdownModule,
     ToggleButtonModule,
     SelectButtonModule,
   ],

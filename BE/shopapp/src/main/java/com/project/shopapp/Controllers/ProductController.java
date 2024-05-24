@@ -1,15 +1,19 @@
 package com.project.shopapp.Controllers;
 
 import com.github.javafaker.Faker;
+import com.project.shopapp.DTOs.CommentDTO;
 import com.project.shopapp.DTOs.ProductDTO;
 import com.project.shopapp.DTOs.ProductImageDTO;
+import com.project.shopapp.DTOs.responses.CommentResponse;
 import com.project.shopapp.DTOs.responses.MessageResponse;
 import com.project.shopapp.DTOs.responses.ProductListResponse;
 import com.project.shopapp.DTOs.responses.ProductResponse;
 import com.project.shopapp.Services.ProductService;
+import com.project.shopapp.Services.UserService;
 import com.project.shopapp.exceptions.DataNotFoundException;
 import com.project.shopapp.models.Product;
 import com.project.shopapp.models.ProductImage;
+import com.project.shopapp.models.User;
 import com.project.shopapp.untils.MessageKeys;
 import lombok.RequiredArgsConstructor;
 import net.coobird.thumbnailator.Thumbnails;

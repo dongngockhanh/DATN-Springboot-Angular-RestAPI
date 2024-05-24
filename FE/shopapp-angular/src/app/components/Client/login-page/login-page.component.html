@@ -11,11 +11,13 @@
                 <form #validateForm="ngForm">
                     <h1>Đăng Nhập</h1>
                     <input type="email" placeholder="Số điện thoại hoặc Email" class="form-control"
-                    [(ngModel)]="phoneLogin" name="phoneLogin" required (focus)="validateForm.form.markAsTouched()">
+                        [(ngModel)]="phoneLogin" name="phoneLogin" required (focus)="validateForm.form.markAsTouched()">
                     <div class="contains-errors">
-                        <p class="error-message" *ngIf="phoneLogin.length < 9 && validateForm.form.touched" >Số điện thoại không hợp lệ</p>
+                        <p class="error-message" *ngIf="phoneLogin.length < 9 && validateForm.form.touched">Số điện
+                            thoại không hợp lệ</p>
                     </div>
-                    <input type="password" placeholder="Mật Khẩu" class="form-control" [(ngModel)]="passwordLogin" name="passwordLogin">
+                    <input type="password" placeholder="Mật Khẩu" class="form-control" [(ngModel)]="passwordLogin"
+                        name="passwordLogin">
                     <div class="forgot-password">
                         <a href="#">Quên mật khẩu?</a>
                     </div>
@@ -26,12 +28,12 @@
                         <p style="margin: 0 10px;">hoặc đăng nhập bằng</p>
                         <span></span>
                     </div>
-                    <div class="social-icons" >
+                    <div class="social-icons">
                         <div class="d-flex align-items-center" style="">
                             <asl-google-signin-button></asl-google-signin-button>
                             <p style="margin: 0;">Google</p>
                         </div>
-                        <div class="d-flex align-items-center" style="cursor: pointer;" (click) ="signInWithFB()">
+                        <div class="d-flex align-items-center" style="cursor: pointer;" (click)="signInWithFB()">
                             <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
                             <!-- <div class="fb-login-button" data-width="100" data-size="" data-button-type="" data-layout="" data-auto-logout-link="false" data-use-continue-as="false"></div> -->
                             Facebook
@@ -47,32 +49,45 @@
             <div class="form-container sign-up" *ngIf="!isLoginFormVisible">
                 <form #validateForm="ngForm">
                     <h1>Tạo Tài Khoản</h1>
-                    <input type="text" placeholder="Họ Và Tên" class="form-control" 
-                    [(ngModel)]="fullname" name="fullname" required (focus)="validateForm.form.markAsTouched()">
+                    <input type="text" placeholder="Họ Và Tên" class="form-control" [(ngModel)]="fullname"
+                        name="fullname" required (focus)="validateForm.form.markAsTouched()">
                     <div class="contains-errors">
-                        <p class="error-message" *ngIf="fullname.length < 1 && validateForm.form.touched" >Họ tên bị thiếu</p>
+                        <p class="error-message" *ngIf="fullname.length < 1 && validateForm.form.touched">Họ tên bị
+                            thiếu</p>
                     </div>
 
-                    <input type="email" placeholder="Số Điện Thoại Hoặc Email" class="form-control" 
-                    [(ngModel)]="phoneRegister" name="phoneRegister" required (focus)="validateForm.form.markAsTouched()">
+                    <input type="email" placeholder="Số Điện Thoại" class="form-control" [(ngModel)]="phoneRegister"
+                        name="phoneRegister" required (focus)="validateForm.form.markAsTouched()">
                     <div class="contains-errors">
-                        <p class="error-message" *ngIf="phoneRegister.length < 9 && validateForm.form.touched" >Số điện thoại không hợp lệ</p>
+                        <p class="error-message" *ngIf="phoneRegister.length < 9 && validateForm.form.touched">Số điện
+                            thoại không hợp lệ</p>
                     </div>
 
-                    <input type="password" placeholder="Mật Khẩu(*)" class="form-control" 
-                    [(ngModel)]="passwordRegister" name="passwordRegister" required (focus)="validateForm.form.markAsTouched()">
+                    <input type="email" placeholder="Email" class="form-control" [(ngModel)]="emailRegister"
+                        name="emailRegister" required (focus)="validateForm.form.markAsTouched()">
                     <div class="contains-errors">
-                        <p class="error-message" *ngIf="passwordRegister.length < 8 && validateForm.form.touched">mật khẩu phải 8 ký tự</p>
+                        <p class="error-message" *ngIf="phoneRegister.length < 9 && validateForm.form.touched">Email
+                            không hợp lệ</p>
                     </div>
 
-                    <input type="password" placeholder="Nhập Lại Mật Khẩu(*)" class="form-control" 
-                    [(ngModel)]="retypePasswordRegister" name="retypePasswordRegister" required (input)="validateForm.form.markAsTouched();checkRetypepasswordMatch()">
+                    <input type="password" placeholder="Mật Khẩu(*)" class="form-control" [(ngModel)]="passwordRegister"
+                        name="passwordRegister" required (focus)="validateForm.form.markAsTouched()">
                     <div class="contains-errors">
-                        <p class="error-message" *ngIf="validateForm.form.controls['retypePasswordRegister'].hasError('passwordNotMatch') && validateForm.form.touched">mật khẩu không khớp</p>
+                        <p class="error-message" *ngIf="passwordRegister.length < 8 && validateForm.form.touched">mật
+                            khẩu phải 8 ký tự</p>
+                    </div>
+
+                    <input type="password" placeholder="Nhập Lại Mật Khẩu(*)" class="form-control"
+                        [(ngModel)]="retypePasswordRegister" name="retypePasswordRegister" required
+                        (input)="validateForm.form.markAsTouched();checkRetypepasswordMatch()">
+                    <div class="contains-errors">
+                        <p class="error-message"
+                            *ngIf="validateForm.form.controls['retypePasswordRegister'].hasError('passwordNotMatch') && validateForm.form.touched">
+                            mật khẩu không khớp</p>
                     </div>
 
                     <re-captcha [siteKey]="'6LfAt5MpAAAAAA4Y8lV1K5-qSxlWLhEb9NLLtEWT'"></re-captcha>
-                    <button class="btn btn-primary" (click)="register()" >Đăng ký</button>
+                    <button class="btn btn-primary" (click)="register()">Đăng ký</button>
                     <div class="d-flex custom-span">
                         <span></span>
                         <p style="margin: 0 10px;">hoặc đăng ký bằng</p>
@@ -83,7 +98,7 @@
                             <a href="#"><i class="fa-brands fa-google-plus-g"></i></a>
                             Google
                         </div>
-                        <div class="d-flex align-items-center" style="cursor: pointer;" (click) ="signInWithFB()">
+                        <div class="d-flex align-items-center" style="cursor: pointer;" (click)="signInWithFB()">
                             <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
                             Facebook
                         </div>
@@ -95,6 +110,43 @@
                     </div>
                 </form>
             </div>
+            <p-dialog [(visible)]="displayOtpDialog" [modal]="true">
+                <p-header>Nhập mã OTP</p-header>
+                <div>
+                    <!-- <p>Chúng tôi đã gửi mã OTP email của bạn. Vui lòng nhập mã OTP để xác thực tài khoản</p>
+                    <input type="text" class="form-control" [(ngModel)]="otp" placeholder="Nhập mã OTP">
+                    <button class="btn btn-primary" (click)="verifyOTP()">Xác thực</button> -->
+                    <!-- otp input beatiful -->
+                    <!-- <form class="form-card">
+                        <p class="form-card-title">We're calling your number to confirm it</p>
+                        <p class="form-card-prompt">Enter last 4 digits of the number we are calling you from</p>
+                        <div class="form-card-input-wrapper">
+                            <input class="form-card-input" placeholder="____" maxlength="4" type="tel">
+                            <div class="form-card-input-bg"></div>
+                        </div>
+                        <p class="call-again"><span class="underlined">call again</span> in 0:30 seconds</p>
+                    </form> -->
+                    <form class="form-card">
+                        <div>
+                            <p class="form-card-title">Chúng tôi đã gửi mã xác minh tới Email của bạn</p>
+                            <p class="form-card-prompt">Vui lòng nhập mã OTP ở bên dưới</p>
+                        </div>
+                        <div class="otp-input d-flex" (click)="focusOnFirstInput()">
+                            <input type="text" id="otp1" maxlength="1" (keyup)="focusNext($event, 'otp2')" (keydown)="focusPrevious($event, 'otp1')">
+                            <input type="text" id="otp2" maxlength="1" (keyup)="focusNext($event, 'otp3')" (keydown)="focusPrevious($event, 'otp2')">
+                            <input type="text" id="otp3" maxlength="1" (keyup)="focusNext($event, 'otp4')" (keydown)="focusPrevious($event, 'otp3')">
+                            <input type="text" id="otp4" maxlength="1" (keydown)="focusPrevious($event, 'otp4')">
+                        </div>
+                        <p class="call-again mb-0" *ngIf="secondsRemaining>0">{{secondsRemaining}} giây</p>
+                        <p class="call-again mb-0" *ngIf="secondsRemaining==0">mã OTP đã hết hạn</p>
+                        <p class="call-again"><span class="underlined" (click)="resendOTP()">Gửi lại mã</span></p>
+                        <button class="verifyButton" type="submit"(click)="verifyOTP()">Xác minh</button>
+                    </form>
+                </div>
+                <p-footer>
+                    <button type="button" class="btn btn-secondary" (click)="displayOtpDialog = false">huỷ</button>
+                </p-footer>
+            </p-dialog>
         </div>
     </div>
 </div>

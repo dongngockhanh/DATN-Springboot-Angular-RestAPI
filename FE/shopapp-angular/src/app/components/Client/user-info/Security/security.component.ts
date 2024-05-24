@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { TokenService } from '../../../../services/token.service';
 import { UserService } from '../../../../services/user.service';
+import { UserResponse } from '../../../../responses/user/user.response';
 
 @Component({
   selector: 'app-security',
@@ -20,15 +21,20 @@ export class SecurityComponent implements OnInit {
   ngOnInit(){
     this.token = this.tokenService.getToken()!;
     this.userId = this.tokenService.getUserId();
+    this.twoFactorAuth = this.userService.getUserDetailFromLocalStorage().twoFa? 'true' : 'false';
+    this.emailAuth = this.userService.getUserDetailFromLocalStorage().email;
     console.log(this.userId);
+    console.log(this.twoFactorAuth);
   }
   userId!:number;
   token!:string;
+  twoFactorAuth!:string;
+  emailAuth!:string;
   oldPassword!: string;
   newPassword!: string;
   retypePassword!: string;
   test(){
-    alert(this.oldPassword+" "+this.newPassword+" "+this.retypePassword);
+    alert(this.oldPassword+" "+this.newPassword+" "+this.retypePassword+" "+this.twoFactorAuth);
   }
   savePassword(){
     if(this.newPassword !== this.retypePassword){
@@ -49,6 +55,20 @@ export class SecurityComponent implements OnInit {
       })
     }
   }
+  userResponse!:UserResponse
+  changeTwoFactorAuth(){
+    this.userService.changeTwoFa(this.userId).subscribe((reponse:any)=>{
+      this.userService.getUserDetail(this.userId).subscribe({
+        next: (response: any) => {
+          this.userResponse = {
+            ...response,
+            date_of_birth: new Date(response.date_of_birth)
+          }
+          this.userService.saveUserDetailToLocalStogare(this.userResponse);
+          this.twoFactorAuth = this.userService.getUserDetailFromLocalStorage().twoFa ? 'true' : 'false';
+        }
+    })
+  })};
   deleteAccount(){
     if (this.userInput === this.randomCode) {
       this.userService.setActiveUser(this.userId).subscribe({

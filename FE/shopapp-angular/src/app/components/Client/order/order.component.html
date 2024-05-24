@@ -237,6 +237,7 @@
                     </div>
                 </div>
                 <button class="btn btn-danger" (click)="showDialog()">Tiếp tục</button>
+                <!-- <button routerLink="/order/payment-return">test</button> -->
             </div>
             <div class="showdialog">
                 <p-dialog [(visible)]="displayDialog" [modal]="true">
@@ -261,6 +262,7 @@
                     <p-footer>
                         <button type="button" pButton icon="pi pi-times" (click)="displayDialog=!displayDialog" label="Hủy"></button>
                         <button type="button" pButton icon="pi pi-check" (click)="createOrder();displayDialog=false" label="Đồng ý"></button>
+                        <!-- <button type="button" pButton icon="pi pi-check" (click)="PaymentVnPay();displayDialog=false" label="Đồng ý"></button> -->
                     </p-footer>
                 </p-dialog>
             </div>

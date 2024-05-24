@@ -1,11 +1,12 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { RegisterDTO } from '../dtos/user/register.dto';
 import { LoginDTO } from '../dtos/user/login.dto';
 import { environment } from '../environments/environment';
 import { UserResponse } from '../responses/user/user.response';
 import { UpdateDTO } from '../dtos/user/update.dto';
+import { toHtml } from '@fortawesome/fontawesome-svg-core';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export class UserService {
   private apiUrlUser = `${environment.apiBaseUrl}/users`;
   private apiUrlRegister = `${environment.apiBaseUrl}/users/register`;
   private apiUrlLogin    = `${environment.apiBaseUrl}/users/login`;
+  private apiUrlComment = `${environment.apiBaseUrl}/users/comment`;
   private apiConfig = {
     headers: this.createHeders(),
   }
@@ -106,4 +108,29 @@ export class UserService {
     }
   }
 
+  // lấy comment
+  getComment(productId:number){
+    const params = new HttpParams()
+      .set('productId', productId);
+    return this.http.get(`${this.apiUrlComment}`,{params});
+  }
+  // thêm comment
+  addComment(product_id:number,content:string,user_id:number){
+    return this.http.post(`${this.apiUrlComment}`,{"content":content,"product_id":product_id,"user_id":user_id});
+  }
+  // verify OTP
+  verifyOTP(otp:string): Observable<any>{
+    const params = new HttpParams()
+    .set('otp', otp);
+    return this.http.get(`${environment.apiBaseUrl}/users/otp/verify`,{params});
+  }
+  // gửi lại mã
+  resendOTP(phone_number:string): Observable<any>{
+    const params = new HttpParams()
+    .set('phoneNumber', phone_number);
+    return this.http.get(`${environment.apiBaseUrl}/users/otp/resend`,{params});
+  }
+  changeTwoFa(user_id:number): Observable<any>{
+    return this.http.patch(`${environment.apiBaseUrl}/users/${user_id}/changeTwoFa`,{});
+  }
 }

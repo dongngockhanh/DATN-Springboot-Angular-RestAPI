@@ -43,12 +43,14 @@ export class LoginPageComponent implements OnInit {
 
   fullname: string ;
   phoneRegister: string ;
+  emailRegister: string ;
   passwordRegister: string ;
   retypePasswordRegister: string ;
 
   phoneLogin: string ;
   passwordLogin: string ;
   userResponse?: UserResponse;
+  loginResponse!: LoginResponse;
 
   constructor(
               private messageService:MessageService,
@@ -58,6 +60,7 @@ export class LoginPageComponent implements OnInit {
               private tokenService: TokenService){
     this.fullname = '';
     this.phoneRegister = '';
+    this.emailRegister = '';
     this.passwordRegister = '';
     this.retypePasswordRegister = '';
 
@@ -71,7 +74,7 @@ export class LoginPageComponent implements OnInit {
     const registerDTO:RegisterDTO = {
       "fullname":this.fullname,
       "phone_number":this.phoneRegister,
-      "email":"",
+      "email":this.emailRegister,
       "password":this.passwordRegister,
       "retype_password":this.retypePasswordRegister,
       "address":"",
@@ -82,55 +85,78 @@ export class LoginPageComponent implements OnInit {
     };
     this.userService.register(registerDTO).subscribe({
       next:(response:any) => {
-        debugger
+        this.loginResponse = response;
+        this.continueLogin();
           // this.router.navigate(['/login']);
       },
       complete: ()=> {
-        debugger
+        this.showSuccess("Đăng ký thành công");
       },
       error:(error:any)=>{
         debugger
         if(error.status === 200)
           alert(error.error.text);
         else
-        alert(`đăng ký không thành công : ${error.error}`);
+        alert(`đăng ký không thành công : ${error.error.message}`);
       }
     });
   }
 
+  otp!:any;
+  getOtpValue() {
+    let otpValue = '';
+    for (let i = 1; i <= 4; i++) {
+        const input = <HTMLInputElement>document.getElementById('otp' + i);
+        otpValue += input.value;
+    }
+    return otpValue;
+  }
+  verifyOTP(){
+    this.otp = this.getOtpValue();
+    this. userService.verifyOTP(this.otp).subscribe((reponse:any)=>{
+      if(reponse){
+        this.displayOtpDialog = false;
+        this.continueLogin();
+      }
+      else{
+        this.showError("Mã OTP không chính xác");
+      }
+    });
+  }
+  resendOTP(){
+    this.userService.resendOTP(this.phoneLogin).subscribe({
+      next: (response: any) => {
+        this.showSuccess('Đã gửi lại mã OTP');
+        this.secondsRemaining = 60;
+        this.startCountdown();
+      },
+      complete: () => {
+        debugger
+      },
+      error: (error:any) => {
+        debugger
+        console.log(error);
+      }
+    });
+  }
 // đăng nhập sử dụng tài khoản và mật khẩu
 roleadmin:number = 2;
 login(){
   const loginDTO:LoginDTO = {
     "phone_number":this.phoneLogin,
-    "password":this.passwordLogin
+    "password":this.passwordLogin,
   };
   this.userService.login(loginDTO).subscribe({
     next:(response:LoginResponse) => {
-      debugger
-      const {token} = response;
-      this.tokenService.setToken(token);
-      const userId = this.tokenService.getUserId();
-      this.userService.getUserDetail(userId).subscribe({
-        next:(response:any) => {
-          debugger
-          this.userResponse = {
-            ...response,
-            date_of_birth: new Date(response.date_of_birth)
-          }
-          this.userService.saveUserDetailToLocalStogare(this.userResponse);
-          if(response.role_id.id === this.roleadmin){
-            this.router.navigate(['/admin']);
-          }else{
-            this.router.navigate(['/']).then(() => {
-              window.location.reload();
-            });
-          }
-        },
-        error:(error:any)=>{
-          debugger
-        }
-      })
+      this.loginResponse = response;
+      console.log(response);
+      if(response.twoFa){
+        this.displayOtpDialog = true;
+        this.startCountdown();
+        this.verifyOTP();
+      }else{
+        this.continueLogin();
+      }
     },
     complete:()=>{
       this.showSuccess("Đăng nhập thành công");
@@ -140,6 +166,67 @@ login(){
       this.showError(error.error.message);
     }
   });
+}
+continueLogin() {
+  const { token } = this.loginResponse;
+  this.tokenService.setToken(token);
+  const userId = this.tokenService.getUserId();
+  this.userService.getUserDetail(userId).subscribe({
+    next: (response: any) => {
+      this.userResponse = {
+        ...response,
+        date_of_birth: new Date(response.date_of_birth)
+      }
+      this.userService.saveUserDetailToLocalStogare(this.userResponse);
+      if (response.role_id.id === this.roleadmin) {
+        this.router.navigate(['/admin']);
+      } else {
+        this.router.navigate(['/']).then(() => {
+          window.location.reload();
+        });
+      }
+    },
+    complete: () => {
+      this.showSuccess("Đăng nhập thành công");
+    },
+    error: (error: any) => {
+      this.showError(error.error.message);
+    }
+  });
+}
+
+lastInputId: string = 'otp1';
+displayOtpDialog:boolean = false;
+focusNext(event:any, nextInputId:any) {
+  if (event.target.value.length >= 1) {
+    this.lastInputId = nextInputId;
+    document.getElementById(nextInputId)?.focus();
+}
+}
+
+focusPrevious(event:any, currentInputId:any) {
+  if (event.keyCode === 8 && event.target.value.length === 0) {
+      const previousInputId = 'otp' + (parseInt(currentInputId.charAt(3)) - 1);
+      const previousInput = document.getElementById(previousInputId);
+      if (previousInput !== null) {
+          previousInput.focus();
+      }
+  }
+}
+focusOnFirstInput() {
+  const lastInput = document.getElementById(this.lastInputId);
+  if (lastInput !== null) {
+    lastInput.focus();
+  }
+}
+public secondsRemaining = 60;
+startCountdown() {
+  const interval = setInterval(() => {
+      this.secondsRemaining--;
+      if (this.secondsRemaining <= 0) {
+          clearInterval(interval);
+      }
+  }, 1000);
 }
 
 

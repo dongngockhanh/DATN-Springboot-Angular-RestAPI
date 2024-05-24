@@ -58,6 +58,9 @@ public class User extends BaseEntity implements UserDetails {
     @ManyToOne
     private Role roleId;
 
+    @Column(name = "2fa")
+    private boolean twoFa;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorityList = new ArrayList<>();

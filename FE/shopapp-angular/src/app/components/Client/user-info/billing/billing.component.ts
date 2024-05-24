@@ -9,23 +9,6 @@ import { FormControl, FormGroup } from '@angular/forms';
 export class BillingComponent {
   showDialog = false;
   method= 'visa';
-  stateOptions = [
-    {
-      label: 'visa',
-      value: 'visa',
-      icon: 'fab fa-cc-visa fa-2x',
-    },
-    {
-      label: 'napas',
-      value: 'napas',
-      icon: 'fa-regular fa-credit-card fa-2x',
-    },
-    {
-      label: 'e-wallet',
-      value: 'e-wallet',
-      icon: 'fa-solid fa-wallet fa-2x',
-    }
-  ];
   constructor() {}
   ngOnInit() {
   }
@@ -39,5 +22,21 @@ export class BillingComponent {
   }
   onTest(){
     alert(this.method);
+  }
+  // validate form
+  // check time card
+  formatInput(event: Event) {
+    const input = event.target as HTMLInputElement;
+    let value = input.value.replace(/\D/g, '').substring(0, 4); // Remove non-digits and limit length
+    if (value.length > 2) {
+      const month = parseInt(value.substring(0, 2), 10);
+      const year = value.substring(2);
+      if (month > 12) {
+        value = '12/' + year;
+      } else {
+        value = value.substring(0, 2) + '/' + year;
+      }
+    }
+    input.value = value;
   }
 }

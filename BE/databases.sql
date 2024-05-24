@@ -123,3 +123,42 @@ Create TABLE carts(
     FOREIGN KEY (product_id) REFERENCES products(id),
     quantity INT NOT NULL COMMENT 'tổng số lượng sản phẩm'
 )
+-- bảng phương thức thanh toán
+CREATE TABLE payment_methods(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL COMMENT 'tên phương thức thanh toán',
+    description VARCHAR(255) DEFAULT '' COMMENT 'mô tả phương thức thanh toán'
+);
+-- -- bảng chi tiết phương thức cụ thể là thẻ thanh toán quôc tế
+-- CREATE TABLE credit_cards(
+--     id INT PRIMARY KEY AUTO_INCREMENT,
+--     card_number VARCHAR(100) NOT NULL COMMENT 'số thẻ',
+--     card_holder VARCHAR(100) NOT NULL COMMENT 'tên chủ thẻ',
+--     expired_date DATE NOT NULL COMMENT 'ngày hết hạn',
+--     cvv VARCHAR(10) NOT NULL COMMENT 'mã cvv',
+--     user_id INT COMMENT 'id người dùng',
+--     FOREIGN KEY (user_id) REFERENCES users(id),
+--     payment_method_id INT COMMENT 'id phương thức thanh toán',
+--     FOREIGN KEY (payment_method_id) REFERENCES payment_methods(id)
+-- );
+-- -- bảng phương thức thanh toán thẻ atm nội địa
+-- CREATE TABLE atm_cards(
+--     id INT PRIMARY KEY AUTO_INCREMENT,
+--     card_number VARCHAR(100) NOT NULL COMMENT 'số thẻ',
+--     card_holder VARCHAR(100) NOT NULL COMMENT 'tên chủ thẻ',
+--     issued_date DATE NOT NULL COMMENT 'ngày phát hành thẻ',
+--     bank_name VARCHAR(100) NOT NULL COMMENT 'tên ngân hàng',
+--     user_id INT COMMENT 'id người dùng',
+--     FOREIGN KEY (user_id) REFERENCES users(id),
+--     payment_method_id INT COMMENT 'id phương thức thanh toán',
+--     FOREIGN KEY (payment_method_id) REFERENCES payment_methods(id)
+-- );
+-- -- bảng phương thức thanh toán ví điện tử
+-- CREATE TABLE e_wallets(
+--     id INT PRIMARY KEY AUTO_INCREMENT,
+--     wallet_number VARCHAR(100) NOT NULL COMMENT 'số ví',
+--     user_id INT COMMENT 'id người dùng',
+--     FOREIGN KEY (user_id) REFERENCES users(id),
+--     payment_method_id INT COMMENT 'id phương thức thanh toán',
+--     FOREIGN KEY (payment_method_id) REFERENCES payment_methods(id)
+-- );

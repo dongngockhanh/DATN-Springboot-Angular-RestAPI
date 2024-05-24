@@ -20,6 +20,7 @@ import { AccountComponent } from './components/Admin/account/account.component';
 import { StatisticsComponent } from './components/Admin/statistics/statistics.component';
 import { BillingComponent } from './components/Client/user-info/billing/billing.component';
 import { RoleGuardService } from './services/role-guard.service';
+import { PaymentReturnComponent } from './components/Client/order/payment/payment-return/payment-return.component';
 // import { CategoryComponent } from './components/Admin/category/category.component';
 // import { ProductComponent } from './components/Admin/product/product.component';
 // import { TagComponent } from './components/Admin/tag/tag.component';
@@ -41,6 +42,7 @@ const routes: Routes = [
   { path: 'cart', component: CartComponent,canActivate:[AuthGuard]},
   { path: 'detail-product/:id', component: DetailProductComponent},
   { path: 'order', component: OrderComponent ,canActivate: [AuthGuard]},
+  { path: 'payment-return',component:PaymentReturnComponent},
   { path: 'user', component: ControlUserComponent,canActivate: [AuthGuard],
     children:[
       {path:'profile',component:ProfileComponent},

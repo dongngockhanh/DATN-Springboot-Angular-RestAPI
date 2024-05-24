@@ -46,7 +46,9 @@ public class WebSecurityConfig {
                             .antMatchers(
                                     String.format("%s/provincial",apiBasePath),
                                     String.format("%s/users/register",apiBasePath),
-                                    String.format("%s/users/login",apiBasePath))
+                                    String.format("%s/users/login",apiBasePath),
+                                    String.format("%s/users/otp/verify",apiBasePath),
+                                    String.format("%s/users/otp/resend",apiBasePath))
                             .permitAll()
 
                             // users
@@ -56,6 +58,12 @@ public class WebSecurityConfig {
                                     String.format("%s/users",apiBasePath)).permitAll()
                             .antMatchers(DELETE,
                                     String.format("%s/users/**",apiBasePath)).permitAll()
+                            .antMatchers(POST,
+                                    String.format("%s/users/comment",apiBasePath)).permitAll()
+                            .antMatchers(GET,
+                                    String.format("%s/users/comment/**",apiBasePath)).permitAll()
+                            .antMatchers(PATCH,
+                                    String.format("%s/users/**/**",apiBasePath)).permitAll()
 
 //                            .antMatchers(GET,
 //                                    "https://vapi.vnappmob.com/api/province/").permitAll()
@@ -122,6 +130,10 @@ public class WebSecurityConfig {
                                     String.format("%s/order_details/**",apiBasePath)).hasRole(Role.ADMIN)
                             .antMatchers(DELETE,
                                     String.format("%s/order_details/**",apiBasePath)).hasRole(Role.ADMIN)
+
+                            // payment
+                            .antMatchers(GET,
+                                    String.format("%s/payment",apiBasePath)).hasRole(Role.USER)
 
                             .anyRequest().authenticated();
                 })

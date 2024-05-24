@@ -56,16 +56,16 @@
                     <p>Thêm một mức độ bảo mật khác cho tài khoản của bạn bằng cách bật xác thực hai yếu tố. Chúng tôi sẽ gửi cho bạn một tin nhắn văn bản để xác minh các nỗ lực đăng nhập của bạn trên các thiết bị và trình duyệt không được nhận dạng.</p>
                     <form>
                         <div class="form-check">
-                            <input class="form-check-input" id="twoFactorOn" type="radio" name="twoFactor" checked="">
+                            <input class="form-check-input" id="twoFactorOn" type="radio" name="twoFactor" [(ngModel)]="twoFactorAuth" value="true" (change)="changeTwoFactorAuth()">
                             <label class="form-check-label" for="twoFactorOn">Bật</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" id="twoFactorOff" type="radio" name="twoFactor">
+                            <input class="form-check-input" id="twoFactorOff" type="radio" name="twoFactor" [(ngModel)]="twoFactorAuth" value="false" (change)="changeTwoFactorAuth()">
                             <label class="form-check-label" for="twoFactorOff">Tắt</label>
                         </div>
                         <div class="mt-3">
-                            <label class="small mb-1" for="twoFactorSMS">Số điện thoại xác thực SMS</label>
-                            <input class="form-control" id="twoFactorSMS" type="tel" placeholder="Enter a phone number" value="555-123-4567">
+                            <label class="small mb-1" for="twoFactorSMS">Email xác thực OTP</label>
+                            <input class="form-control" id="twoFactorSMS" type="tel" placeholder="Nhập email xác thực" [(ngModel)]="emailAuth" name="emailAuth">
                         </div>
                     </form>
                 </div>

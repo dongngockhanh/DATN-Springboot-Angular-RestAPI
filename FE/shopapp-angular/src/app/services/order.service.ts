@@ -25,4 +25,7 @@ export class OrderService {
     getOrderDetailByOrderId(orderId: number): Observable<any>{
         return this.http.get(`${environment.apiBaseUrl}/order_details/order/${orderId}`);
     }
+    cancelOrder(orderId: number): Observable<any>{
+        return this.http.delete(`${this.apiOrderUrl}/${orderId}`);
+    }
 }

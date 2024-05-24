@@ -96,3 +96,16 @@ body{margin-top:20px;
     .form-group {
         margin-bottom: 20px;
     }
+    input::placeholder{
+        text-transform: none;
+    }
+    /* Ẩn các mũi tên tăng giảm số trên Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+    /* Ẩn các mũi tên tăng giảm số trên Chrome */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
