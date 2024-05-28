@@ -151,12 +151,12 @@ export class DetailProductComponent {
     });
   }
   contentComment!: string;
-  test(){
-    alert(this.contentComment);
-    this.contentComment = '';
-  }
   createComment(){
     const user = this.userService.getUserDetailFromLocalStorage();
+    if(!user){
+      this.showError("bạn chưa đăng nhập");
+      return;
+    }
     this.userService.addComment(this.productId, this.contentComment,user.user_id).subscribe({
       next:(response: any) => {
         debugger

@@ -10,8 +10,11 @@
                 <!-- <button (click)="test()">test</button> -->
                 <span class="p-input-icon-left">
                     <i class="pi pi-search"></i>
-                    <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Tìm kiếm" />`
+                    <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Tìm kiếm" />
                 </span>
+                <div style="float: right;">
+                    <button class="btn btn-info">tài khoản quản trị</button>
+                </div>
             </div>
         </ng-template>
         <ng-template pTemplate="header">

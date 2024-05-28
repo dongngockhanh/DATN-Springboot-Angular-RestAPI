@@ -23,8 +23,9 @@
                 <th style="width: 4rem">
                     <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                 </th>
+                <th pSortableColumn="id">Mã Vận Đơn <p-sortIcon field="id"></p-sortIcon></th>
                 <th pSortableColumn="name">tên người dùng <p-sortIcon field="name"></p-sortIcon></th>
-                <th pSortableColumn="country">Quốc gia<p-sortIcon field="country"></p-sortIcon></th>
+                <!-- <th pSortableColumn="country">Quốc gia<p-sortIcon field="country"></p-sortIcon></th> -->
                 <th pSortableColumn="address">Địa chỉ <p-sortIcon field="address"></p-sortIcon></th>
                 <!-- <th pSortableColumn="town">Town/City <p-sortIcon field="town"></p-sortIcon></th>
                 <th pSortableColumn="state">Country/State<p-sortIcon field="state"></p-sortIcon></th> -->
@@ -41,12 +42,13 @@
                 <td style="width: 4rem">
                     <p-tableCheckbox [value]="order"></p-tableCheckbox>
                 </td>
+                <td>{{order.tracking_number}}</td>
                 <td>{{order.fullname}} {{order.lastname}}</td>
-                <td>{{order.country}}việt nam</td>
+                <!-- <td>{{order.country}}việt nam</td> -->
                 <td>{{order.address}}</td>
                 <td>{{order.phone_number}}</td>
                 <td>{{order.email}}</td>
-                <td>{{order.total_money}}</td>
+                <td>{{order.total_money|currency:"VND"}}</td>
                 <td><button pButton type="button" [label]="order.status" class="p-button-success" (click)="changeStatusOrder(i)"></button></td>
             </tr>
         </ng-template>

@@ -97,7 +97,7 @@ public class WebSecurityConfig {
                             .antMatchers(GET,
                                     String.format("%s/products/**",apiBasePath)).permitAll()
                             .antMatchers(GET,
-                                    String.format("%s/products/images/*",apiBasePath)).permitAll()
+                                    String.format("%s/products/images/**",apiBasePath)).permitAll()
                             .antMatchers(POST,
                                     String.format("%s/products**",apiBasePath)).hasRole(Role.ADMIN)
                             .antMatchers(POST,

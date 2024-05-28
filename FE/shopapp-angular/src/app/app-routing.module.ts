@@ -21,6 +21,7 @@ import { StatisticsComponent } from './components/Admin/statistics/statistics.co
 import { BillingComponent } from './components/Client/user-info/billing/billing.component';
 import { RoleGuardService } from './services/role-guard.service';
 import { PaymentReturnComponent } from './components/Client/order/payment/payment-return/payment-return.component';
+import { AddAccountComponent } from './components/Admin/add-account/add-account.component';
 // import { CategoryComponent } from './components/Admin/category/category.component';
 // import { ProductComponent } from './components/Admin/product/product.component';
 // import { TagComponent } from './components/Admin/tag/tag.component';
@@ -35,6 +36,7 @@ const routes: Routes = [
       {path:'order-admin',component:OrderAdminComponent},
       {path:'profile',component:ProfileComponent},
       {path:'statistics',component:StatisticsComponent},
+      {path:'addacc',component:AddAccountComponent}
     ]
   },
   { path: '', component: HomeComponent },

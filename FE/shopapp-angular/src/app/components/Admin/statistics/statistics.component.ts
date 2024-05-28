@@ -7,6 +7,10 @@ import { DropdownModule } from 'primeng/dropdown';
   styleUrl: './statistics.component.scss'
 })
 export class StatisticsComponent {
+  today!:Date;
+  constructor() {
+    this.today = new Date();
+  }
   options = [
   {name: 'thống kê theo ngày'},
   {name: 'thống kê theo tuần'},

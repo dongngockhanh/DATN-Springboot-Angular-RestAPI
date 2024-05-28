@@ -296,12 +296,12 @@ export class OrderComponent {
         for(let i = 0; i < this.listId.length; i++){
           this.cartService.removeProduct(this.listId[i]);
         }
-        // this.showSuccess('Đặt hàng thành công');
+        this.showSuccess('Đặt hàng thành công');
+        // this.router.navigate(['/cart']);
       },
       complete:()=> {
         debugger
         // alert('Đặt hàng thành công');
-        this.showSuccess('Đặt hàng thành công');
       },
       error: (error) => {
         debugger
